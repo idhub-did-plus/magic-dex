@@ -10,6 +10,7 @@ import { separatorTopbar, ToolbarContainer } from '../../common/toolbar';
 import { NotificationsDropdownContainer } from '../../notifications/notifications_dropdown';
 import { WalletConnectionContentContainer } from '../account/wallet_connection_content';
 import { CollectiblesSearch } from '../collectibles/collectibles_search';
+import { ThemeSelectionContentContainer } from '../../theme/theme_selection_content';
 
 interface DispatchProps {
     onGoToHome: () => any;
@@ -56,6 +57,16 @@ const WalletDropdown = styled(WalletConnectionContentContainer)`
     }
 `;
 
+const ThemeDropdown = styled(ThemeSelectionContentContainer)`
+    display: none;
+
+    @media (min-width: ${themeBreakPoints.sm}) {
+        align-items: center;
+        display: flex;
+
+        ${separatorTopbar}
+    }
+`;
 const ToolbarContent = (props: Props) => {
     const handleLogoClick: React.EventHandler<React.MouseEvent> = e => {
         e.preventDefault();
@@ -76,6 +87,7 @@ const ToolbarContent = (props: Props) => {
     };
     const endContent = (
         <>
+        <ThemeDropdown />
             <MyWalletLink href="/my-collectibles" onClick={handleMyWalletClick}>
                 My Collectibles
             </MyWalletLink>

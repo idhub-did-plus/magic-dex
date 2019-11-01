@@ -3,8 +3,8 @@ import { Route, Switch } from 'react-router';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { ERC721_APP_BASE_PATH } from '../../common/constants';
-import { getThemeByMarketplace } from '../../themes/theme_meta_data_utils';
-import { MARKETPLACES } from '../../util/types';
+import { getThemeByMarketplace, getThemeByName } from '../../themes/theme_meta_data_utils';
+import { MARKETPLACES, StoreState } from '../../util/types';
 import { AdBlockDetector } from '../common/adblock_detector';
 import { CheckMetamaskStateModalContainer } from '../common/check_metamask_state_modal_container';
 import { GeneralLayout } from '../general_layout';
@@ -15,6 +15,9 @@ import { AllCollectibles } from './pages/all_collectibles';
 import { IndividualCollectible } from './pages/individual_collectible';
 import { ListCollectibles } from './pages/list_collectibles';
 import { MyCollectibles } from './pages/my_collectibles';
+import { Theme } from '../../themes/commons';
+import { getTheme } from '../../store/selectors';
+import { connect } from 'react-redux';
 
 const toolbar = <ToolbarContentContainer />;
 
@@ -22,10 +25,10 @@ const GeneralLayoutERC721 = styled(GeneralLayout)`
     background-color: ${props => props.theme.componentsTheme.backgroundERC721};
 `;
 
-export const Erc721App = () => {
-    const themeColor = getThemeByMarketplace(MARKETPLACES.ERC721);
+ const MyErc721App = (props: Props) => {
+   
     return (
-        <ThemeProvider theme={themeColor}>
+        <ThemeProvider theme={props.theme}>
             <GeneralLayoutERC721 toolbar={toolbar}>
                 <AdBlockDetector />
                 <CollectibleSellModal />
@@ -46,3 +49,21 @@ export const Erc721App = () => {
         </ThemeProvider>
     );
 };
+
+interface StateProps {
+    theme: Theme;
+}
+type Props = StateProps;
+
+const mapStateToProps = (state: StoreState): StateProps => {
+    let t: string = getTheme(state);
+    let theme:Theme = getThemeByName(t);
+
+    return {
+        theme: theme
+    };
+};
+export const Erc721App = connect(
+    mapStateToProps,
+    null,
+)(MyErc721App);
