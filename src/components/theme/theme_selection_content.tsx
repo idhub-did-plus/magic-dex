@@ -30,7 +30,7 @@ const DropdownItems = styled(CardBase)`
 class ThemeSelectionContent extends React.PureComponent<Props> {
     public render = () => {
         const { theme, ...restProps } = this.props;
-        const themeText = theme ? theme : 'Select Theme';
+        const themeText = theme == "DARK_THEME"? "Dark" : 'Light';
 
         const content = (
             <DropdownItems>
