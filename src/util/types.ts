@@ -72,7 +72,7 @@ export interface UIState {
     readonly stepsModal: StepsModalState;
     readonly orderPriceSelected: BigNumber | null;
     readonly orderSelected: UIOrder | null;
-     readonly theme: string | null;
+     readonly theme: string;
 }
 
 export interface MarketState {

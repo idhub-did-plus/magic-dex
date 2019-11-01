@@ -16,6 +16,7 @@ const initialUIState: UIState = {
     stepsModal: initialStepsModalState,
     orderPriceSelected: null,
     orderSelected: null,
+    theme: 'dark',
 };
 
 export function stepsModal(state: StepsModalState = initialStepsModalState, action: RootAction): StepsModalState {
@@ -54,6 +55,8 @@ export function stepsModal(state: StepsModalState = initialStepsModalState, acti
 
 export function ui(state: UIState = initialUIState, action: RootAction): UIState {
     switch (action.type) {
+        case getType(actions.selectTheme):
+            return { ...state, theme: action.payload };
         case getType(actions.setHasUnreadNotifications):
             return { ...state, hasUnreadNotifications: action.payload };
         case getType(actions.setOrderPriceSelected):

@@ -112,7 +112,7 @@ const darkThemeColors: ThemeProperties = {
     topbarBackgroundColor: '#202123',
     topbarBorderColor: '#000',
     topbarSeparatorColor: '#5A5A5A',
-    columnWarpperColor: '##202123',
+   
 };
 
 export class DarkTheme extends DefaultTheme {

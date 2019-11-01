@@ -30,6 +30,9 @@ import {
 } from '../../util/types';
 import * as selectors from '../selectors';
 
+export const selectTheme = createAction('ui/THEME_selected', resolve => {
+    return (themeSelected: string) => resolve(themeSelected);
+});
 export const setHasUnreadNotifications = createAction('ui/UNREAD_NOTIFICATIONS_set', resolve => {
     return (hasUnreadNotifications: boolean) => resolve(hasUnreadNotifications);
 });

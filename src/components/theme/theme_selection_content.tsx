@@ -7,22 +7,21 @@ import { StoreState } from '../../util/types';
 import { CardBase } from '../common/card_base';
 import { DropdownTextItem } from '../common/dropdown_text_item';
 import {ThemeSelectionStatusContainer} from "./theme_selection_status"
+import { selectTheme } from '../../store/ui/actions';
 interface OwnProps extends HTMLAttributes<HTMLSpanElement> {}
 
 interface StateProps {
     theme: string | null;
 }
 
-type Props = StateProps & OwnProps;
 
-const connectToWallet = () => {
-    alert('connect to another wallet');
-};
 
-const goToURL = () => {
-    alert('go to url');
-};
+interface DispatchProps {
+    onThemeSelected: (theme: string) => any;
+   
+}
 
+type Props = StateProps & OwnProps & DispatchProps;
 const DropdownItems = styled(CardBase)`
     box-shadow: ${props => props.theme.componentsTheme.boxShadow};
     min-width: 240px;
@@ -35,8 +34,8 @@ class ThemeSelectionContent extends React.PureComponent<Props> {
 
         const content = (
             <DropdownItems>
-                <DropdownTextItem onClick={connectToWallet} text="Dark Theme" />
-                <DropdownTextItem onClick={goToURL} text="Light Theme" />
+                <DropdownTextItem onClick={this.handleDarkClick} text="Dark Theme" />
+                <DropdownTextItem onClick={this.handleLightClick} text="Light Theme" />
             </DropdownItems>
         );
 
@@ -49,7 +48,17 @@ class ThemeSelectionContent extends React.PureComponent<Props> {
             />
         );
     };
+
+     handleDarkClick: React.EventHandler<React.MouseEvent> = e => {
+        e.preventDefault();
+        this.props.onThemeSelected('DARK_THEME')
+    };
+    handleLightClick: React.EventHandler<React.MouseEvent> = e => {
+        e.preventDefault();
+        this.props.onThemeSelected('LIGHT_THEME')
+    };
 }
+
 
 const mapStateToProps = (state: StoreState): StateProps => {
     return {
@@ -57,9 +66,15 @@ const mapStateToProps = (state: StoreState): StateProps => {
     };
 };
 
+const mapDispatchToProps = (dispatch: any): DispatchProps => {
+    return {
+        onThemeSelected: (theme: string) => dispatch(selectTheme(theme)),
+       
+    };
+};
 const ThemeSelectionContentContainer = connect(
     mapStateToProps,
-    {},
+    mapDispatchToProps,
 )(ThemeSelectionContent);
 
 export { ThemeSelectionContent, ThemeSelectionContentContainer };

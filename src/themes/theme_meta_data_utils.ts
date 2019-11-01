@@ -9,7 +9,7 @@ import { KNOWN_THEMES_META_DATA } from './theme_meta_data';
 
 const logger = getLogger('Themes::theme_meta_data.ts');
 
-const getThemeByName = (themeName: string): Theme => {
+export const getThemeByName = (themeName: string): Theme => {
     const themeDataFetched = KNOWN_THEMES_META_DATA.find(themeMetaData => themeMetaData.name === themeName);
     let themeReturn = null;
     if (!themeDataFetched) {
