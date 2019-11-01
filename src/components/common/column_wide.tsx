@@ -19,13 +19,13 @@ const ColumnWideWrapper = styled.div`
 
     &:first-child {
         @media (min-width: ${themeBreakPoints.xl}) {
-            margin-right: 10px;
+            margin-right: 1px;
         }
     }
 
     &:last-child {
         @media (min-width: ${themeBreakPoints.xl}) {
-            margin-left: 10px;
+            margin-left: 1px;
         }
     }
 `;
