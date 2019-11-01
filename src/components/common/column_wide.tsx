@@ -1,7 +1,7 @@
 import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-import { themeBreakPoints } from '../../themes/commons';
+import { themeBreakPoints, themeDimensions } from '../../themes/commons';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
     children: React.ReactNode;
@@ -19,13 +19,13 @@ const ColumnWideWrapper = styled.div`
 
     &:first-child {
         @media (min-width: ${themeBreakPoints.xl}) {
-            margin-right: 1px;
+            margin-right: ${themeDimensions.mainPadding};
         }
     }
 
     &:last-child {
         @media (min-width: ${themeBreakPoints.xl}) {
-            margin-left: 1px;
+            margin-left: ${themeDimensions.mainPadding};
         }
     }
 `;

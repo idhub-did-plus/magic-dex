@@ -21,13 +21,13 @@ const ColumnNarrowWrapper = styled.div`
 
     &:first-child {
         @media (min-width: ${themeBreakPoints.xl}) {
-            margin-right: 1px;
+            margin-right: ${themeDimensions.mainPadding};
         }
     }
 
     &:last-child {
         @media (min-width: ${themeBreakPoints.xl}) {
-            margin-left: 1px;
+            margin-left: ${themeDimensions.mainPadding};
         }
     }
 `;

@@ -88,6 +88,7 @@ export interface ThemeProperties {
     topbarBackgroundColor: string;
     topbarBorderColor: string;
     topbarSeparatorColor: string;
+    columnWarpperColor: string;
 }
 
 export interface ThemeModalStyle {
