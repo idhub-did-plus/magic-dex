@@ -12,6 +12,7 @@ import { NotificationsDropdownContainer } from '../../../components/notification
 import { goToHome, goToWallet } from '../../../store/actions';
 import { Theme, themeBreakPoints } from '../../../themes/commons';
 import { WalletConnectionContentContainer } from '../account/wallet_connection_content';
+import { ThemeSelectionContentContainer } from '../../theme/theme_selection_content';
 
 import { MarketsDropdownContainer } from './markets_dropdown';
 
@@ -58,6 +59,16 @@ const MarketsDropdownHeader = styled<any>(MarketsDropdownContainer)`
     ${separatorTopbar}
 `;
 
+const ThemeDropdown = styled(ThemeSelectionContentContainer)`
+    display: none;
+
+    @media (min-width: ${themeBreakPoints.sm}) {
+        align-items: center;
+        display: flex;
+
+        ${separatorTopbar}
+    }
+`;
 const WalletDropdown = styled(WalletConnectionContentContainer)`
     display: none;
 
@@ -94,10 +105,12 @@ const ToolbarContent = (props: Props) => {
     };
     const endContent = (
         <>
+         <ThemeDropdown />
             <MyWalletLink href="/my-wallet" onClick={handleMyWalletClick}>
                 My Wallet
             </MyWalletLink>
             <WalletDropdown />
+           
             <NotificationsDropdownContainer />
         </>
     );
