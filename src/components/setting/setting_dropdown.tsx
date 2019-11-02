@@ -123,11 +123,21 @@ const TokenLabel = styled.div`
     line-height: 1.2;
     margin: 0 0 0 12px;
 `;
+const keyof = (target: any, value: any)=>{
+    let rst:any = null;
+    Object.keys(target).map((key:any)=>{
+        let v: any = target[key];
+        if(value == v)
+            rst = key;
 
+    })
+    return rst;
+
+}
 
 class SettingDropdown extends React.Component<Props, State> {
 
-    private relayers:string[] = ['radar','localhost'];
+    private relayers:any = {radar:'https://api.kovan.radarrelay.com/0x/v2', local:'http://localhost:3000/0x/v2'};
     private readonly _dropdown = React.createRef<Dropdown>();
 
     public render = () => {
@@ -137,7 +147,7 @@ class SettingDropdown extends React.Component<Props, State> {
             <SettingDropdownHeader>
                 <SettingDropdownHeaderText>
                    
-                    {relayer}
+                    {keyof(this.relayers, relayer)}
                 </SettingDropdownHeaderText>
                 <ChevronDownIcon />
             </SettingDropdownHeader>
@@ -175,14 +185,17 @@ class SettingDropdown extends React.Component<Props, State> {
                 <TBody>
                     {
                         
-                        this.relayers.map((relay, index) => {
+                        Object.keys(this.relayers).map((key:any) => {
+                            let relay = this.relayers[key];
                         const isActive = relay == relayer;
                         const selectedRelayer = () => this.setSelectedRelayer(relay);
                         return (
-                            <TRStyled active={isActive} key={index} onClick={selectedRelayer}>
+                            <TRStyled active={isActive} key={key} onClick={selectedRelayer}>
                                 <CustomTDFirstStyled styles={{ textAlign: 'left', borderBottom: true }}>
                                     <TokenIconAndLabel>
-                                       
+                                    <TokenLabel>
+                                            {key}
+                                        </TokenLabel>
                                         <TokenLabel>
                                             {relay}
                                         </TokenLabel>

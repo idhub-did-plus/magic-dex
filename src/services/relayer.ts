@@ -119,9 +119,11 @@ export class Relayer {
 
 let relayer: Relayer;
 export const getRelayer = (): Relayer => {
-    if (!relayer) {
+    if(relayer == null){
         const client = new HttpClient(RELAYER_URL);
         relayer = new Relayer(client, { rps: 5 });
+        relayerUrl = RELAYER_URL;
+        
     }
 
     return relayer;
@@ -130,17 +132,21 @@ function select(state: StoreState) {
     return state.relayer.relayer;
 }
 
-let previousValue: string | null = null;
-function handleChange(store: any) {
-
-    let currentValue = select(store.getState())
-
-    if (previousValue !== currentValue) {
-
+let relayerUrl: string | null = null;
+const updateRelayer = (store: any)=>{
+    let currentValue = select(store.getState());
+    if (relayerUrl !== currentValue && currentValue != null && currentValue != '') {
+        const client = new HttpClient(currentValue);
+        relayer = new Relayer(client, { rps: 5 });
+        relayerUrl = currentValue;
     }
 }
+export const storeListener = (store: any) => {
+    if(relayer == null)
+        updateRelayer(store);
+    store.subscribe(()=>{ 
+        updateRelayer(store);
 
-export const storeCreated = (store: any) => {
-    store.subscribe(handleChange);
+});
 
 }

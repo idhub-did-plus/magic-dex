@@ -14,6 +14,8 @@ const logger = getLogger('Services::Orders');
 
 export const getAllOrders = (baseToken: Token, quoteToken: Token) => {
     const relayer = getRelayer();
+    if(relayer == null)
+        return new Array<SignedOrder>();
     const baseTokenAssetData = assetDataUtils.encodeERC20AssetData(baseToken.address);
     const quoteTokenAssetData = assetDataUtils.encodeERC20AssetData(quoteToken.address);
     return relayer.getAllOrdersAsync(baseTokenAssetData, quoteTokenAssetData);
@@ -41,6 +43,8 @@ export const getAllOrdersAsUIOrdersWithoutOrdersInfo = async (baseToken: Token, 
 
 export const getUserOrders = (baseToken: Token, quoteToken: Token, ethAccount: string) => {
     const relayer = getRelayer();
+    if(relayer == null)
+        return Array<SignedOrder>();
     const baseTokenAssetData = assetDataUtils.encodeERC20AssetData(baseToken.address);
     const quoteTokenAssetData = assetDataUtils.encodeERC20AssetData(quoteToken.address);
     return relayer.getUserOrdersAsync(ethAccount, baseTokenAssetData, quoteTokenAssetData);

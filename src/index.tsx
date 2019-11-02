@@ -13,7 +13,8 @@ import { Erc721App } from './components/erc721/erc721_app';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { history, store } from './store';
-
+import {storeListener} from './services/relayer'
+storeListener(store);
 ReactModal.setAppElement('#root');
 
 if (['development'].includes(process.env.NODE_ENV) && !window.localStorage.debug) {
