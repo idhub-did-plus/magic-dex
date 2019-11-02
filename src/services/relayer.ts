@@ -4,7 +4,8 @@ import { RateLimit } from 'async-sema';
 
 import { RELAYER_URL } from '../common/constants';
 import { tokenAmountInUnitsToBigNumber } from '../util/tokens';
-import { Token } from '../util/types';
+import { Token, StoreState } from '../util/types';
+import { Surface } from 'recharts';
 
 export class Relayer {
     private readonly _client: HttpClient;
@@ -125,3 +126,21 @@ export const getRelayer = (): Relayer => {
 
     return relayer;
 };
+function select(state: StoreState) {
+    return state.relayer.relayer;
+}
+
+let previousValue: string | null = null;
+function handleChange(store: any) {
+
+    let currentValue = select(store.getState())
+
+    if (previousValue !== currentValue) {
+
+    }
+}
+
+export const storeCreated = (store: any) => {
+    store.subscribe(handleChange);
+
+}
