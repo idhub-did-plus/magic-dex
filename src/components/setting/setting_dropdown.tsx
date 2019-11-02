@@ -7,7 +7,7 @@ import { CurrencyPair, Filter, Market, StoreState, Token } from '../../util/type
 import { CardBase } from '../common/card_base';
 import { Dropdown } from '../common/dropdown';
 import { ChevronDownIcon } from '../common/icons/chevron_down_icon';
-
+import { DropdownTextItem } from '../common/dropdown_text_item';
 import { CustomTDFirst, CustomTDLast, Table, TBody, THead, THFirst, THLast, TR } from '../common/table';
 import { getRelayer } from '../../store/selectors';
 import { setRelayer } from '../../store/relayer/actions';
@@ -177,9 +177,9 @@ class SettingDropdown extends React.Component<Props, State> {
                         
                         this.relayers.map((relay, index) => {
                         const isActive = relay == relayer;
-                       
+                        const selectedRelayer = () => this.setSelectedRelayer(relay);
                         return (
-                            <TRStyled active={isActive} key={index} onClick={this.setSelectedRelayer(relay)}>
+                            <TRStyled active={isActive} key={index} onClick={selectedRelayer}>
                                 <CustomTDFirstStyled styles={{ textAlign: 'left', borderBottom: true }}>
                                     <TokenIconAndLabel>
                                        
