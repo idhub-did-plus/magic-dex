@@ -66,7 +66,7 @@ const OrderbookCard = styled(Card)`
 
 const GridRow = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
 `;
 
 const GridRowInner = styled(GridRow)`
@@ -146,6 +146,9 @@ class OrderToRow extends React.Component<OrderToRowProps> {
                 }
             }
             >
+                <CustomTD as="div" styles={{ tabular: true, textAlign: 'center', color: color }}>
+                    {order.side}
+                </CustomTD>
                 <CustomTD as="div" styles={{ tabular: true, textAlign: 'right' }}>
                     <ShowNumberWithColors isHover={this.state.isHover} num={new BigNumber(size)} />
                 </CustomTD>
@@ -160,6 +163,9 @@ class OrderToRow extends React.Component<OrderToRowProps> {
                 </CustomTD>
                 <CustomTD as="div" styles={{ tabular: true, textAlign: 'right' }}>
                     <ShowNumberWithColors isHover={this.state.isHover} num={new BigNumber(mfa)} />
+                </CustomTD>
+                <CustomTD as="div" styles={{ tabular: true, textAlign: 'center' }}>
+                    {order.status}
                 </CustomTD>
                 
               
@@ -219,6 +225,9 @@ class OrderBookTable extends React.Component<Props> {
             content = (
                 <>
                     <GridRowTop as="div">
+                    <TH as="div" styles={{ textAlign: 'center', borderBottom: true }}>
+                            Side
+                        </TH>
                         <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>
                             Trade size
                         </TH>
@@ -228,12 +237,10 @@ class OrderBookTable extends React.Component<Props> {
                         <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>
                             Filled                       
                         </TH>
-                        <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>
-                            Remained
-                        </TH>
-                        <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>
-                            Maker Fillable
-                        </TH>
+                        <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>Remained</TH>
+                        <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>Maker Fillable</TH>
+                        <TH as="div" styles={{ textAlign: 'center', borderBottom: true }}>Status</TH>
+                        
                     </GridRowTop>
                
                 
