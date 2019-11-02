@@ -8,6 +8,8 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 const ColumnWideWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
     flex-grow: 0;
     flex-shrink: 1;
     max-width: 100%;
