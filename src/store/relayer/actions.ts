@@ -40,7 +40,9 @@ export const initializeRelayerData = createAction('relayer/init', resolve => {
 export const setOrders = createAction('relayer/ORDERS_set', resolve => {
     return (orders: UIOrder[]) => resolve(orders);
 });
-
+export const setRelayer = createAction('relayer/RELAYER_set', resolve => {
+    return (relay: string) => resolve(relay);
+});
 export const setUserOrders = createAction('relayer/USER_ORDERS_set', resolve => {
     return (orders: UIOrder[]) => resolve(orders);
 });

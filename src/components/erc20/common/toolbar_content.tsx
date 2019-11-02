@@ -14,6 +14,7 @@ import { Theme, themeBreakPoints } from '../../../themes/commons';
 import { WalletConnectionContentContainer } from '../account/wallet_connection_content';
 import { ThemeSelectionContentContainer } from '../../theme/theme_selection_content';
 
+import { SettingDropdownContainer } from '../../setting/setting_dropdown';
 import { MarketsDropdownContainer } from './markets_dropdown';
 
 interface DispatchProps {
@@ -95,7 +96,9 @@ const ToolbarContent = (props: Props) => {
                 text={(generalConfig && generalConfig.title) || UI_GENERAL_TITLE}
                 textColor={props.theme.componentsTheme.logoERC20TextColor}
             />
+          
             <MarketsDropdownHeader shouldCloseDropdownBodyOnClick={false} />
+            <SettingDropdownContainer/>
         </>
     );
 

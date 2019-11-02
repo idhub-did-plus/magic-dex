@@ -15,7 +15,7 @@ import {
     Web3State,
 } from '../util/types';
 import { mergeByPrice } from '../util/ui_orders';
-
+export const getRelayer = (state: StoreState) => state.relayer.relayer;
 export const getTheme = (state: StoreState) => state.ui.theme;
 export const getEthAccount = (state: StoreState) => state.blockchain.ethAccount;
 export const getTokenBalances = (state: StoreState) => state.blockchain.tokenBalances;

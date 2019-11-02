@@ -16,7 +16,7 @@ const initialUIState: UIState = {
     stepsModal: initialStepsModalState,
     orderPriceSelected: null,
     orderSelected: null,
-    theme: 'dark',
+    theme: 'DARK_THEME',
 };
 
 export function stepsModal(state: StepsModalState = initialStepsModalState, action: RootAction): StepsModalState {

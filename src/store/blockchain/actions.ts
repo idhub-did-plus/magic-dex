@@ -330,6 +330,7 @@ const initWalletBeginCommon: ThunkCreator<Promise<any>> = () => {
 
             dispatch(
                 initializeRelayerData({
+                    relayer:"",
                     orders: [],
                     userOrders: [],
                 }),
@@ -511,6 +512,7 @@ export const initializeAppNoMetamaskOrLocked: ThunkCreator = () => {
             initializeRelayerData({
                 orders: [],
                 userOrders: [],
+                relayer:'',
             }),
         );
 
