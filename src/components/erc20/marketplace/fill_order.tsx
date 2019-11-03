@@ -2,32 +2,20 @@ import { BigNumber } from '0x.js';
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-
-import { initWallet, startBuySellLimitSteps, startBuySellMarketSteps } from '../../../store/actions';
+import { UI_DECIMALS_DISPLAYED_PRICE_ETH } from '../../../common/constants';
+import { initWallet } from '../../../store/actions';
 import { fetchTakerAndMakerFee } from '../../../store/relayer/actions';
-import { getCurrencyPair, getOrderPriceSelected, getWeb3State, getOrderSelected } from '../../../store/selectors';
+import { getCurrencyPair, getOrderSelected, getWeb3State } from '../../../store/selectors';
+import { startFillOrderSteps } from '../../../store/ui/actions_fillorder';
 import { themeDimensions } from '../../../themes/commons';
 import { getKnownTokens } from '../../../util/known_tokens';
 import { tokenSymbolToDisplayString } from '../../../util/tokens';
-import {
-    ButtonIcons,
-    ButtonVariant,
-    CurrencyPair,
-    OrderSide,
-    OrderType,
-    StoreState,
-    Web3State,
-    UIOrder,
-} from '../../../util/types';
+import { ButtonIcons, ButtonVariant, CurrencyPair, OrderSide, OrderType, StoreState, UIOrder, Web3State } from '../../../util/types';
 import { BigNumberInput } from '../../common/big_number_input';
 import { Button } from '../../common/button';
 import { CardBase } from '../../common/card_base';
-import { CardTabSelector } from '../../common/card_tab_selector';
 import { ErrorCard, ErrorIcons, FontSize } from '../../common/error_card';
-
 import { OrderDetailsContainer } from './order_details';
-import { startFillOrderSteps } from '../../../store/ui/actions_fillorder';
-import { UI_DECIMALS_DISPLAYED_PRICE_ETH } from '../../../common/constants';
 
 interface StateProps {
     web3State: Web3State;
@@ -316,13 +304,6 @@ class FillOrder extends React.Component<Props, State> {
     };
 }
 
-
-const myOrderPriceSelected = (state: StoreState): BigNumber => {
-    let o: UIOrder | null = getOrderSelected(state);
-    if (o == null)
-        return new BigNumber(0);
-    return o.remainingTakerAssetFillAmount;
-}
 const mapStateToProps = (state: StoreState): StateProps => {
     return {
         web3State: getWeb3State(state),
@@ -349,3 +330,4 @@ const FillOrderContainer = connect(
 )(FillOrder);
 
 export { FillOrder, FillOrderContainer };
+
