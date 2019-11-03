@@ -7,6 +7,7 @@ import { ThunkAction } from 'redux-thunk';
 import { TokenMetaData } from '../common/tokens_meta_data';
 import { ExtraArgument } from '../store/index';
 import { ThemeModalStyle, ThemeProperties } from '../themes/commons';
+import { FillOrder } from '../components/erc20/marketplace/fill_order';
 
 export interface TabItem {
     active: boolean;
@@ -98,6 +99,7 @@ export enum StepKind {
     ToggleTokenLock = 'ToggleTokenLock',
     BuySellLimit = 'BuySellLimit',
     BuySellMarket = 'BuySellMarket',
+    FillOrder = 'FillOrder',
     UnlockCollectibles = 'UnlockCollectibles',
     SellCollectible = 'SellCollectible',
     BuyCollectible = 'BuyCollectible',
@@ -137,7 +139,13 @@ export interface StepBuySellMarket {
     side: OrderSide;
     token: Token;
 }
-
+export interface StepFillOrder {
+    kind: StepKind.BuySellMarket;
+    amount: BigNumber;
+    side: OrderSide;
+    token: Token;
+    targetOrder : UIOrder;
+}
 export interface StepSellCollectible {
     kind: StepKind.SellCollectible;
     collectible: Collectible;
@@ -158,6 +166,7 @@ export type Step =
     | StepToggleTokenLock
     | StepBuySellLimitOrder
     | StepBuySellMarket
+    | StepFillOrder
     | StepSellCollectible
     | StepBuyCollectible
     | StepUnlockCollectibles;

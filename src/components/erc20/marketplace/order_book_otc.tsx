@@ -33,7 +33,7 @@ interface StateProps {
     quoteToken: Token | null;
     userOrders: UIOrder[];
     web3State?: Web3State;
- 
+
 }
 
 interface OwnProps {
@@ -96,7 +96,7 @@ interface OrderToRowPropsOwn {
     count: number;
     baseToken: Token;
     priceColor: string;
-  
+
     web3State?: Web3State;
 }
 
@@ -131,20 +131,20 @@ class OrderToRow extends React.Component<OrderToRowProps> {
         let filled = new BigNumber(0);
         const filledF = tokenAmountInUnits(filled, baseToken.decimals, UI_DECIMALS_DISPLAYED_ORDER_SIZE);
         const mfa = tokenAmountInUnits(order.makerFillableAmountInTakerAsset, baseToken.decimals, UI_DECIMALS_DISPLAYED_ORDER_SIZE);
-       
-        if(order.filled != null)
+
+        if (order.filled != null)
             filled = order.filled;
-        const color = order.side == OrderSide.Sell?"#ff80b3":"#4dff88"
+        const color = order.side == OrderSide.Sell ? "#ff80b3" : "#4dff88"
         return (
             <GridRowInner
                 key={index}
                 onMouseEnter={this.hoverOn}
                 onMouseLeave={this.hoverOff}
                 // tslint:disable-next-line jsx-no-lambda
-                onClick={() =>{ 
+                onClick={() => {
                     this._setOrderSelected(order)
                 }
-            }
+                }
             >
                 <CustomTD as="div" styles={{ tabular: true, textAlign: 'center', color: color }}>
                     {order.side}
@@ -152,7 +152,7 @@ class OrderToRow extends React.Component<OrderToRowProps> {
                 <CustomTD as="div" styles={{ tabular: true, textAlign: 'right' }}>
                     <ShowNumberWithColors isHover={this.state.isHover} num={new BigNumber(size)} />
                 </CustomTD>
-                <CustomTD as="div" styles={{ tabular: true, textAlign: 'right', color: color}}>
+                <CustomTD as="div" styles={{ tabular: true, textAlign: 'right', color: color }}>
                     {parseFloat(price).toFixed(UI_DECIMALS_DISPLAYED_PRICE_ETH)}
                 </CustomTD>
                 <CustomTD as="div" styles={{ tabular: true, textAlign: 'right' }}>
@@ -167,8 +167,8 @@ class OrderToRow extends React.Component<OrderToRowProps> {
                 <CustomTD as="div" styles={{ tabular: true, textAlign: 'center' }}>
                     {order.status}
                 </CustomTD>
-                
-              
+
+
             </GridRowInner>
         );
     };
@@ -201,8 +201,8 @@ class OrderBookTable extends React.Component<Props> {
     }
 
     public render = () => {
-        const { orders, baseToken, quoteToken, web3State, theme} = this.props;
-    
+        const { orders, baseToken, quoteToken, web3State, theme } = this.props;
+
         const getColor = (order: UIOrder): string => {
             return order.side === OrderSide.Buy ? theme.componentsTheme.green : theme.componentsTheme.red;
         };
@@ -211,7 +211,7 @@ class OrderBookTable extends React.Component<Props> {
 
         if (web3State !== Web3State.Error && (!baseToken || !quoteToken)) {
             content = <CenteredLoading />;
-        } else if ((!orders.length  || !baseToken || !quoteToken)) {
+        } else if ((!orders.length || !baseToken || !quoteToken)) {
             content = <EmptyContent alignAbsoluteCenter={true} text="There are no orders to show" />;
         } else {
             const mySizeHeader =
@@ -225,7 +225,7 @@ class OrderBookTable extends React.Component<Props> {
             content = (
                 <>
                     <GridRowTop as="div">
-                    <TH as="div" styles={{ textAlign: 'center', borderBottom: true }}>
+                        <TH as="div" styles={{ textAlign: 'center', borderBottom: true }}>
                             Side
                         </TH>
                         <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>
@@ -235,32 +235,32 @@ class OrderBookTable extends React.Component<Props> {
                             Price ({quoteToken.symbol})
                         </TH>
                         <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>
-                            Filled                       
+                            Filled
                         </TH>
                         <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>Remained</TH>
                         <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>Maker Fillable</TH>
                         <TH as="div" styles={{ textAlign: 'center', borderBottom: true }}>Status</TH>
-                        
+
                     </GridRowTop>
-               
-                
-                        
-                                {orders.map((order, index) => (
-                                    <OrderToRowContainer
-                                        key={index}
-                                        order={order}
-                                        index={index}
-                                        count={orders.length}
-                                        baseToken={baseToken}
-                                        priceColor={getColor(order)}
-                                      
-                                        web3State={web3State}
-                                    />
-                                ))}
-                        
-                         
-            
-           
+
+
+
+                    {orders.map((order, index) => (
+                        <OrderToRowContainer
+                            key={index}
+                            order={order}
+                            index={index}
+                            count={orders.length}
+                            baseToken={baseToken}
+                            priceColor={getColor(order)}
+
+                            web3State={web3State}
+                        />
+                    ))}
+
+
+
+
                 </>
             );
         }
@@ -279,7 +279,7 @@ const mapStateToProps = (state: StoreState): StateProps => {
         userOrders: getUserOrders(state),
         quoteToken: getQuoteToken(state),
         web3State: getWeb3State(state),
-      
+
     };
 };
 
