@@ -22,58 +22,20 @@ export const submitFillOrder: ThunkCreator<Promise<{ txHash: string; amountInRet
         const ethAccount = getEthAccount(state);
         const gasPrice = getGasPriceInWei(state);
 
-        const isBuy = side === OrderSide.Buy;
-        const allOrders = isBuy ? getOpenSellOrders(state) : getOpenBuyOrders(state);
-        const { orders, amounts, canBeFilled } = buildMarketOrders(
-            {
-                amount,
-                orders: allOrders,
-            },
-            side,
-        );
-
-        if (canBeFilled) {
             const baseToken = getBaseToken(state) as Token;
             const quoteToken = getQuoteToken(state) as Token;
             const contractWrappers = await getContractWrappers();
 
-            // Check if the order is fillable using the forwarder
-            const ethBalance = getEthBalance(state) as BigNumber;
-            const ethAmountRequired = amounts.reduce((total: BigNumber, currentValue: BigNumber) => {
-                return total.plus(currentValue);
-            }, new BigNumber(0));
-            const isEthBalanceEnough = ethBalance.isGreaterThan(ethAmountRequired);
-            const isMarketBuyForwarder = isBuy && isWeth(quoteToken.symbol) && isEthBalanceEnough;
 
-            let txHash;
-            if (isMarketBuyForwarder) {
-                txHash = await contractWrappers.forwarder.marketBuyOrdersWithEthAsync(
-                    orders,
-                    amount,
-                    ethAccount,
-                    ethAmountRequired,
-                    [],
-                    AFFILIATE_FEE_PERCENTAGE,
-                    FEE_RECIPIENT,
-                    getTransactionOptions(gasPrice),
-                );
-            } else {
-                if (isBuy) {
-                    txHash = await contractWrappers.exchange.marketBuyOrdersAsync(
-                        orders,
+
+                 let   txHash = await contractWrappers.exchange.fillOrderAsync(
+                        targetOrder.rawOrder,
                         amount,
                         ethAccount,
                         getTransactionOptions(gasPrice),
                     );
-                } else {
-                    txHash = await contractWrappers.exchange.marketSellOrdersAsync(
-                        orders,
-                        amount,
-                        ethAccount,
-                        getTransactionOptions(gasPrice),
-                    );
-                }
-            }
+                  
+          
 
             const web3Wrapper = await getWeb3Wrapper();
             const tx = web3Wrapper.awaitTransactionSuccessAsync(txHash);
@@ -96,13 +58,9 @@ export const submitFillOrder: ThunkCreator<Promise<{ txHash: string; amountInRet
                 ]),
             );
 
-            const amountInReturn = sumTakerAssetFillableOrders(side, orders, amounts);
-
-            return { txHash, amountInReturn };
-        } else {
-            window.alert(INSUFFICIENT_ORDERS_TO_FILL_AMOUNT_ERR);
-            throw new InsufficientOrdersAmountException();
-        }
+          
+            return { txHash, amountInReturn:amount };
+      
     };
 };
 
