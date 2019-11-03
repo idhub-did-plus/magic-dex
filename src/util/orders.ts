@@ -1,7 +1,7 @@
 import { assetDataUtils, BigNumber, DutchAuctionWrapper, Order, SignedOrder } from '0x.js';
 import { OrderConfigRequest } from '@0x/connect';
 
-import { ZERO_ADDRESS } from '../common/constants';
+import { ZERO_ADDRESS, UI_DECIMALS_DISPLAYED_PRICE_ETH } from '../common/constants';
 import { getRelayer } from '../services/relayer';
 
 import { getKnownTokens } from './known_tokens';
@@ -107,8 +107,11 @@ export const buildLimitOrder = async (params: BuildLimitOrderParams, side: Order
 
     const baseTokenDecimals = getKnownTokens().getTokenByAddress(baseTokenAddress).decimals;
     const baseTokenAmountInUnits = tokenAmountInUnitsToBigNumber(amount, baseTokenDecimals);
+    const ss : string = price.toString();
+    console.log(ss);
+    const pricef = parseFloat(price.toFixed(UI_DECIMALS_DISPLAYED_PRICE_ETH));
 
-    const quoteTokenAmountInUnits = baseTokenAmountInUnits.multipliedBy(price);
+    const quoteTokenAmountInUnits = baseTokenAmountInUnits.multipliedBy(pricef);
 
     const quoteTokenDecimals = getKnownTokens().getTokenByAddress(quoteTokenAddress).decimals;
     const quoteTokenAmountInBaseUnits = unitsInTokenAmount(quoteTokenAmountInUnits.toString(), quoteTokenDecimals);

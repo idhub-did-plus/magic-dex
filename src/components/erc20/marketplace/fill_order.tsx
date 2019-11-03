@@ -270,7 +270,7 @@ class FillOrder extends React.Component<Props, State> {
         const makerAmount = this.state.makerAmount || new BigNumber(0);
         const price = order.price;
 
-        const { makerFee, takerFee } = await this.props.onFetchTakerAndMakerFee(makerAmount, price, this.state.tab);
+        const { makerFee, takerFee } = await this.props.onFetchTakerAndMakerFee(makerAmount, new BigNumber(price), this.state.tab);
 
 
         try {
