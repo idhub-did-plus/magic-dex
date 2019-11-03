@@ -27,6 +27,7 @@ import { ErrorCard, ErrorIcons, FontSize } from '../../common/error_card';
 
 import { OrderDetailsContainer } from './order_details';
 import { startFillOrderSteps } from '../../../store/ui/actions_fillorder';
+import { UI_DECIMALS_DISPLAYED_PRICE_ETH } from '../../../common/constants';
 
 interface StateProps {
     web3State: Web3State;
@@ -105,7 +106,20 @@ const BigInputNumberStyled = styled<any>(BigNumberInput)`
     width: 100%;
     z-index: 1;
 `;
-
+const BigNumberOutput = styled.input`
+    background-color: ${props => props.theme.componentsTheme.textInputBackgroundColor};
+    border-radius: ${themeDimensions.borderRadius};
+    border: 1px solid ${props => props.theme.componentsTheme.textInputBorderColor};
+    color: ${props => props.theme.componentsTheme.textInputTextColor};
+    font-feature-settings: 'tnum' 1;
+    font-size: 16px;
+    height: 100%;
+    padding-left: 14px;
+    padding-right: 60px;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+`;
 const TokenContainer = styled.div`
     display: flex;
     position: absolute;
@@ -198,11 +212,9 @@ class FillOrder extends React.Component<Props, State> {
                                 <Label>Price per token</Label>
                             </LabelContainer>
                             <FieldContainer>
-                                <BigInputNumberStyled
-                                     decimals={0}
-                                     min={new BigNumber(0)}
-                                     onChange={this.updatePrice}
-                                     value={price}
+                                <BigNumberOutput
+                                    disabled={true}
+                                     value={ parseFloat(price.toString()).toFixed(UI_DECIMALS_DISPLAYED_PRICE_ETH)}
                                      placeholder={'0.00'}
                                 />
                                 <BigInputNumberTokenLabel tokenSymbol={currencyPair.quote} />
