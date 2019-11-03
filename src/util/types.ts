@@ -140,7 +140,7 @@ export interface StepBuySellMarket {
     token: Token;
 }
 export interface StepFillOrder {
-    kind: StepKind.BuySellMarket;
+    kind: StepKind.FillOrder;
     amount: BigNumber;
     side: OrderSide;
     token: Token;

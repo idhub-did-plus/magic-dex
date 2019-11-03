@@ -12,7 +12,6 @@ import { getBaseToken, getEthAccount, getEthBalance, getGasPriceInWei, getOpenBu
 import { addNotifications } from '../ui/actions';
 import { getOrderbookAndUserOrders } from './actions';
 
-
 export const submitFillOrder: ThunkCreator<Promise<{ txHash: string; amountInReturn: BigNumber }>> = (
     amount: BigNumber,
     side: OrderSide,

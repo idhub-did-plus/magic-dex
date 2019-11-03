@@ -33,7 +33,7 @@ interface State {
     amountInReturn: BigNumber | null;
 }
 
-class BuySellTokenStep extends React.Component<Props, State> {
+class FillOrderTokenStep extends React.Component<Props, State> {
     public state = {
         amountInReturn: null,
     };
@@ -116,7 +116,7 @@ const mapStateToProps = (state: StoreState): StateProps => {
     };
 };
 
-const BuySellTokenStepContainer = connect(
+const FillOrderTokenStepContainer = connect(
     mapStateToProps,
     (dispatch: any) => {
         return {
@@ -126,6 +126,6 @@ const BuySellTokenStepContainer = connect(
             refreshOrders: () => dispatch(getOrderbookAndUserOrders()),
         };
     },
-)(BuySellTokenStep);
+)(FillOrderTokenStep);
 
-export { BuySellTokenStep, BuySellTokenStepContainer };
+export { FillOrderTokenStep, FillOrderTokenStepContainer };
