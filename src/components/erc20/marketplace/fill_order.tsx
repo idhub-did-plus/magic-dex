@@ -146,27 +146,27 @@ class FillOrder extends React.Component<Props, State> {
 
     public componentDidUpdate = async (prevProps: Readonly<Props>) => {
         const newProps = this.props;
-        if (newProps.orderSelected !== prevProps.orderSelected){
+        if (newProps.orderSelected !== prevProps.orderSelected) {
             this.setState({
                 orderSelected: newProps.orderSelected,
-                makerAmount: newProps.orderSelected == null?new BigNumber(0):newProps.orderSelected.remainingTakerAssetFillAmount
+                makerAmount: newProps.orderSelected == null ? new BigNumber(0) : newProps.orderSelected.remainingTakerAssetFillAmount
             });
         }
-     
+
     };
 
     public render = () => {
         const { currencyPair, web3State } = this.props;
         const { makerAmount, orderSelected, tab, error } = this.state;
 
-        let price:BigNumber = new BigNumber(0);
-        if(orderSelected != null){
+        let price: BigNumber = new BigNumber(0);
+        if (orderSelected != null) {
             price = orderSelected.price;
-           
-        }
-            
 
-        const btnPrefix =  (orderSelected == null)?'choose order':(orderSelected.side == OrderSide.Buy ? 'Buy ' : 'Sell ');
+        }
+
+
+        const btnPrefix = (orderSelected == null) ? 'choose order' : (orderSelected.side == OrderSide.Buy ? 'Sell ' : 'Buy ');
         const btnText = error && error.btnMsg ? 'Error' : btnPrefix + tokenSymbolToDisplayString(currencyPair.base);
 
         const decimals = getKnownTokens().getTokenBySymbol(currencyPair.base).decimals;
@@ -175,12 +175,12 @@ class FillOrder extends React.Component<Props, State> {
             <>
                 <FillOrderWrapper>
                     <TabsContainer>
-                       <div>{btnPrefix}</div>
+                        <div>{btnPrefix}</div>
                     </TabsContainer>
                     <Content>
                         <LabelContainer>
                             <Label>Amount</Label>
-                          
+
                         </LabelContainer>
                         <FieldContainer>
                             <BigInputNumberStyled
@@ -192,22 +192,23 @@ class FillOrder extends React.Component<Props, State> {
                             />
                             <BigInputNumberTokenLabel tokenSymbol={currencyPair.base} />
                         </FieldContainer>
-                   
-                            <>
-                                <LabelContainer>
-                                    <Label>Price per token</Label>
-                                </LabelContainer>
-                                <FieldContainer>
-                                    <BigInputNumberStyled
-                                        decimals={0}
-                                        min={new BigNumber(0)}
-                                     
-                                        value={price}
-                                        placeholder={'0.00'}
-                                    />
-                                    <BigInputNumberTokenLabel tokenSymbol={currencyPair.quote} />
-                                </FieldContainer>
-                            </>
+
+                        <>
+                            <LabelContainer>
+                                <Label>Price per token</Label>
+                            </LabelContainer>
+                            <FieldContainer>
+                                <BigInputNumberStyled
+                                    disabled={true}
+                                    decimals={0}
+                                    min={new BigNumber(0)}
+
+                                    value={price}
+                                    placeholder={'0.00'}
+                                />
+                                <BigInputNumberTokenLabel tokenSymbol={currencyPair.quote} />
+                            </FieldContainer>
+                        </>
                         )
                         <OrderDetailsContainer
                             orderType={OrderType.Fill}
@@ -217,15 +218,15 @@ class FillOrder extends React.Component<Props, State> {
                             currencyPair={currencyPair}
                         />
                         <Button
-                            disabled={web3State !== Web3State.Done }
+                            disabled={web3State !== Web3State.Done}
                             icon={error && error.btnMsg ? ButtonIcons.Warning : undefined}
                             onClick={this.submit}
                             variant={
                                 error && error.btnMsg
                                     ? ButtonVariant.Error
                                     : tab === OrderSide.Buy
-                                    ? ButtonVariant.Buy
-                                    : ButtonVariant.Sell
+                                        ? ButtonVariant.Buy
+                                        : ButtonVariant.Sell
                             }
                         >
                             {btnText}
@@ -249,7 +250,7 @@ class FillOrder extends React.Component<Props, State> {
 
 
     public submit = async () => {
-        if(this.props.orderSelected == null)
+        if (this.props.orderSelected == null)
             return;
         const order: UIOrder = this.state.orderSelected as UIOrder;
         const orderSide = order.side;
@@ -257,40 +258,40 @@ class FillOrder extends React.Component<Props, State> {
         const price = order.price;
 
         const { makerFee, takerFee } = await this.props.onFetchTakerAndMakerFee(makerAmount, price, this.state.tab);
-     
-         
-            try {
-                await this.props.onSubmitFillOrder(makerAmount, orderSide, takerFee, order);
-            } catch (error) {
-                this.setState(
-                    {
-                        error: {
-                            btnMsg: 'Error',
-                            cardMsg: error.message,
-                        },
+
+
+        try {
+            await this.props.onSubmitFillOrder(makerAmount, orderSide, takerFee, order);
+        } catch (error) {
+            this.setState(
+                {
+                    error: {
+                        btnMsg: 'Error',
+                        cardMsg: error.message,
                     },
-                    () => {
-                        // After a timeout both error message and button gets cleared
-                        setTimeout(() => {
-                            this.setState({
-                                error: {
-                                    ...this.state.error,
-                                    btnMsg: null,
-                                },
-                            });
-                        }, TIMEOUT_BTN_ERROR);
-                        setTimeout(() => {
-                            this.setState({
-                                error: {
-                                    ...this.state.error,
-                                    cardMsg: null,
-                                },
-                            });
-                        }, TIMEOUT_CARD_ERROR);
-                    },
-                );
-            }
-     
+                },
+                () => {
+                    // After a timeout both error message and button gets cleared
+                    setTimeout(() => {
+                        this.setState({
+                            error: {
+                                ...this.state.error,
+                                btnMsg: null,
+                            },
+                        });
+                    }, TIMEOUT_BTN_ERROR);
+                    setTimeout(() => {
+                        this.setState({
+                            error: {
+                                ...this.state.error,
+                                cardMsg: null,
+                            },
+                        });
+                    }, TIMEOUT_CARD_ERROR);
+                },
+            );
+        }
+
         this._reset();
     };
 
@@ -303,9 +304,9 @@ class FillOrder extends React.Component<Props, State> {
 }
 
 
-const myOrderPriceSelected = (state: StoreState): BigNumber =>{
-    let o: UIOrder|null =  getOrderSelected(state);
-    if(o == null)
+const myOrderPriceSelected = (state: StoreState): BigNumber => {
+    let o: UIOrder | null = getOrderSelected(state);
+    if (o == null)
         return new BigNumber(0);
     return o.remainingTakerAssetFillAmount;
 }
@@ -314,13 +315,13 @@ const mapStateToProps = (state: StoreState): StateProps => {
         web3State: getWeb3State(state),
         currencyPair: getCurrencyPair(state),
         orderSelected: getOrderSelected(state),
-      //  makerAmount: myOrderPriceSelected(state),
+        //  makerAmount: myOrderPriceSelected(state),
     };
 };
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => {
     return {
-        
+
         onSubmitFillOrder: (amount: BigNumber, side: OrderSide, takerFee: BigNumber, targetOrder: UIOrder) =>
             dispatch(startFillOrderSteps(amount, side, takerFee, targetOrder)),
         onConnectWallet: () => dispatch(initWallet()),
