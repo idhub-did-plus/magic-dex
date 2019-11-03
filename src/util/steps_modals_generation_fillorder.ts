@@ -65,7 +65,7 @@ export const createFillOrderSteps = (
     }
 
     buySellMarketFlow.push({
-        kind: StepKind.BuySellMarket,
+        kind: StepKind.FillOrder,
         amount,
         side,
         token: baseToken,

@@ -269,6 +269,7 @@ export type Notification = CancelOrderNotification | MarketNotification | LimitN
 export enum OrderType {
     Limit = 'Limit',
     Market = 'Market',
+    Fill = "Fill"
 }
 
 export interface GasInfo {

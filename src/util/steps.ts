@@ -7,6 +7,8 @@ export const getStepTitle = (step: Step): string => {
             return 'Sign';
         case StepKind.BuySellMarket:
             return step.side === OrderSide.Buy ? 'Buy' : 'Sell';
+        case StepKind.FillOrder:
+                return step.side === OrderSide.Buy ? 'Buy' : 'Sell';
         case StepKind.ToggleTokenLock:
         case StepKind.UnlockCollectibles:
             return step.isUnlocked ? 'Lock' : 'Unlock';
@@ -26,6 +28,7 @@ export const isLongStep = (step: Step): boolean => {
         case StepKind.BuySellLimit:
             return false;
         case StepKind.BuySellMarket:
+        case StepKind.FillOrder:
         case StepKind.ToggleTokenLock:
         case StepKind.UnlockCollectibles:
         case StepKind.WrapEth:

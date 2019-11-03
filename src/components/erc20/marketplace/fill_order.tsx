@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { initWallet, startBuySellLimitSteps, startBuySellMarketSteps } from '../../../store/actions';
 import { fetchTakerAndMakerFee } from '../../../store/relayer/actions';
-import { getCurrencyPair, getOrderPriceSelected, getWeb3State } from '../../../store/selectors';
+import { getCurrencyPair, getOrderPriceSelected, getWeb3State, getOrderSelected } from '../../../store/selectors';
 import { themeDimensions } from '../../../themes/commons';
 import { getKnownTokens } from '../../../util/known_tokens';
 import { tokenSymbolToDisplayString } from '../../../util/tokens';
@@ -17,6 +17,7 @@ import {
     OrderType,
     StoreState,
     Web3State,
+    UIOrder,
 } from '../../../util/types';
 import { BigNumberInput } from '../../common/big_number_input';
 import { Button } from '../../common/button';
@@ -25,16 +26,16 @@ import { CardTabSelector } from '../../common/card_tab_selector';
 import { ErrorCard, ErrorIcons, FontSize } from '../../common/error_card';
 
 import { OrderDetailsContainer } from './order_details';
+import { startFillOrderSteps } from '../../../store/ui/actions_fillorder';
 
 interface StateProps {
     web3State: Web3State;
     currencyPair: CurrencyPair;
-    orderPriceSelected: BigNumber | null;
+    orderSelected: UIOrder | null;
 }
 
 interface DispatchProps {
-    onSubmitLimitOrder: (amount: BigNumber, price: BigNumber, side: OrderSide, makerFee: BigNumber) => Promise<any>;
-    onSubmitMarketOrder: (amount: BigNumber, side: OrderSide, takerFee: BigNumber) => Promise<any>;
+    onSubmitFillOrder: (amount: BigNumber, side: OrderSide, takerFee: BigNumber, targetOrder: UIOrder) => Promise<any>;
     onConnectWallet: () => any;
     onFetchTakerAndMakerFee: (amount: BigNumber, price: BigNumber, side: OrderSide) => Promise<any>;
 }
@@ -43,8 +44,7 @@ type Props = StateProps & DispatchProps;
 
 interface State {
     makerAmount: BigNumber | null;
-    orderType: OrderType;
-    price: BigNumber | null;
+    orderSelected: UIOrder | null;
     tab: OrderSide;
     error: {
         btnMsg: string | null;
@@ -68,41 +68,6 @@ const TabsContainer = styled.div`
     justify-content: space-between;
 `;
 
-const TabButton = styled.div<{ isSelected: boolean; side: OrderSide }>`
-    align-items: center;
-    background-color: ${props =>
-        props.isSelected ? 'transparent' : props.theme.componentsTheme.inactiveTabBackgroundColor};
-    border-bottom-color: ${props => (props.isSelected ? 'transparent' : props.theme.componentsTheme.cardBorderColor)};
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-right-color: ${props => (props.isSelected ? props.theme.componentsTheme.cardBorderColor : 'transparent')};
-    border-right-style: solid;
-    border-right-width: 1px;
-    color: ${props =>
-        props.isSelected
-            ? props.side === OrderSide.Buy
-                ? props.theme.componentsTheme.green
-                : props.theme.componentsTheme.red
-            : props.theme.componentsTheme.textLight};
-    cursor: ${props => (props.isSelected ? 'default' : 'pointer')};
-    display: flex;
-    font-weight: 600;
-    height: 47px;
-    justify-content: center;
-    width: 50%;
-
-    &:first-child {
-        border-top-left-radius: ${themeDimensions.borderRadius};
-    }
-
-    &:last-child {
-        border-left-color: ${props => (props.isSelected ? props.theme.componentsTheme.cardBorderColor : 'transparent')};
-        border-left-style: solid;
-        border-left-width: 1px;
-        border-right: none;
-        border-top-right-radius: ${themeDimensions.borderRadius};
-    }
-`;
 
 const LabelContainer = styled.div`
     align-items: flex-end;
@@ -119,9 +84,6 @@ const Label = styled.label<{ color?: string }>`
     margin: 0;
 `;
 
-const InnerTabs = styled(CardTabSelector)`
-    font-size: 14px;
-`;
 
 const FieldContainer = styled.div`
     height: ${themeDimensions.fieldHeight};
@@ -173,8 +135,8 @@ const TIMEOUT_CARD_ERROR = 4000;
 class FillOrder extends React.Component<Props, State> {
     public state: State = {
         makerAmount: null,
-        price: null,
-        orderType: OrderType.Market,
+        orderSelected: null,
+
         tab: OrderSide.Buy,
         error: {
             btnMsg: null,
@@ -184,37 +146,27 @@ class FillOrder extends React.Component<Props, State> {
 
     public componentDidUpdate = async (prevProps: Readonly<Props>) => {
         const newProps = this.props;
-        if (newProps.orderPriceSelected !== prevProps.orderPriceSelected && this.state.orderType === OrderType.Limit) {
+        if (newProps.orderSelected !== prevProps.orderSelected){
             this.setState({
-                price: newProps.orderPriceSelected,
+                orderSelected: newProps.orderSelected,
+                makerAmount: newProps.orderSelected == null?new BigNumber(0):newProps.orderSelected.remainingTakerAssetFillAmount
             });
         }
+     
     };
 
     public render = () => {
         const { currencyPair, web3State } = this.props;
-        const { makerAmount, price, tab, orderType, error } = this.state;
+        const { makerAmount, orderSelected, tab, error } = this.state;
 
-        const buySellInnerTabs = [
-            {
-                active: orderType === OrderType.Market,
-                onClick: this._switchToMarket,
-                text: 'Market',
-            },
-            {
-                active: orderType === OrderType.Limit,
-                onClick: this._switchToLimit,
-                text: 'Limit',
-            },
-        ];
+        let price:BigNumber = new BigNumber(0);
+        if(orderSelected != null){
+            price = orderSelected.price;
+           
+        }
+            
 
-        const isMakerAmountEmpty = makerAmount === null || makerAmount.isZero();
-        const isPriceEmpty = price === null || price.isZero();
-
-        const orderTypeLimitIsEmpty = orderType === OrderType.Limit && (isMakerAmountEmpty || isPriceEmpty);
-        const orderTypeMarketIsEmpty = orderType === OrderType.Market && isMakerAmountEmpty;
-
-        const btnPrefix = tab === OrderSide.Buy ? 'Buy ' : 'Sell ';
+        const btnPrefix =  (orderSelected == null)?'choose order':(orderSelected.side == OrderSide.Buy ? 'Buy ' : 'Sell ');
         const btnText = error && error.btnMsg ? 'Error' : btnPrefix + tokenSymbolToDisplayString(currencyPair.base);
 
         const decimals = getKnownTokens().getTokenBySymbol(currencyPair.base).decimals;
@@ -223,25 +175,12 @@ class FillOrder extends React.Component<Props, State> {
             <>
                 <FillOrderWrapper>
                     <TabsContainer>
-                        <TabButton
-                            isSelected={tab === OrderSide.Buy}
-                            onClick={this.changeTab(OrderSide.Buy)}
-                            side={OrderSide.Buy}
-                        >
-                            Buy
-                        </TabButton>
-                        <TabButton
-                            isSelected={tab === OrderSide.Sell}
-                            onClick={this.changeTab(OrderSide.Sell)}
-                            side={OrderSide.Sell}
-                        >
-                            Sell
-                        </TabButton>
+                       <div>{btnPrefix}</div>
                     </TabsContainer>
                     <Content>
                         <LabelContainer>
                             <Label>Amount</Label>
-                            <InnerTabs tabs={buySellInnerTabs} />
+                          
                         </LabelContainer>
                         <FieldContainer>
                             <BigInputNumberStyled
@@ -253,7 +192,7 @@ class FillOrder extends React.Component<Props, State> {
                             />
                             <BigInputNumberTokenLabel tokenSymbol={currencyPair.base} />
                         </FieldContainer>
-                        {orderType === OrderType.Limit && (
+                   
                             <>
                                 <LabelContainer>
                                     <Label>Price per token</Label>
@@ -262,23 +201,23 @@ class FillOrder extends React.Component<Props, State> {
                                     <BigInputNumberStyled
                                         decimals={0}
                                         min={new BigNumber(0)}
-                                        onChange={this.updatePrice}
+                                     
                                         value={price}
                                         placeholder={'0.00'}
                                     />
                                     <BigInputNumberTokenLabel tokenSymbol={currencyPair.quote} />
                                 </FieldContainer>
                             </>
-                        )}
+                        )
                         <OrderDetailsContainer
-                            orderType={orderType}
+                            orderType={OrderType.Fill}
                             orderSide={tab}
                             tokenAmount={makerAmount || new BigNumber(0)}
                             tokenPrice={price || new BigNumber(0)}
                             currencyPair={currencyPair}
                         />
                         <Button
-                            disabled={web3State !== Web3State.Done || orderTypeLimitIsEmpty || orderTypeMarketIsEmpty}
+                            disabled={web3State !== Web3State.Done }
                             icon={error && error.btnMsg ? ButtonIcons.Warning : undefined}
                             onClick={this.submit}
                             variant={
@@ -308,21 +247,20 @@ class FillOrder extends React.Component<Props, State> {
         });
     };
 
-    public updatePrice = (price: BigNumber) => {
-        this.setState({ price });
-    };
 
     public submit = async () => {
-        const orderSide = this.state.tab;
+        if(this.props.orderSelected == null)
+            return;
+        const order: UIOrder = this.state.orderSelected as UIOrder;
+        const orderSide = order.side;
         const makerAmount = this.state.makerAmount || new BigNumber(0);
-        const price = this.state.price || new BigNumber(0);
+        const price = order.price;
 
         const { makerFee, takerFee } = await this.props.onFetchTakerAndMakerFee(makerAmount, price, this.state.tab);
-        if (this.state.orderType === OrderType.Limit) {
-            await this.props.onSubmitLimitOrder(makerAmount, price, orderSide, makerFee);
-        } else {
+     
+         
             try {
-                await this.props.onSubmitMarketOrder(makerAmount, orderSide, takerFee);
+                await this.props.onSubmitFillOrder(makerAmount, orderSide, takerFee, order);
             } catch (error) {
                 this.setState(
                     {
@@ -352,44 +290,39 @@ class FillOrder extends React.Component<Props, State> {
                     },
                 );
             }
-        }
+     
         this._reset();
     };
 
     private readonly _reset = () => {
         this.setState({
             makerAmount: null,
-            price: null,
-        });
-    };
-
-    private readonly _switchToMarket = () => {
-        this.setState({
-            orderType: OrderType.Market,
-        });
-    };
-
-    private readonly _switchToLimit = () => {
-        this.setState({
-            orderType: OrderType.Limit,
+            orderSelected: null,
         });
     };
 }
 
+
+const myOrderPriceSelected = (state: StoreState): BigNumber =>{
+    let o: UIOrder|null =  getOrderSelected(state);
+    if(o == null)
+        return new BigNumber(0);
+    return o.remainingTakerAssetFillAmount;
+}
 const mapStateToProps = (state: StoreState): StateProps => {
     return {
         web3State: getWeb3State(state),
         currencyPair: getCurrencyPair(state),
-        orderPriceSelected: getOrderPriceSelected(state),
+        orderSelected: getOrderSelected(state),
+      //  makerAmount: myOrderPriceSelected(state),
     };
 };
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => {
     return {
-        onSubmitLimitOrder: (amount: BigNumber, price: BigNumber, side: OrderSide, makerFee: BigNumber) =>
-            dispatch(startBuySellLimitSteps(amount, price, side, makerFee)),
-        onSubmitMarketOrder: (amount: BigNumber, side: OrderSide, takerFee: BigNumber) =>
-            dispatch(startBuySellMarketSteps(amount, side, takerFee)),
+        
+        onSubmitFillOrder: (amount: BigNumber, side: OrderSide, takerFee: BigNumber, targetOrder: UIOrder) =>
+            dispatch(startFillOrderSteps(amount, side, takerFee, targetOrder)),
         onConnectWallet: () => dispatch(initWallet()),
         onFetchTakerAndMakerFee: (amount: BigNumber, price: BigNumber, side: OrderSide) =>
             dispatch(fetchTakerAndMakerFee(amount, price, side)),
