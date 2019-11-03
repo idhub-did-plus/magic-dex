@@ -266,7 +266,7 @@ class FillOrder extends React.Component<Props, State> {
         if (this.props.orderSelected == null)
             return;
         const order: UIOrder = this.state.orderSelected as UIOrder;
-        const orderSide = order.side;
+        const orderSide = (order.side == OrderSide.Buy?OrderSide.Sell:OrderSide.Buy);
         const makerAmount = this.state.makerAmount || new BigNumber(0);
         const price = order.price;
 

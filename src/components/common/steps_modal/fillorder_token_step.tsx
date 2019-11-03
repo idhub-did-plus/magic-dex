@@ -51,7 +51,7 @@ class FillOrderTokenStep extends React.Component<Props, State> {
             step.token.displayDecimals,
         ).toString()} ${tokenSymbol}`;
 
-        const title = 'Order setup';
+        const title = 'Fill Order';
 
         const confirmCaption = `Confirm on Metamask to ${isBuy ? 'buy' : 'sell'} ${amountOfTokenString}.`;
         const loadingCaption = `Processing ${isBuy ? 'buy' : 'sale'} of ${amountOfTokenString}.`;
