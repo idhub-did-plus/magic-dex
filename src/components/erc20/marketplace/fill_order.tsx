@@ -199,12 +199,11 @@ class FillOrder extends React.Component<Props, State> {
                             </LabelContainer>
                             <FieldContainer>
                                 <BigInputNumberStyled
-                                    disabled={true}
-                                    decimals={0}
-                                    min={new BigNumber(0)}
-
-                                    value={price}
-                                    placeholder={'0.00'}
+                                     decimals={0}
+                                     min={new BigNumber(0)}
+                                     onChange={this.updatePrice}
+                                     value={price}
+                                     placeholder={'0.00'}
                                 />
                                 <BigInputNumberTokenLabel tokenSymbol={currencyPair.quote} />
                             </FieldContainer>
@@ -241,7 +240,9 @@ class FillOrder extends React.Component<Props, State> {
     };
 
     public changeTab = (tab: OrderSide) => () => this.setState({ tab });
-
+    public updatePrice = (price: BigNumber) => {
+       
+    };
     public updateMakerAmount = (newValue: BigNumber) => {
         this.setState({
             makerAmount: newValue,
