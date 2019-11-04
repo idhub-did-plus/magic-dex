@@ -208,7 +208,7 @@ class FillOrder extends React.Component<Props, State> {
                                 <BigInputNumberTokenLabel tokenSymbol={currencyPair.quote} />
                             </FieldContainer>
                         </>
-                        )
+ 
                         <OrderDetailsContainer
                             orderType={OrderType.Fill}
                             orderSide={tab}
