@@ -24,7 +24,7 @@ export const submitFillOrder: ThunkCreator<Promise<{ txHash: string; amountInRet
             const baseToken = getBaseToken(state) as Token;
             const quoteToken = getQuoteToken(state) as Token;
             const contractWrappers = await getContractWrappers();
-            let ma = targetOrder.side == OrderSide.Sell?amount.multipliedBy(targetOrder.price.toFixed(5)):amount;
+            let ma = targetOrder.side == OrderSide.Sell?amount.multipliedBy(targetOrder.price.toFixed(10)):amount;
             console.log(ma.toString())
 
                  let   txHash = await contractWrappers.exchange.fillOrderAsync(
