@@ -74,6 +74,14 @@ const Label = styled.label<{ color?: string }>`
 `;
 
 
+const HeadLabel = styled.label<{ color?: string }>`
+    color: ${props => props.color || props.theme.componentsTheme.textColorCommon};
+    font-size: 18px;
+    font-weight: 500;
+    line-height: normal;
+    align:center
+    margin: 0;
+`;
 const FieldContainer = styled.div`
     height: ${themeDimensions.fieldHeight};
     margin-bottom: 25px;
@@ -177,7 +185,7 @@ class FillOrder extends React.Component<Props, State> {
             <>
                 <FillOrderWrapper>
                     <TabsContainer>
-                        <div>{btnPrefix}</div>
+                        <HeadLabel>{'Fill Order'}</HeadLabel>
                     </TabsContainer>
                     <Content>
                         <LabelContainer>
@@ -254,7 +262,6 @@ class FillOrder extends React.Component<Props, State> {
         if (this.props.orderSelected == null)
             return;
         const order: UIOrder = this.state.orderSelected as UIOrder;
-        const orderSide = (order.side == OrderSide.Buy?OrderSide.Sell:OrderSide.Buy);
         const makerAmount = this.state.makerAmount || new BigNumber(0);
         const price = order.price;
 
