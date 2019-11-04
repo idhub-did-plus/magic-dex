@@ -132,6 +132,16 @@ class OrderToRow extends React.Component<OrderToRowProps> {
     public render = () => {
         const { order, index, baseToken, priceColor = [], web3State } = this.props;
         const size = tokenAmountInUnits(order.size, baseToken.decimals, UI_DECIMALS_DISPLAYED_ORDER_SIZE);
+        let ma = new BigNumber(0);
+        if(order !==null){
+           
+            if(order.side == OrderSide.Buy)
+                ma = order.remainingTakerAssetFillAmount;
+            else
+                ma = order.remainingTakerAssetFillAmount.div(order.price);
+              
+        }
+        const remained = tokenAmountInUnits(ma, baseToken.decimals, UI_DECIMALS_DISPLAYED_ORDER_SIZE);
         const price = order.price.toString();
         let filled = new BigNumber(0);
        
@@ -161,7 +171,7 @@ class OrderToRow extends React.Component<OrderToRowProps> {
                     {parseFloat(price).toFixed(UI_DECIMALS_DISPLAYED_PRICE_ETH)}
                 </CustomTD>
                 <CustomTD as="div" styles={{ tabular: true, textAlign: 'right' }}>
-                    <ShowNumberWithColors isHover={this.state.isHover} num={new BigNumber(filledF)} />
+                    <ShowNumberWithColors isHover={this.state.isHover} num={new BigNumber(remained)} />
                 </CustomTD>
   
                 <CustomTD as="div" styles={{ tabular: true, textAlign: 'center' }}>
@@ -235,7 +245,7 @@ class OrderBookTable extends React.Component<Props> {
                             Price ({quoteToken.symbol})
                         </TH>
                         <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>
-                            Filled
+                            Remaining
                         </TH>
 
                         <TH as="div" styles={{ textAlign: 'center', borderBottom: true }}>Status</TH>

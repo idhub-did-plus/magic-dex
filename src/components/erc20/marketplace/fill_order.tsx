@@ -157,9 +157,18 @@ class FillOrder extends React.Component<Props, State> {
     public componentDidUpdate = async (prevProps: Readonly<Props>) => {
         const newProps = this.props;
         if (newProps.orderSelected !== prevProps.orderSelected) {
+            let ma = new BigNumber(0);
+            if(newProps.orderSelected !==null){
+                const order: UIOrder = newProps.orderSelected as UIOrder;
+                if(order.side == OrderSide.Buy)
+                    ma = order.remainingTakerAssetFillAmount;
+                else
+                    ma = order.remainingTakerAssetFillAmount.div(order.price);
+                  
+            }
             this.setState({
                 orderSelected: newProps.orderSelected,
-                makerAmount: newProps.orderSelected == null ? new BigNumber(0) : newProps.orderSelected.remainingTakerAssetFillAmount
+                makerAmount: ma
             });
         }
 
