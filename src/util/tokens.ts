@@ -17,6 +17,11 @@ export const unitsInTokenAmount = (units: string, decimals: number): BigNumber =
     return new BigNumber(units).multipliedBy(decimalsPerToken);
 };
 
+export const unitsInTokenAmountToBigNumber = (units: BigNumber, decimals: number): BigNumber => {
+    const decimalsPerToken = new BigNumber(10).pow(decimals);
+
+    return units.multipliedBy(decimalsPerToken);
+};
 export const tokenSymbolToDisplayString = (symbol: string): string => {
     return isWeth(symbol) ? 'wETH' : symbol.toUpperCase();
 };

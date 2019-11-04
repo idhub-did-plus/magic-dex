@@ -11,6 +11,7 @@ import { updateTokenBalances } from '../blockchain/actions';
 import { getBaseToken, getEthAccount, getEthBalance, getGasPriceInWei, getOpenBuyOrders, getOpenSellOrders, getQuoteToken } from '../selectors';
 import { addNotifications } from '../ui/actions';
 import { getOrderbookAndUserOrders } from './actions';
+import { tokenAmountInUnitsToBigNumber, unitsInTokenAmount, unitsInTokenAmountToBigNumber } from '../../util/tokens';
 
 export const submitFillOrder: ThunkCreator<Promise<{ txHash: string; amountInReturn: BigNumber }>> = (
     amount: BigNumber,
@@ -24,12 +25,18 @@ export const submitFillOrder: ThunkCreator<Promise<{ txHash: string; amountInRet
             const baseToken = getBaseToken(state) as Token;
             const quoteToken = getQuoteToken(state) as Token;
             const contractWrappers = await getContractWrappers();
-
-
+            let ma = targetOrder.side == OrderSide.Sell?amount.multipliedBy(targetOrder.price):amount;
+            const decimals = targetOrder.side == OrderSide.Sell?baseToken.decimals:quoteToken.decimals;
+            ma = tokenAmountInUnitsToBigNumber(ma, decimals);
+            ma = new BigNumber(ma.toFixed(5))
+            ma = unitsInTokenAmountToBigNumber(ma, decimals);
+            console.log(ma.toString())
+          
+            console.log(ma.toString())
 
                  let   txHash = await contractWrappers.exchange.fillOrderAsync(
                         targetOrder.rawOrder,
-                        amount,
+                        ma,
                         ethAccount,
                         getTransactionOptions(gasPrice),
                     );
