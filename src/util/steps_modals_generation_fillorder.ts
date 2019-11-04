@@ -63,11 +63,9 @@ export const createFillOrderSteps = (
             buySellMarketFlow.push(wrapEthStep);
         }
     }
-
     buySellMarketFlow.push({
         kind: StepKind.FillOrder,
         amount,
-        side,
         token: baseToken,
         targetOrder
     });

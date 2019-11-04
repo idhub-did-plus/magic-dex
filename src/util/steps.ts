@@ -8,7 +8,7 @@ export const getStepTitle = (step: Step): string => {
         case StepKind.BuySellMarket:
             return step.side === OrderSide.Buy ? 'Buy' : 'Sell';
         case StepKind.FillOrder:
-                return step.side === OrderSide.Buy ? 'Buy' : 'Sell';
+                return step.targetOrder.side === OrderSide.Buy ? 'Sell' : 'Buy';
         case StepKind.ToggleTokenLock:
         case StepKind.UnlockCollectibles:
             return step.isUnlocked ? 'Lock' : 'Unlock';
