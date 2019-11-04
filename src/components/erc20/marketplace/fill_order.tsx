@@ -141,15 +141,24 @@ const TIMEOUT_BTN_ERROR = 2000;
 const TIMEOUT_CARD_ERROR = 4000;
 
 class FillOrder extends React.Component<Props, State> {
+    
     public state: State = {
-        makerAmount  : new BigNumber(0),
+        makerAmount  : this.getMakerAmount(this.props.orderSelected),
         error: {
             btnMsg: null,
             cardMsg: null,
         },
     };
-    
     private setMakerAmount(order: UIOrder | null) {
+        let ma = this.getMakerAmount(order);
+        
+        if(this.state.makerAmount != ma)
+            this.setState({
+                makerAmount: ma
+            }
+            )
+    }
+    private getMakerAmount(order: UIOrder | null): BigNumber {
         let ma = new BigNumber(0);
         if (order !== null) {
 
@@ -159,11 +168,7 @@ class FillOrder extends React.Component<Props, State> {
                 ma = order.remainingTakerAssetFillAmount.div(order.price);
 
         }
-        if(this.state.makerAmount != ma)
-            this.setState({
-                makerAmount: ma
-            }
-            )
+       return ma;
     }
 
     public componentDidUpdate = async (prevProps: Readonly<Props>) => {
