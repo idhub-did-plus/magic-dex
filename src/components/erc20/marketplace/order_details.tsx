@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import { fetchTakerAndMakerFee } from '../../../store/relayer/actions';
-import { getOpenBuyOrders, getOpenSellOrders } from '../../../store/selectors';
+import { getOpenBuyOrders, getOpenSellOrders, getWeb3State } from '../../../store/selectors';
 import { getKnownTokens } from '../../../util/known_tokens';
 import { buildMarketOrders, sumTakerAssetFillableOrders } from '../../../util/orders';
 import { tokenAmountInUnits, tokenSymbolToDisplayString } from '../../../util/tokens';
-import { CurrencyPair, OrderSide, OrderType, StoreState, UIOrder } from '../../../util/types';
+import { CurrencyPair, OrderSide, OrderType, StoreState, UIOrder, Web3State } from '../../../util/types';
 
 const Row = styled.div`
     align-items: center;
@@ -74,6 +74,7 @@ interface OwnProps {
 }
 
 interface StateProps {
+    web3State: Web3State;
     openSellOrders: UIOrder[];
     openBuyOrders: UIOrder[];
 }
@@ -85,6 +86,7 @@ interface DispatchProps {
 type Props = StateProps & OwnProps & DispatchProps;
 
 interface State {
+ 
     feeInZrx: BigNumber;
     quoteTokenAmount: BigNumber;
     canOrderBeFilled?: boolean;
@@ -137,7 +139,9 @@ class OrderDetails extends React.Component<Props, State> {
     };
 
     private readonly _updateOrderDetailsState = async () => {
-        const { currencyPair, orderType, orderSide } = this.props;
+        const { currencyPair, orderType, orderSide,    web3State } = this.props;
+        if(web3State !== Web3State.Done )
+            return;
         if (!currencyPair) {
             return;
         }
@@ -203,6 +207,7 @@ class OrderDetails extends React.Component<Props, State> {
 
 const mapStateToProps = (state: StoreState): StateProps => {
     return {
+        web3State: getWeb3State(state),
         openSellOrders: getOpenSellOrders(state),
         openBuyOrders: getOpenBuyOrders(state),
     };

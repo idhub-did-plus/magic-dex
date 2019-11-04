@@ -174,7 +174,7 @@ class BuySell extends React.Component<Props, State> {
     public state: State = {
         makerAmount: null,
         price: null,
-        orderType: OrderType.Market,
+        orderType: OrderType.Limit,
         tab: OrderSide.Buy,
         error: {
             btnMsg: null,
@@ -241,7 +241,7 @@ class BuySell extends React.Component<Props, State> {
                     <Content>
                         <LabelContainer>
                             <Label>Amount</Label>
-                            <InnerTabs tabs={buySellInnerTabs} />
+                            {/* <InnerTabs tabs={buySellInnerTabs} /> */}
                         </LabelContainer>
                         <FieldContainer>
                             <BigInputNumberStyled

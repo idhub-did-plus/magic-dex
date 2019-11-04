@@ -280,6 +280,8 @@ export const fetchTakerAndMakerFee: ThunkCreator<Promise<{ makerFee: BigNumber; 
         const ethAccount = getEthAccount(state);
         const baseToken = getBaseToken(state) as Token;
         const quoteToken = getQuoteToken(state) as Token;
+        if(baseToken == null || quoteToken == null)
+         return   {makerFee: new BigNumber(0),takerFee: new BigNumber(0)};
         const contractWrappers = await getContractWrappers();
 
         const order = await buildLimitOrder(
