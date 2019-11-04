@@ -11,8 +11,9 @@ import { createFillOrderSteps } from '../../util/steps_modals_generation_fillord
 
 
 
-export const startFillOrderSteps: ThunkCreator = (amount: BigNumber, side: OrderSide, takerFee: BigNumber, targetOrder: UIOrder) => {
+export const startFillOrderSteps: ThunkCreator = (amount: BigNumber, takerFee: BigNumber, targetOrder: UIOrder) => {
     return async (dispatch, getState) => {
+        const side:OrderSide = targetOrder.side == OrderSide.Buy?OrderSide.Sell:OrderSide.Buy;
         const state = getState();
         const baseToken = selectors.getBaseToken(state) as Token;
         const quoteToken = selectors.getQuoteToken(state) as Token;
@@ -68,8 +69,7 @@ export const startFillOrderSteps: ThunkCreator = (amount: BigNumber, side: Order
             wethTokenBalance,
             ethBalance,
             amount,
-            side,
-            price,
+         
             takerFee,
             targetOrder
         );

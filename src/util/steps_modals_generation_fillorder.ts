@@ -23,12 +23,12 @@ export const createFillOrderSteps = (
     wethTokenBalance: TokenBalance,
     ethBalance: BigNumber,
     amount: BigNumber,
-    side: OrderSide,
-    price: BigNumber,
+ 
     takerFee: BigNumber,
     targetOrder: UIOrder
 ): Step[] => {
     const buySellMarketFlow: Step[] = [];
+    const side:OrderSide = targetOrder.side == OrderSide.Buy?OrderSide.Sell:OrderSide.Buy;
     const isBuy = side === OrderSide.Buy;
     const tokenToUnlock = isBuy ? quoteToken : baseToken;
 
@@ -43,7 +43,7 @@ export const createFillOrderSteps = (
         isBuy &&
         unlockTokenStep &&
         (!isWeth(tokenToUnlock.symbol) ||
-            (isWeth(tokenToUnlock.symbol) && ethBalance.isLessThan(amount.multipliedBy(price))));
+            (isWeth(tokenToUnlock.symbol) && ethBalance.isLessThan(amount.multipliedBy(targetOrder.price))));
     if (isSell || isBuyWithWethConditions) {
         buySellMarketFlow.push(unlockTokenStep as Step);
     }
@@ -58,7 +58,7 @@ export const createFillOrderSteps = (
 
     // wrap the necessary ether if necessary
     if (isWeth(quoteToken.symbol)) {
-        const wrapEthStep = getWrapEthStepIfNeeded(amount, price, side, wethTokenBalance, ethBalance);
+        const wrapEthStep = getWrapEthStepIfNeeded(amount, targetOrder.price, side, wethTokenBalance, ethBalance);
         if (wrapEthStep) {
             buySellMarketFlow.push(wrapEthStep);
         }

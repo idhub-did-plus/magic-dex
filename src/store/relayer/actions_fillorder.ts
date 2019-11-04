@@ -14,7 +14,6 @@ import { getOrderbookAndUserOrders } from './actions';
 
 export const submitFillOrder: ThunkCreator<Promise<{ txHash: string; amountInReturn: BigNumber }>> = (
     amount: BigNumber,
-    side: OrderSide,
     targetOrder: UIOrder
 ) => {
     return async (dispatch, getState, { getContractWrappers, getWeb3Wrapper }) => {
@@ -39,7 +38,7 @@ export const submitFillOrder: ThunkCreator<Promise<{ txHash: string; amountInRet
 
             const web3Wrapper = await getWeb3Wrapper();
             const tx = web3Wrapper.awaitTransactionSuccessAsync(txHash);
-
+            const side:OrderSide = targetOrder.side == OrderSide.Buy?OrderSide.Sell:OrderSide.Buy;
             // tslint:disable-next-line:no-floating-promises
             dispatch(getOrderbookAndUserOrders());
             // tslint:disable-next-line:no-floating-promises

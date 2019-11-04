@@ -24,7 +24,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    onSubmitFillOrder: (amount: BigNumber, side: OrderSide, takerFee: BigNumber, targetOrder: UIOrder) => Promise<any>;
+    onSubmitFillOrder: (amount: BigNumber, takerFee: BigNumber, targetOrder: UIOrder) => Promise<any>;
     onConnectWallet: () => any;
     onFetchTakerAndMakerFee: (amount: BigNumber, price: BigNumber, side: OrderSide) => Promise<any>;
 }
@@ -262,7 +262,7 @@ class FillOrder extends React.Component<Props, State> {
 
 
         try {
-            await this.props.onSubmitFillOrder(makerAmount, orderSide, takerFee, order);
+            await this.props.onSubmitFillOrder(makerAmount, takerFee, order);
         } catch (error) {
             this.setState(
                 {
@@ -316,8 +316,8 @@ const mapStateToProps = (state: StoreState): StateProps => {
 const mapDispatchToProps = (dispatch: any): DispatchProps => {
     return {
 
-        onSubmitFillOrder: (amount: BigNumber, side: OrderSide, takerFee: BigNumber, targetOrder: UIOrder) =>
-            dispatch(startFillOrderSteps(amount, side, takerFee, targetOrder)),
+        onSubmitFillOrder: (amount: BigNumber,  takerFee: BigNumber, targetOrder: UIOrder) =>
+            dispatch(startFillOrderSteps(amount, takerFee, targetOrder)),
         onConnectWallet: () => dispatch(initWallet()),
         onFetchTakerAndMakerFee: (amount: BigNumber, price: BigNumber, side: OrderSide) =>
             dispatch(fetchTakerAndMakerFee(amount, price, side)),

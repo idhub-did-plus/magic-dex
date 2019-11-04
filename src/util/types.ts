@@ -142,7 +142,6 @@ export interface StepBuySellMarket {
 export interface StepFillOrder {
     kind: StepKind.FillOrder;
     amount: BigNumber;
-    side: OrderSide;
     token: Token;
     targetOrder : UIOrder;
 }

@@ -1,17 +1,17 @@
 import { BigNumber } from '0x.js';
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { getWeb3Wrapper } from '../../../services/web3_wrapper';
-import { getOrderbookAndUserOrders, submitMarketOrder } from '../../../store/actions';
+import { getOrderbookAndUserOrders } from '../../../store/actions';
+import { submitFillOrder } from '../../../store/relayer/actions_fillorder';
 import { getEstimatedTxTimeMs, getQuoteToken, getStepsModalCurrentStep } from '../../../store/selectors';
 import { addMarketBuySellNotification } from '../../../store/ui/actions';
 import { tokenAmountInUnits, tokenSymbolToDisplayString } from '../../../util/tokens';
-import { OrderSide, StepBuySellMarket, StoreState, Token, StepFillOrder, UIOrder } from '../../../util/types';
-
+import { OrderSide, StepFillOrder, StoreState, Token, UIOrder } from '../../../util/types';
 import { BaseStepModal } from './base_step_modal';
 import { StepItem } from './steps_progress';
-import { submitFillOrder } from '../../../store/relayer/actions_fillorder';
+
+
 
 interface OwnProps {
     buildStepsProgress: (currentStepItem: StepItem) => StepItem[];
@@ -23,7 +23,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    onSubmitFillOrder: (amount: BigNumber, side: OrderSide, targetOrder:UIOrder) => Promise<{ txHash: string; amountInReturn: BigNumber }>;
+    onSubmitFillOrder: (amount: BigNumber, targetOrder:UIOrder) => Promise<{ txHash: string; amountInReturn: BigNumber }>;
     refreshOrders: () => any;
     notifyBuySellMarket: (id: string, amount: BigNumber, token: Token, side: OrderSide, tx: Promise<any>) => any;
 }
@@ -43,8 +43,8 @@ class FillOrderTokenStep extends React.Component<Props, State> {
         const { buildStepsProgress, estimatedTxTimeMs, step } = this.props;
         const { token, targetOrder } = step;
         const tokenSymbol = tokenSymbolToDisplayString(token.symbol);
-
-        const isBuy = step.side === OrderSide.Buy;
+        const side:OrderSide = targetOrder.side == OrderSide.Buy?OrderSide.Sell:OrderSide.Buy;
+        const isBuy = side === OrderSide.Buy;
         const amountOfTokenString = `${tokenAmountInUnits(
             step.amount,
             step.token.decimals,
@@ -80,10 +80,11 @@ class FillOrderTokenStep extends React.Component<Props, State> {
 
     private readonly _confirmOnMetamaskBuyOrSell = async ({ onLoading, onDone, onError }: any) => {
         const { step, onSubmitFillOrder } = this.props;
-        const { amount, side, token } = step;
+        const { amount,  token } = step;
         try {
+            const side:OrderSide = step.targetOrder.side == OrderSide.Buy?OrderSide.Sell:OrderSide.Buy;
             const web3Wrapper = await getWeb3Wrapper();
-            const { txHash, amountInReturn } = await onSubmitFillOrder(amount, side, step.targetOrder);
+            const { txHash, amountInReturn } = await onSubmitFillOrder(amount, step.targetOrder);
             this.setState({ amountInReturn });
             onLoading();
 
@@ -121,7 +122,7 @@ const FillOrderTokenStepContainer = connect(
     mapStateToProps,
     (dispatch: any) => {
         return {
-            onSubmitFillOrder: (amount: BigNumber, side: OrderSide, targetOrder: UIOrder) => dispatch(submitFillOrder(amount, side, targetOrder)),
+            onSubmitFillOrder: (amount: BigNumber,  targetOrder: UIOrder) => dispatch(submitFillOrder(amount, targetOrder)),
             notifyBuySellMarket: (id: string, amount: BigNumber, token: Token, side: OrderSide, tx: Promise<any>) =>
                 dispatch(addMarketBuySellNotification(id, amount, token, side, tx)),
             refreshOrders: () => dispatch(getOrderbookAndUserOrders()),
@@ -130,3 +131,4 @@ const FillOrderTokenStepContainer = connect(
 )(FillOrderTokenStep);
 
 export { FillOrderTokenStep, FillOrderTokenStepContainer };
+
