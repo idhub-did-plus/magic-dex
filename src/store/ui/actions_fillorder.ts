@@ -23,28 +23,11 @@ export const startFillOrderSteps: ThunkCreator = (amount: BigNumber, targetOrder
         const totalEthBalance = selectors.getTotalEthBalance(state);
         const quoteTokenBalance = selectors.getQuoteTokenBalance(state);
         const baseTokenBalance = selectors.getBaseTokenBalance(state);
-
-        const orders = side === OrderSide.Buy ? selectors.getOpenSellOrders(state) : selectors.getOpenBuyOrders(state);
-        const { amounts, canBeFilled } = buildMarketOrders(
-            {
-                amount,
-                orders,
-            },
-            side,
-        );
-        if (!canBeFilled) {
-            throw new InsufficientOrdersAmountException();
-        }
-
-        const totalFilledAmount = amounts.reduce((total: BigNumber, currentValue: BigNumber) => {
-            return total.plus(currentValue);
-        }, new BigNumber(0));
-
-        const price = totalFilledAmount.div(amount);
+ 
 
         if (side === OrderSide.Sell) {
             // When selling, user should have enough BASE Token
-            if (baseTokenBalance && baseTokenBalance.balance.isLessThan(totalFilledAmount)) {
+            if (baseTokenBalance && baseTokenBalance.balance.isLessThan(amount)) {
                 throw new InsufficientTokenBalanceException(baseToken.symbol);
             }
         } else {
@@ -52,22 +35,22 @@ export const startFillOrderSteps: ThunkCreator = (amount: BigNumber, targetOrder
             // if quote token is weth, should have enough ETH + WETH balance, or
             // if quote token is not weth, should have enough quote token balance
             const ifEthAndWethNotEnoughBalance =
-                isWeth(quoteToken.symbol) && totalEthBalance.isLessThan(totalFilledAmount);
+                isWeth(quoteToken.symbol) && totalEthBalance.isLessThan(amount.multipliedBy(targetOrder.price));
             const ifOtherQuoteTokenAndNotEnoughBalance =
                 !isWeth(quoteToken.symbol) &&
                 quoteTokenBalance &&
-                quoteTokenBalance.balance.isLessThan(totalFilledAmount);
+                quoteTokenBalance.balance.isLessThan(amount);
             if (ifEthAndWethNotEnoughBalance || ifOtherQuoteTokenAndNotEnoughBalance) {
                 throw new InsufficientTokenBalanceException(quoteToken.symbol);
             }
         }
-        const takerFee: BigNumber = targetOrder.rawOrder.takerFee;
+   
         const fillorderFlow: Step[] = createFillOrderSteps(
             baseToken,
             quoteToken,
             tokenBalances,
             wethTokenBalance,
-            ethBalance,
+           
             amount,
 
             targetOrder

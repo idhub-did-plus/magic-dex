@@ -194,7 +194,7 @@ class FillOrder extends React.Component<Props, State> {
         else {
             side = this.props.orderSelected.side == OrderSide.Buy ? OrderSide.Sell : OrderSide.Buy
             price = this.props.orderSelected.price;
-            const btnPrefix = side == OrderSide.Buy ? 'Sell ' : 'Buy ';
+            const btnPrefix = side == OrderSide.Buy ? 'Buy ' : 'Sell';
             btnText = error && error.btnMsg ? 'Error' : btnPrefix + tokenSymbolToDisplayString(currencyPair.base);
 
         }
