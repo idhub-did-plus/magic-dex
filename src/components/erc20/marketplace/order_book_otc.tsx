@@ -66,7 +66,7 @@ const OrderbookCard = styled(Card)`
 
 const GridRow = styled.div`
     display: grid;
-    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr  1fr;
 `;
 
 const GridRowInner = styled(GridRow)`
@@ -126,14 +126,13 @@ class OrderToRow extends React.Component<OrderToRowProps> {
     public render = () => {
         const { order, index, baseToken, priceColor = [], web3State } = this.props;
         const size = tokenAmountInUnits(order.size, baseToken.decimals, UI_DECIMALS_DISPLAYED_ORDER_SIZE);
-        const remain = tokenAmountInUnits(order.remainingTakerAssetFillAmount, baseToken.decimals, UI_DECIMALS_DISPLAYED_ORDER_SIZE);
         const price = order.price.toString();
         let filled = new BigNumber(0);
-        const filledF = tokenAmountInUnits(filled, baseToken.decimals, UI_DECIMALS_DISPLAYED_ORDER_SIZE);
-        const mfa = tokenAmountInUnits(order.makerFillableAmountInTakerAsset, baseToken.decimals, UI_DECIMALS_DISPLAYED_ORDER_SIZE);
-
+       
         if (order.filled != null)
             filled = order.filled;
+        const filledF = tokenAmountInUnits(filled, baseToken.decimals, UI_DECIMALS_DISPLAYED_ORDER_SIZE);
+    
         const color = order.side == OrderSide.Sell ? "#ff80b3" : "#4dff88"
         return (
             <GridRowInner
@@ -158,12 +157,7 @@ class OrderToRow extends React.Component<OrderToRowProps> {
                 <CustomTD as="div" styles={{ tabular: true, textAlign: 'right' }}>
                     <ShowNumberWithColors isHover={this.state.isHover} num={new BigNumber(filledF)} />
                 </CustomTD>
-                <CustomTD as="div" styles={{ tabular: true, textAlign: 'right' }}>
-                    <ShowNumberWithColors isHover={this.state.isHover} num={new BigNumber(remain)} />
-                </CustomTD>
-                <CustomTD as="div" styles={{ tabular: true, textAlign: 'right' }}>
-                    <ShowNumberWithColors isHover={this.state.isHover} num={new BigNumber(mfa)} />
-                </CustomTD>
+  
                 <CustomTD as="div" styles={{ tabular: true, textAlign: 'center' }}>
                     {order.status}
                 </CustomTD>
@@ -237,8 +231,7 @@ class OrderBookTable extends React.Component<Props> {
                         <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>
                             Filled
                         </TH>
-                        <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>Remained</TH>
-                        <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>Maker Fillable</TH>
+
                         <TH as="div" styles={{ textAlign: 'center', borderBottom: true }}>Status</TH>
 
                     </GridRowTop>
