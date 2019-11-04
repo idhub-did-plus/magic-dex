@@ -1,0 +1,469 @@
+{
+    "total": 33,
+    "page": 1,
+    "perPage": 50,
+    "records": [
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b00000000000000000000000001dad4783cf3fe3085c1426157ab175a6119a04ba",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b00000000000000000000000001dad4783cf3fe3085c1426157ab175a6119a04ba",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000323b5d4c32345ced77393b3530b1eed0f346429d",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000323b5d4c32345ced77393b3530b1eed0f346429d",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b00000000000000000000000006ff6c0ff1d68b964901f986d4c9fa3ac68346570",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b00000000000000000000000006ff6c0ff1d68b964901f986d4c9fa3ac68346570",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000a27af8713623fcc239d49108b1a7b187c133e88b",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000a27af8713623fcc239d49108b1a7b187c133e88b",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000b18845c260f680d5b9d84649638813e342e4f8c9",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000b18845c260f680d5b9d84649638813e342e4f8c9",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000e77c61cd53301efb6d9361fa91f5fb6cd10d2253",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000e77c61cd53301efb6d9361fa91f5fb6cd10d2253",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000eee3870657e4716670f185df08652dd848fe8f7e",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000eee3870657e4716670f185df08652dd848fe8f7e",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000ef630f892b69acb7fd80a908f9ea4e84de588e01",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000ef630f892b69acb7fd80a908f9ea4e84de588e01",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000ef7fff64389b814a946f3e92105513705ca6b990",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000ef7fff64389b814a946f3e92105513705ca6b990",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b00000000000000000000000002c2edf394638931eb672bd9261d2aa1934874d45",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000630a1d705b21ed3acf515ded731b01009e27b75b",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b000000000000000000000000097f4e1cc5608196ab317e9122838653cfa8129bc",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b00000000000000000000000002fa52b5fbcbb1806d913e800f71181fa065a8cca",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000387c0189473820fea422cd9c6843b1e2e5330203",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b00000000000000000000000007b6b10caa9e8e9552ba72638ea5b47c25afea1f3",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b00000000000000000000000007b6b10caa9e8e9552ba72638ea5b47c25afea1f3",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b00000000000000000000000002002d3812f58e35f0ea1ffbf80a75a38c32175fa",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b00000000000000000000000002002d3812f58e35f0ea1ffbf80a75a38c32175fa",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b000000000000000000000000031fb614e223706f15d0d3c5f4b08bdf0d5c78623",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b000000000000000000000000031fb614e223706f15d0d3c5f4b08bdf0d5c78623",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b00000000000000000000000008cb3971b8eb709c14616bd556ff6683019e90d9c",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b00000000000000000000000008cb3971b8eb709c14616bd556ff6683019e90d9c",
+                "precision": 8
+            }
+        },
+        {
+            "assetDataA": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b0000000000000000000000000c4375b7de8af5a38a93548eb8453a498222c4ff2",
+                "precision": 8
+            },
+            "assetDataB": {
+                "minAmount": "0",
+                "maxAmount": "999999999999999999999",
+                "assetData": "0xf47261b000000000000000000000000031828dcce7df8dd94ed14165fd37e300b69be794",
+                "precision": 8
+            }
+        }
+    ]
+}
