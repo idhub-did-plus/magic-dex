@@ -80,7 +80,7 @@ const HeadLabel = styled.label<{ color?: string }>`
     font-weight: 500;
     line-height: normal;
     align:center
-    margin: 0;
+    padding-left: 10px;
 `;
 const FieldContainer = styled.div`
     height: ${themeDimensions.fieldHeight};
@@ -184,9 +184,9 @@ class FillOrder extends React.Component<Props, State> {
         return (
             <>
                 <FillOrderWrapper>
-                    <TabsContainer>
+                    <LabelContainer>
                         <HeadLabel>{'Fill Order'}</HeadLabel>
-                    </TabsContainer>
+                    </LabelContainer>
                     <Content>
                         <LabelContainer>
                             <Label>Amount</Label>
