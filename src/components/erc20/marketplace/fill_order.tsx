@@ -175,9 +175,14 @@ class FillOrder extends React.Component<Props, State> {
 
         }
 
-
-        const btnPrefix = (orderSelected == null) ? 'choose order' : (orderSelected.side == OrderSide.Buy ? 'Sell ' : 'Buy ');
-        const btnText = error && error.btnMsg ? 'Error' : btnPrefix + tokenSymbolToDisplayString(currencyPair.base);
+        let btnText = null;
+        if(orderSelected == null)
+            btnText =   'choose order' ;
+        else{
+            const btnPrefix = orderSelected.side == OrderSide.Buy ? 'Sell ' : 'Buy ';
+             btnText = error && error.btnMsg ? 'Error' : btnPrefix + tokenSymbolToDisplayString(currencyPair.base);
+      
+        }
 
         const decimals = getKnownTokens().getTokenBySymbol(currencyPair.base).decimals;
 
@@ -231,9 +236,9 @@ class FillOrder extends React.Component<Props, State> {
                             variant={
                                 error && error.btnMsg
                                     ? ButtonVariant.Error
-                                    : tab === OrderSide.Buy
-                                        ? ButtonVariant.Buy
-                                        : ButtonVariant.Sell
+                                    : orderSelected == null?ButtonVariant.Buy:orderSelected.side === OrderSide.Buy
+                                        ? ButtonVariant.Sell
+                                        : ButtonVariant.Buy
                             }
                         >
                             {btnText}
