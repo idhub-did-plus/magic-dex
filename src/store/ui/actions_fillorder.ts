@@ -11,7 +11,7 @@ import { createFillOrderSteps } from '../../util/steps_modals_generation_fillord
 
 
 
-export const startFillOrderSteps: ThunkCreator = (amount: BigNumber, takerFee: BigNumber, targetOrder: UIOrder) => {
+export const startFillOrderSteps: ThunkCreator = (amount: BigNumber, targetOrder: UIOrder) => {
     return async (dispatch, getState) => {
         const side:OrderSide = targetOrder.side == OrderSide.Buy?OrderSide.Sell:OrderSide.Buy;
         const state = getState();
@@ -61,7 +61,7 @@ export const startFillOrderSteps: ThunkCreator = (amount: BigNumber, takerFee: B
                 throw new InsufficientTokenBalanceException(quoteToken.symbol);
             }
         }
-
+        const takerFee: BigNumber = targetOrder.rawOrder.takerFee;
         const fillorderFlow: Step[] = createFillOrderSteps(
             baseToken,
             quoteToken,
@@ -69,8 +69,7 @@ export const startFillOrderSteps: ThunkCreator = (amount: BigNumber, takerFee: B
             wethTokenBalance,
             ethBalance,
             amount,
-         
-            takerFee,
+
             targetOrder
         );
 

@@ -23,8 +23,6 @@ export const createFillOrderSteps = (
     wethTokenBalance: TokenBalance,
     ethBalance: BigNumber,
     amount: BigNumber,
- 
-    takerFee: BigNumber,
     targetOrder: UIOrder
 ): Step[] => {
     const buySellMarketFlow: Step[] = [];
@@ -49,7 +47,7 @@ export const createFillOrderSteps = (
     }
 
     // unlock zrx (for fees) if the taker fee is positive
-    if (!isZrx(tokenToUnlock.symbol) && takerFee.isGreaterThan(0)) {
+    if (!isZrx(tokenToUnlock.symbol) && targetOrder.rawOrder.takerFee.isGreaterThan(0)) {
         const unlockZrxStep = getUnlockZrxStepIfNeeded(tokenBalances);
         if (unlockZrxStep) {
             buySellMarketFlow.push(unlockZrxStep);
