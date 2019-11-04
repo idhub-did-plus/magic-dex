@@ -1,4 +1,4 @@
-import { BigNumber } from '0x.js';
+import { BigNumber, OrderStatus } from '0x.js';
 import React from 'react';
 import { connect } from 'react-redux';
 import styled, { withTheme } from 'styled-components';
@@ -109,7 +109,13 @@ type OrderToRowProps = OrderToRowPropsOwn & OrderToRowDispatchProps;
 interface State {
     isHover: boolean;
 }
-
+const  string_of_enum = (enumn: any, value: any)=>
+{
+  for (var k in enumn) 
+    if (enumn[k] == value)
+        return k;
+  return null;
+}
 class OrderToRow extends React.Component<OrderToRowProps> {
     public state: State = {
         isHover: false,
@@ -146,7 +152,7 @@ class OrderToRow extends React.Component<OrderToRowProps> {
                 }
             >
                 <CustomTD as="div" styles={{ tabular: true, textAlign: 'center', color: color }}>
-                    {order.side}
+                    {string_of_enum(OrderSide, order.side)}
                 </CustomTD>
                 <CustomTD as="div" styles={{ tabular: true, textAlign: 'right' }}>
                     <ShowNumberWithColors isHover={this.state.isHover} num={new BigNumber(size)} />
@@ -159,7 +165,7 @@ class OrderToRow extends React.Component<OrderToRowProps> {
                 </CustomTD>
   
                 <CustomTD as="div" styles={{ tabular: true, textAlign: 'center' }}>
-                    {order.status}
+                    {string_of_enum(OrderStatus, order.status)}
                 </CustomTD>
 
 
