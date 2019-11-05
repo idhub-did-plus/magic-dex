@@ -27,10 +27,10 @@ export const createFillOrderSteps = (
 ): Step[] => {
     const sprices = targetOrder.price.toFixed(15);
     const sprice = targetOrder.price.toFixed(5);
-   
+
     const price: BigNumber = new BigNumber(sprice).plus(new BigNumber(0.00001));
 
-        const side: OrderSide = targetOrder.side == OrderSide.Buy?OrderSide.Sell:OrderSide.Buy;
+    const side: OrderSide = targetOrder.side == OrderSide.Buy ? OrderSide.Sell : OrderSide.Buy;
     const makerFee: BigNumber = targetOrder.rawOrder.takerFee;
     const fillOrderFlow: Step[] = [];
     let unlockBaseOrQuoteTokenStep;
@@ -40,9 +40,9 @@ export const createFillOrderSteps = (
     unlockBaseOrQuoteTokenStep =
         side === OrderSide.Buy
             ? // If it's a buy -> the quote token has to be unlocked
-              getUnlockTokenStepIfNeeded(quoteToken, tokenBalances, wethTokenBalance)
+            getUnlockTokenStepIfNeeded(quoteToken, tokenBalances, wethTokenBalance)
             : // If it's a sell -> the base token has to be unlocked
-              getUnlockTokenStepIfNeeded(baseToken, tokenBalances, wethTokenBalance);
+            getUnlockTokenStepIfNeeded(baseToken, tokenBalances, wethTokenBalance);
 
     if (unlockBaseOrQuoteTokenStep) {
         fillOrderFlow.push(unlockBaseOrQuoteTokenStep);

@@ -116,7 +116,7 @@ export interface StepToggleTokenLock {
     kind: StepKind.ToggleTokenLock;
     token: Token;
     isUnlocked: boolean;
-    context: 'order' | 'standalone';
+    context: 'order' | 'standalone' | 'fill_order';
 }
 
 export interface StepUnlockCollectibles {
@@ -256,7 +256,7 @@ interface LimitNotification extends BaseNotification {
     side: OrderSide;
 }
 
-export interface OrderFilledNotification extends BaseNotification {
+export interface OrderFilledNotification extends TransactionNotification {
     kind: NotificationKind.OrderFilled;
     amount: BigNumber;
     token: Token;
@@ -268,7 +268,7 @@ export type Notification = CancelOrderNotification | MarketNotification | LimitN
 export enum OrderType {
     Limit = 'Limit',
     Market = 'Market',
-    Fill = "Fill"
+ 
 }
 
 export interface GasInfo {
