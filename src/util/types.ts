@@ -144,6 +144,7 @@ export interface StepFillOrder {
     amount: BigNumber;
     token: Token;
     targetOrder : UIOrder;
+    waitingAMoment: boolean
 }
 export interface StepSellCollectible {
     kind: StepKind.SellCollectible;

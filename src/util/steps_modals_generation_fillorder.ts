@@ -67,7 +67,8 @@ export const createFillOrderSteps = (
         kind: StepKind.FillOrder,
         amount,
         token: baseToken,
-        targetOrder
+        targetOrder,
+        waitingAMoment:true
     });
     return fillOrderFlow;
 };
