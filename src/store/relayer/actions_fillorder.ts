@@ -53,7 +53,6 @@ export const submitFillOrder: ThunkCreator<Promise<{ txHash: string; amountInRet
                     amount,
                     token: baseToken,
                     side,
-                    tx,
                     timestamp: new Date(),
                 },
             ]),

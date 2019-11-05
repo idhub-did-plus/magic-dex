@@ -256,7 +256,7 @@ interface LimitNotification extends BaseNotification {
     side: OrderSide;
 }
 
-export interface OrderFilledNotification extends TransactionNotification {
+export interface OrderFilledNotification extends BaseNotification {
     kind: NotificationKind.OrderFilled;
     amount: BigNumber;
     token: Token;
