@@ -116,7 +116,7 @@ export interface StepToggleTokenLock {
     kind: StepKind.ToggleTokenLock;
     token: Token;
     isUnlocked: boolean;
-    context: 'order' | 'standalone';
+    context: 'order' | 'standalone' | 'fill_order';
 }
 
 export interface StepUnlockCollectibles {
@@ -144,6 +144,7 @@ export interface StepFillOrder {
     amount: BigNumber;
     token: Token;
     targetOrder : UIOrder;
+    waitingAMoment: boolean
 }
 export interface StepSellCollectible {
     kind: StepKind.SellCollectible;

@@ -8,6 +8,7 @@ import { OrderSide, Step, ThunkCreator, Token, TokenBalance, UIOrder } from '../
 import * as selectors from '../selectors';
 import { setStepsModalCurrentStep, setStepsModalDoneSteps, setStepsModalPendingSteps } from './actions';
 import { createFillOrderSteps } from '../../util/steps_modals_generation_fillorder';
+import { checkPropTypes } from 'prop-types';
 
 
 
@@ -19,40 +20,19 @@ export const startFillOrderSteps: ThunkCreator = (amount: BigNumber, targetOrder
         const quoteToken = selectors.getQuoteToken(state) as Token;
         const tokenBalances = selectors.getTokenBalances(state) as TokenBalance[];
         const wethTokenBalance = selectors.getWethTokenBalance(state) as TokenBalance;
-        const ethBalance = selectors.getEthBalance(state);
         const totalEthBalance = selectors.getTotalEthBalance(state);
         const quoteTokenBalance = selectors.getQuoteTokenBalance(state);
         const baseTokenBalance = selectors.getBaseTokenBalance(state);
  
 
-        if (side === OrderSide.Sell) {
-            // When selling, user should have enough BASE Token
-            if (baseTokenBalance && baseTokenBalance.balance.isLessThan(amount)) {
-                throw new InsufficientTokenBalanceException(baseToken.symbol);
-            }
-        } else {
-            // When buying and
-            // if quote token is weth, should have enough ETH + WETH balance, or
-            // if quote token is not weth, should have enough quote token balance
-            const ifEthAndWethNotEnoughBalance =
-                isWeth(quoteToken.symbol) && totalEthBalance.isLessThan(amount.multipliedBy(targetOrder.price));
-            const ifOtherQuoteTokenAndNotEnoughBalance =
-                !isWeth(quoteToken.symbol) &&
-                quoteTokenBalance &&
-                quoteTokenBalance.balance.isLessThan(amount);
-            if (ifEthAndWethNotEnoughBalance || ifOtherQuoteTokenAndNotEnoughBalance) {
-                throw new InsufficientTokenBalanceException(quoteToken.symbol);
-            }
-        }
+        check(side, baseTokenBalance, amount, baseToken, quoteToken, totalEthBalance, targetOrder, quoteTokenBalance);
    
         const fillorderFlow: Step[] = createFillOrderSteps(
             baseToken,
             quoteToken,
             tokenBalances,
             wethTokenBalance,
-           
             amount,
-
             targetOrder
         );
 
@@ -61,3 +41,24 @@ export const startFillOrderSteps: ThunkCreator = (amount: BigNumber, targetOrder
         dispatch(setStepsModalDoneSteps([]));
     };
 };
+function check(side: OrderSide, baseTokenBalance: TokenBalance | null, amount: BigNumber, baseToken: Token, quoteToken: Token, totalEthBalance: BigNumber, targetOrder: UIOrder, quoteTokenBalance: TokenBalance | null) {
+    if (side === OrderSide.Sell) {
+        // When selling, user should have enough BASE Token
+        if (baseTokenBalance && baseTokenBalance.balance.isLessThan(amount)) {
+            throw new InsufficientTokenBalanceException(baseToken.symbol);
+        }
+    }
+    else {
+        // When buying and
+        // if quote token is weth, should have enough ETH + WETH balance, or
+        // if quote token is not weth, should have enough quote token balance
+        const ifEthAndWethNotEnoughBalance = isWeth(quoteToken.symbol) && totalEthBalance.isLessThan(amount.multipliedBy(targetOrder.price));
+        const ifOtherQuoteTokenAndNotEnoughBalance = !isWeth(quoteToken.symbol) &&
+            quoteTokenBalance &&
+            quoteTokenBalance.balance.isLessThan(amount);
+        if (ifEthAndWethNotEnoughBalance || ifOtherQuoteTokenAndNotEnoughBalance) {
+            throw new InsufficientTokenBalanceException(quoteToken.symbol);
+        }
+    }
+}
+

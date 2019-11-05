@@ -208,7 +208,7 @@ export const getUnlockTokenStepIfNeeded = (
             kind: StepKind.ToggleTokenLock,
             token: tokenBalance.token,
             isUnlocked: false,
-            context: 'order',
+            context: 'fill_order',
         };
     }
 };
