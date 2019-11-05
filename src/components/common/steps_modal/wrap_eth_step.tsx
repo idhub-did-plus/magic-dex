@@ -29,6 +29,7 @@ import { StepWrapEth, StoreState } from '../../../util/types';
 
 import { BaseStepModal } from './base_step_modal';
 import { StepItem } from './steps_progress';
+import { getWeb3Wrapper } from '../../../services/web3_wrapper';
 
 interface OwnProps {
     buildStepsProgress: (currentStepItem: StepItem) => StepItem[];
@@ -117,6 +118,8 @@ class WrapEthStep extends React.Component<Props, State> {
         const updateBalances = this.props.updateTokenBalances;
         try {
             const convertTxHash = await updateWeth(newWethBalance);
+            const web3Wrapper = await getWeb3Wrapper();
+            await web3Wrapper.awaitTransactionSuccessAsync(convertTxHash);
             onLoading();
             convertBalanceState.request();
             await updateBalances(convertTxHash);
