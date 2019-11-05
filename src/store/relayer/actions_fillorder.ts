@@ -21,8 +21,6 @@ export const submitFillOrder: ThunkCreator<Promise<{ txHash: string; amountInRet
         const ethAccount = getEthAccount(state);
         const gasPrice = getGasPriceInWei(state);
 
-        const baseToken = getBaseToken(state) as Token;
-        const quoteToken = getQuoteToken(state) as Token;
         const contractWrappers = await getContractWrappers();
         let ma = targetOrder.side == OrderSide.Sell ? amount.multipliedBy(targetOrder.price.toFixed(10)) : amount;
         console.log(ma.toString())
@@ -39,6 +37,10 @@ export const submitFillOrder: ThunkCreator<Promise<{ txHash: string; amountInRet
         const web3Wrapper = await getWeb3Wrapper();
         const tx = web3Wrapper.awaitTransactionSuccessAsync(txHash);
         const side: OrderSide = targetOrder.side == OrderSide.Buy ? OrderSide.Sell : OrderSide.Buy;
+
+        
+        const baseToken = getBaseToken(state) as Token;
+        const quoteToken = getQuoteToken(state) as Token;
         // tslint:disable-next-line:no-floating-promises
         dispatch(getOrderbookAndUserOrders());
         // tslint:disable-next-line:no-floating-promises
@@ -47,7 +49,7 @@ export const submitFillOrder: ThunkCreator<Promise<{ txHash: string; amountInRet
             addNotifications([
                 {
                     id: txHash,
-                    kind: NotificationKind.Market,
+                    kind: NotificationKind.OrderFilled,
                     amount,
                     token: baseToken,
                     side,
