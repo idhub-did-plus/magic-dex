@@ -52,8 +52,8 @@ const StyledButton = styled.button<{ variant?: ButtonVariant }>`
     color: ${props => props.theme.componentsTheme.buttonTextColor};
     cursor: pointer;
     display: flex;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    // font-weight: 600;
     justify-content: center;
     line-height: 1.2;
     padding: 15px;

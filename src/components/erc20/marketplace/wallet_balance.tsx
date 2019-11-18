@@ -37,7 +37,7 @@ const Label = styled.span`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     display: flex;
     flex-shrink: 0;
-    font-size: 16px;
+    font-size: 13px;
     line-height: 1.2;
 `;
 
@@ -45,8 +45,8 @@ const Value = styled.span`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     font-feature-settings: 'tnum' 1;
     flex-shrink: 0;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 13px;
+    // font-weight: 600;
     line-height: 1.2;
     text-align: right;
     white-space: nowrap;
@@ -66,7 +66,7 @@ const WalletStatusBadge = styled.div<{ web3State?: Web3State }>`
 const WalletStatusTitle = styled.h3`
     color: ${props => props.theme.componentsTheme.textLight};
     font-size: 14px;
-    font-weight: 500;
+    // font-weight: 500;
     line-height: 1.2;
     margin: 0;
     padding: 0;
@@ -106,7 +106,7 @@ const WalletErrorContainer = styled.div`
 `;
 
 const WalletErrorText = styled.p`
-    font-size: 16px;
+    font-size: 14px;
     font-weight: normal;
     line-height: 23px;
     margin: 0;
@@ -203,7 +203,7 @@ class WalletBalance extends React.Component<Props, State> {
         const { web3State } = this.props;
         const walletContent = this._getWalletContent();
         return (
-            <Card title={getWalletTitle(web3State)} action={getWallet(web3State)} minHeightBody={'0px'}>
+            <Card  style={{background:'#202123'}} title={getWalletTitle(web3State)} action={getWallet(web3State)} minHeightBody={'0px'}>
                 {walletContent}
             </Card>
         );

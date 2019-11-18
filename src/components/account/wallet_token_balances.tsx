@@ -61,7 +61,7 @@ const CustomTDLockIcon = styled(CustomTD)`
 `;
 
 const TokenName = styled.span`
-    font-weight: 700;
+    // font-weight: 700;
 `;
 
 const TBody = styled.tbody`

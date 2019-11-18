@@ -106,8 +106,8 @@ const CollectibleMainInfo = styled.div`
 
 const CollectibleMainInfoTitle = styled.h3`
     color: ${props => props.theme.componentsTheme.textColorCommon};
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 400;
     line-height: 1.2;
     margin: 0 0 8px;
 `;
@@ -168,7 +168,7 @@ const InputStyle = css`
     border: 1px solid ${props => props.theme.componentsTheme.textInputBorderColor};
     color: ${props => props.theme.componentsTheme.textInputTextColor};
     font-feature-settings: 'tnum' 1;
-    font-size: 16px;
+    font-size: 14px;
     padding-left: 14px;
     width: 100%;
 `;
@@ -212,6 +212,7 @@ const TokenText = styled.span`
 const ButtonStyled = styled(Button)`
     margin-top: 6px;
     width: 100%;
+    font-size:14px;
 `;
 
 const SwitchWrapper = styled.div<{ isActive?: boolean }>`

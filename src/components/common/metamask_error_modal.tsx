@@ -34,7 +34,7 @@ const ModalContent = styled.div`
 const ModalTitle = styled.h1`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     font-size: 20px;
-    font-weight: 600;
+    // font-weight: 600;
     line-height: 1.2;
     margin: 0 0 25px;
     text-align: center;
@@ -42,7 +42,7 @@ const ModalTitle = styled.h1`
 
 const ModalText = styled.p`
     color: ${props => props.theme.componentsTheme.textColorCommon};
-    font-size: 16px;
+    font-size: 14px;
     font-weight: normal;
     line-height: 1.5;
     margin: 0 0 25px;

@@ -66,7 +66,7 @@ const LabelContainer = styled.div`
 const Label = styled.label<{ color?: string }>`
     color: ${props => props.color || props.theme.componentsTheme.textColorCommon};
     font-size: 14px;
-    font-weight: 500;
+    // font-weight: 500;
     line-height: normal;
     margin: 0;
 `;
@@ -74,11 +74,12 @@ const Label = styled.label<{ color?: string }>`
 
 const HeadLabel = styled.label<{ color?: string }>`
     color: ${props => props.color || props.theme.componentsTheme.textColorCommon};
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 14px;
+    // font-weight: 500;
     line-height: normal;
     align:center
-    padding-left: 10px;
+    padding-left: 16px;
+    padding-top: 10px;
 `;
 const FieldContainer = styled.div`
     height: ${themeDimensions.fieldHeight};
@@ -92,7 +93,7 @@ const BigInputNumberStyled = styled<any>(BigNumberInput)`
     border: 1px solid ${props => props.theme.componentsTheme.textInputBorderColor};
     color: ${props => props.theme.componentsTheme.textInputTextColor};
     font-feature-settings: 'tnum' 1;
-    font-size: 16px;
+    font-size: 14px;
     height: 100%;
     padding-left: 14px;
     padding-right: 60px;
@@ -106,7 +107,7 @@ const BigNumberOutput = styled.input`
     border: 1px solid ${props => props.theme.componentsTheme.textInputBorderColor};
     color: ${props => props.theme.componentsTheme.textInputTextColor};
     font-feature-settings: 'tnum' 1;
-    font-size: 16px;
+    font-size: 14px;
     height: 100%;
     padding-left: 14px;
     padding-right: 60px;

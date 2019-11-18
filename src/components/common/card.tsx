@@ -35,9 +35,9 @@ const CardHeader = styled.div`
 
 const CardTitle = styled.h1`
     color: ${props => props.theme.componentsTheme.cardTitleColor};
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 400;
     line-height: 1.2;
     margin: 0;
     padding: 0 20px 0 0;

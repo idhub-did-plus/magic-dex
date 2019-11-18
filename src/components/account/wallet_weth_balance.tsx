@@ -83,7 +83,7 @@ const LabelWrapper = styled.span`
 const Label = styled.span`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     flex-shrink: 0;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.2;
     margin-right: 15px;
 `;
@@ -92,8 +92,8 @@ const Value = styled.div`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     flex-shrink: 0;
     font-feature-settings: 'tnum' 1;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 14px;
+    // font-weight: 700;
     line-height: 1.2;
     white-space: nowrap;
 `;
@@ -138,8 +138,8 @@ const Button = styled.button`
 
 const ButtonLabel = styled.span`
     color: ${props => props.theme.componentsTheme.buttonConvertTextColor};
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 14px;
+    // font-weight: 700;
     line-height: 1.2;
     margin-right: 10px;
     user-select: none;
@@ -147,7 +147,7 @@ const ButtonLabel = styled.span`
 
 const Note = styled.p`
     color: #ababab;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: normal;
     line-height: 24px;
     margin: -10px 0 30px;

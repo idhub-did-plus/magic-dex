@@ -32,8 +32,8 @@ const MyWalletLink = styled.a`
     align-items: center;
     color: ${props => props.theme.componentsTheme.myWalletLinkColor};
     display: flex;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 14px;
+    // font-weight: 500;
     text-decoration: none;
 
     &:hover {

@@ -83,10 +83,10 @@ export const CustomTD = styled.td<TableTDProps>`
         props.styles && props.styles.borderTop ? `1px solid ${props.theme.componentsTheme.tableBorderColor}` : 'none'};
     color: ${props => (props.styles && props.styles.color ? props.styles.color : props.theme.componentsTheme.tdColor)};
     font-feature-settings: 'tnum' ${props => (props.styles && props.styles.tabular ? '1' : '0')};
-    font-size: 14px;
+    font-size: 13px;
     font-weight: ${props => (props.styles && props.styles.fontWeight ? props.styles.fontWeight : 'normal')};
     line-height: ${props => (props.styles && props.styles.lineWeight ? props.styles.lineWeight : '1.2')};
-    padding: 5px ${themeDimensions.horizontalPadding} 5px 0;
+    padding: 8px ${themeDimensions.horizontalPadding} 8px 0;
     text-align: ${props =>
         props.styles && props.styles.textAlign && props.styles.textAlign.length ? props.styles.textAlign : 'left'};
 

@@ -123,16 +123,19 @@ export interface ThemeMetaData {
 }
 
 export const themeDimensions = {
-    borderRadius: '4px',
+    // borderRadius: '3px',
+    borderRadius:'0',
     fieldHeight: '46px',
     footerHeight: '38px',
     horizontalPadding: '16px',
-    mainPadding: '1px',
+    // mainPadding: '1px',
+    mainPadding:"0", 
     sidebarWidth: '350px',
     toolbarHeight: '64px',
     verticalPadding: '10px',
     verticalSeparation: '30px',
-    verticalSeparationSm: '1px',
+    // verticalSeparationSm: '1px',
+    verticalSeparationSm:'0'
 };
 
 export const themeBreakPoints = {

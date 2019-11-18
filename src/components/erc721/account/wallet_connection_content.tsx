@@ -43,8 +43,8 @@ const DropdownHeader = styled.div`
 
 const DropdownHeaderTitle = styled.div`
     color: ${props => props.theme.componentsTheme.textColorCommon};
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 400;
     line-height: 1.3;
 `;
 
@@ -53,7 +53,7 @@ const WalletAddress = styled.div`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     display: flex;
     font-feature-settings: 'calt' 0;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.3;
 `;
 

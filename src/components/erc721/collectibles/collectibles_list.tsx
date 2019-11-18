@@ -88,7 +88,7 @@ const CollectiblesListFilterStyled = styled(CollectiblesListFilter)`
 const Title = styled.h1`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     font-size: 18px;
-    font-weight: 600;
+    // font-weight: 600;
     line-height: 1.2;
     margin: 0 0 25px;
 

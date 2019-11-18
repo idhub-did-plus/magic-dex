@@ -43,8 +43,8 @@ const SearchStyled = styled(InputSearch)`
     background-color: ${props => props.theme.componentsTheme.modalSearchFieldBackgroundColor};
     border-color: ${props => props.theme.componentsTheme.modalSearchFieldBackgroundColor};
     color: ${props => props.theme.componentsTheme.modalSearchFieldTextColor};
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 400;
     outline: none;
     width: 100%;
 
@@ -75,7 +75,7 @@ const FiltersMenu = styled.div`
 const CollectiblesListCount = styled.p`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     flex-grow: 1;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.2;
     margin: 0 0 25px;
     padding: 0;

@@ -46,7 +46,7 @@ const HeaderWrapper = styled.div`
 const Title = styled.h1`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     font-size: 24px;
-    font-weight: 600;
+    // font-weight: 600;
     line-height: 1.2;
     margin: 20px 0 25px;
 
@@ -58,7 +58,7 @@ const Title = styled.h1`
 
 const Description = styled.p`
     color: ${props => props.theme.componentsTheme.textColorCommon};
-    font-size: 16px;
+    font-size: 14px;
     font-weight: normal;
     line-height: 1.7;
     max-width: 635px;

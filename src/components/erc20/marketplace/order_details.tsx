@@ -36,7 +36,7 @@ const Value = styled.div`
 
 const CostValue = styled(Value)`
     font-feature-settings: 'tnum' 1;
-    font-weight: bold;
+    font-weight: 400;
 `;
 
 const LabelContainer = styled.div`
@@ -62,7 +62,7 @@ const FeeLabel = styled(Label)`
 `;
 
 const CostLabel = styled(Label)`
-    font-weight: 700;
+    font-weight: 400;
 `;
 
 interface OwnProps {

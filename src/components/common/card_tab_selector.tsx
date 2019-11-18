@@ -16,7 +16,7 @@ const CardTabSelectorWrapper = styled.div`
     color: ${props => props.theme.componentsTheme.lightGray};
     display: flex;
     font-size: 14px;
-    font-weight: 500;
+    // font-weight: 500;
     justify-content: space-between;
     line-height: 1.2;
 `;
@@ -31,7 +31,7 @@ const CardTabSelectorItem = styled.span<ItemProps>`
 const CardTabSelectorItemSeparator = styled.span<ItemProps>`
     color: #dedede;
     cursor: default;
-    font-weight: 400;
+    // font-weight: 400;
     padding: 0 5px;
     user-select: none;
 

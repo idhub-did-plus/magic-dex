@@ -28,7 +28,8 @@ const modalThemeStyle: ThemeModalStyle = {
 };
 
 const darkThemeColors: ThemeProperties = {
-    background: '#000',
+    // background: '#000',
+    background:'#1D1E1F',
     backgroundERC721: '#000',
     borderColor: '#5A5A5A',
     boxShadow: '0 10px 10px rgba(0, 0, 0, 0.1)',
@@ -45,8 +46,10 @@ const darkThemeColors: ThemeProperties = {
     buttonTertiaryBackgroundColor: '#F6851B',
     buttonTextColor: '#fff',
     cardImageBackgroundColor: '#EBF0F5',
-    cardBackgroundColor: '#202123',
-    cardBorderColor: '#000',
+    // cardBackgroundColor: '#202123',
+    cardBackgroundColor:'#1D1E1F',
+    // cardBorderColor: '#000',
+    cardBorderColor:'#2D3136',
     cardTitleColor: '#fff',
     cardTitleOwnerColor: '#3CB34F',
     chartColor: '#00AE99',
@@ -97,7 +100,8 @@ const darkThemeColors: ThemeProperties = {
     stepsProgressStepLineProgressColor: '#fff',
     stepsProgressStepTitleColor: '#5A5A5A',
     stepsProgressStepTitleColorActive: '#fff',
-    tableBorderColor: '#000',
+    // tableBorderColor: '#000',
+    tableBorderColor: '#2D3136',
     tdColor: '#fff',
     textColorCommon: '#fff',
     textDark: '#666',
@@ -110,7 +114,8 @@ const darkThemeColors: ThemeProperties = {
     tooltipBackgroundColor: '#000',
     tooltipTextColor: '#fff',
     topbarBackgroundColor: '#202123',
-    topbarBorderColor: '#000',
+    // topbarBorderColor: '#000',
+    topbarBorderColor: '#2D3136',
     topbarSeparatorColor: '#5A5A5A',
    
 };

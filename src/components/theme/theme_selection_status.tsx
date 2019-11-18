@@ -19,8 +19,8 @@ const WalletConnectionStatusDotStyled = styled(ThemeSelectionStatusDot)`
 const WalletConnectionStatusText = styled.span`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     font-feature-settings: 'calt' 0;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 14px;
+    // font-weight: 500;
     margin-right: 10px;
 `;
 

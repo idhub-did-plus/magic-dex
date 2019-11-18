@@ -59,8 +59,8 @@ const NotificationsList = styled.div`
 const NotificationDropdownTitle = styled.h1`
     border-bottom: 1px solid ${props => props.theme.componentsTheme.dropdownBorderColor};
     color: ${props => props.theme.componentsTheme.textColorCommon};
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    // font-weight: 600;
     line-height: 1.2;
     margin: 0;
     padding: 15px ${themeDimensions.horizontalPadding};

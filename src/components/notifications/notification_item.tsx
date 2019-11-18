@@ -63,16 +63,16 @@ const NotificationContent = styled.div`
 
 const NotificationTitle = styled.h2`
     color: ${props => props.theme.componentsTheme.textColorCommon};
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    // font-weight: 600;
     line-height: 1.2;
     margin: 0 0 8px;
 `;
 
 const NotificationText = styled.p`
     color: ${props => props.theme.componentsTheme.textLight};
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 14px;
+    // font-weight: 400;
     line-height: 1.2;
     margin: 0;
 `;

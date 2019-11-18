@@ -35,7 +35,7 @@ interface State {
     selectedWeth: BigNumber;
 }
 
-const sliderThumbDimensions = '16px';
+const sliderThumbDimensions = '14px';
 const sliderTrackProps = `
     background: #999;
     border-radius: 2.5px;
@@ -114,7 +114,7 @@ const Button = styled(ButtonBase)`
 const Title = styled.h1<{ marginBottomSmall: any }>`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     font-size: 20px;
-    font-weight: 600;
+    // font-weight: 600;
     line-height: 1.2;
     margin: ${props => (props.marginBottomSmall ? '0 0 5px' : '0')};
     text-align: center;
@@ -131,7 +131,7 @@ const ETHPrice = styled.h2`
 `;
 
 const EthBoxes = styled.div`
-    column-gap: 16px;
+    column-gap: 14px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin-bottom: 15px;
@@ -185,7 +185,7 @@ const EthBoxValue = styled.h2<EthBoxProps>`
             : props.theme.componentsTheme.ethBoxActiveColor};
     font-feature-settings: 'tnum' 1;
     font-size: 24px;
-    font-weight: 600;
+    // font-weight: 600;
     line-height: 1.2;
     margin: 0 0 5px;
     padding: 0;
@@ -196,7 +196,7 @@ const EthBoxValue = styled.h2<EthBoxProps>`
 const EthBoxUnit = styled.h4`
     color: ${props => props.theme.componentsTheme.textLight};
     font-size: 14px;
-    font-weight: 400;
+    // font-weight: 400;
     line-height: 1.2;
     margin: 0;
     text-align: center;
@@ -206,7 +206,7 @@ const SetMinEthWrapper = styled.p<{ hideWarning: boolean }>`
     color: ${props => props.theme.componentsTheme.textLight};
     font-size: 13px;
     font-style: italic;
-    font-weight: 500;
+    // font-weight: 500;
     line-height: 1.2;
     margin: 0 0 25px;
     text-align: center;

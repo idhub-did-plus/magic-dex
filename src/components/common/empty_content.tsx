@@ -13,8 +13,8 @@ const EmptyContentWrapper = styled.div<EmptyWrapperProps>`
     align-items: center;
     color: ${props => props.theme.componentsTheme.lightGray};
     display: flex;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 14px;
+    // font-weight: 500;
     height: 100%;
     justify-content: center;
     width: 100%;

@@ -58,8 +58,8 @@ const MarketsDropdownHeader = styled.div`
 
 const MarketsDropdownHeaderText = styled.span`
     color: ${props => props.theme.componentsTheme.textColorCommon};
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 14px;
+    // font-weight: 600;
     line-height: 26px;
     margin-right: 10px;
 `;
@@ -82,8 +82,8 @@ const MarketsFilters = styled.div`
 
 const MarketsFiltersLabel = styled.h2`
     color: ${props => props.theme.componentsTheme.textColorCommon};
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    // font-weight: 600;
     line-height: normal;
     margin: 0 auto 0 0;
 `;
@@ -98,8 +98,8 @@ const TokenFiltersTab = styled.span<TokenFiltersTabProps>`
     color: ${props =>
         props.active ? props.theme.componentsTheme.textColorCommon : props.theme.componentsTheme.lightGray};
     cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 12px;
+    // font-weight: 500;
     line-height: 1.2;
     user-select: none;
 
@@ -165,7 +165,7 @@ const verticalCellPadding = `
 `;
 
 const tableHeaderFontWeight = `
-    font-weight: 700;
+    // font-weight: 700;
 `;
 
 const TRStyled = styled(TR)<MarketRowProps>`
@@ -214,8 +214,8 @@ const TokenIconAndLabel = styled.div`
 
 const TokenLabel = styled.div`
     color: ${props => props.theme.componentsTheme.textColorCommon};
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 12px;
+    // font-weight: 700;
     line-height: 1.2;
     margin: 0 0 0 12px;
 `;

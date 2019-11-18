@@ -69,6 +69,7 @@ const TabsContainer = styled.div`
 `;
 
 const TabButton = styled.div<{ isSelected: boolean; side: OrderSide }>`
+    font-size:14px;
     align-items: center;
     background-color: ${props =>
         props.isSelected ? 'transparent' : props.theme.componentsTheme.inactiveTabBackgroundColor};
@@ -86,7 +87,7 @@ const TabButton = styled.div<{ isSelected: boolean; side: OrderSide }>`
             : props.theme.componentsTheme.textLight};
     cursor: ${props => (props.isSelected ? 'default' : 'pointer')};
     display: flex;
-    font-weight: 600;
+    // font-weight: 600;
     height: 47px;
     justify-content: center;
     width: 50%;
@@ -114,13 +115,13 @@ const LabelContainer = styled.div`
 const Label = styled.label<{ color?: string }>`
     color: ${props => props.color || props.theme.componentsTheme.textColorCommon};
     font-size: 14px;
-    font-weight: 500;
+    // font-weight: 500;
     line-height: normal;
     margin: 0;
 `;
 
 const InnerTabs = styled(CardTabSelector)`
-    font-size: 14px;
+    font-size: 12px;
 `;
 
 const FieldContainer = styled.div`
@@ -135,7 +136,7 @@ const BigInputNumberStyled = styled<any>(BigNumberInput)`
     border: 1px solid ${props => props.theme.componentsTheme.textInputBorderColor};
     color: ${props => props.theme.componentsTheme.textInputTextColor};
     font-feature-settings: 'tnum' 1;
-    font-size: 16px;
+    font-size: 14px;
     height: 100%;
     padding-left: 14px;
     padding-right: 60px;
@@ -155,7 +156,7 @@ const TokenContainer = styled.div`
 
 const TokenText = styled.span`
     color: ${props => props.theme.componentsTheme.textInputTextColor};
-    font-size: 14px;
+    font-size: 12px;
     font-weight: normal;
     line-height: 21px;
     text-align: right;
@@ -221,7 +222,7 @@ class BuySell extends React.Component<Props, State> {
 
         return (
             <>
-                <BuySellWrapper>
+                <BuySellWrapper style={{background:'#202123'}}>
                     <TabsContainer>
                         <TabButton
                             isSelected={tab === OrderSide.Buy}

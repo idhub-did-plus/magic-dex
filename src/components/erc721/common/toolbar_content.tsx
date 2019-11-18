@@ -27,7 +27,7 @@ const MyWalletLink = styled.a`
     align-items: center;
     color: #333;
     display: flex;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     text-decoration: none;
 
