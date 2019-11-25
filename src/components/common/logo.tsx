@@ -2,6 +2,7 @@ import React, { MouseEvent } from 'react';
 import styled from 'styled-components';
 
 import { themeBreakPoints } from '../../themes/commons';
+import logo1 from "../../assets/logo.png"
 
 interface Props {
     image: React.ReactNode;
@@ -31,7 +32,15 @@ const LogoText = styled.h1<{ textColor?: string }>`
         display: block;
     }
 `;
-
+const LogoBox = styled.div`
+    width:40px;
+    height:40px;
+    overflow:hidden;
+`;
+const LogoImg = styled.img`
+    width:175px;
+    height:40px;
+`;
 LogoText.defaultProps = {
     textColor: '#000',
 };
@@ -40,7 +49,11 @@ export const Logo: React.FC<Props> = props => {
     const { image, text, textColor, onClick, ...restProps } = props;
     return (
         <LogoLink onClick={onClick} {...restProps}>
-            {image}
+            {/* {image} */}
+            {/* <img src={logo1} alt="logo"/> */}
+            <LogoBox>
+                <LogoImg src={logo1} alt="logo"></LogoImg>
+            </LogoBox>
             <LogoText textColor={textColor}>{text}</LogoText>
         </LogoLink>
     );
