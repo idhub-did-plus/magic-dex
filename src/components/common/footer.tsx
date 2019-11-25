@@ -84,9 +84,10 @@ const poweredBySVG = () => {
 export const Footer: React.FC<Props> = props => {
     return (
         <FooterWrapper title={GIT_COMMIT} {...props}>
-            <a href="https://0x.org/" target="_blank" rel="noopener noreferrer">
+            {/* <a href="https://0x.org/" target="_blank" rel="noopener noreferrer">
                 {poweredBySVG()}
-            </a>
+            </a> */}
+            <span style={{color:'#B9B9B9',fontSize:'13px',fontFamily:'Inter var,sans-serif'}}>Powered by MagicCircle</span>
         </FooterWrapper>
     );
 };
