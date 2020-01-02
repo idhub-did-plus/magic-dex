@@ -19,7 +19,7 @@ export enum Network {
     Mainnet = 1,
     Rinkeby = 4,
     Kovan = 42,
-    Ganache = 50,
+    Ganache = 50
 }
 
 export interface Token {

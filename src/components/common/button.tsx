@@ -47,7 +47,7 @@ const StyledButton = styled.button<{ variant?: ButtonVariant }>`
             : ''}
 
     align-items: center;
-    border-radius: ${themeDimensions.borderRadius};
+    border-radius: 4px;
     border: none;
     color: ${props => props.theme.componentsTheme.buttonTextColor};
     cursor: pointer;
@@ -56,7 +56,7 @@ const StyledButton = styled.button<{ variant?: ButtonVariant }>`
     // font-weight: 600;
     justify-content: center;
     line-height: 1.2;
-    padding: 15px;
+    padding: 12px 15px;
     transition: background-color 0.25s ease-out;
     user-select: none;
 

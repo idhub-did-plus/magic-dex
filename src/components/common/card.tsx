@@ -17,6 +17,7 @@ const CardWrapper = styled(CardBase)`
     flex-direction: column;
     margin-bottom: ${themeDimensions.verticalSeparationSm};
     max-height: 100%;
+    border-right: 0;
 
     &:last-child {
         margin-bottom: 0;
@@ -35,7 +36,7 @@ const CardHeader = styled.div`
 
 const CardTitle = styled.h1`
     color: ${props => props.theme.componentsTheme.cardTitleColor};
-    font-size: 14px;
+    font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: 1.2;

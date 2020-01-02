@@ -88,7 +88,7 @@ export interface ThemeProperties {
     topbarBackgroundColor: string;
     topbarBorderColor: string;
     topbarSeparatorColor: string;
-  
+    liBackground: string;
 }
 
 export interface ThemeModalStyle {
@@ -127,12 +127,12 @@ export const themeDimensions = {
     borderRadius:'0',
     fieldHeight: '46px',
     footerHeight: '38px',
-    horizontalPadding: '16px',
+    horizontalPadding: '20px',
     // mainPadding: '1px',
     mainPadding:"0", 
     sidebarWidth: '350px',
-    toolbarHeight: '64px',
-    verticalPadding: '10px',
+    toolbarHeight: '80px',
+    verticalPadding: '12px',
     verticalSeparation: '30px',
     // verticalSeparationSm: '1px',
     verticalSeparationSm:'0'

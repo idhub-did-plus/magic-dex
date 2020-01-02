@@ -25,6 +25,7 @@ import { CardTabSelector } from '../../common/card_tab_selector';
 import { ErrorCard, ErrorIcons, FontSize } from '../../common/error_card';
 
 import { OrderDetailsContainer } from './order_details';
+import img from "../../../assets/Triangle 2@2x.png"
 
 interface StateProps {
     web3State: Web3State;
@@ -42,6 +43,9 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 interface State {
+    PendingOrderDisplay: string;
+    OptionDisplay: string;
+    checked: string;
     makerAmount: BigNumber | null;
     orderType: OrderType;
     price: BigNumber | null;
@@ -54,6 +58,7 @@ interface State {
 
 const BuySellWrapper = styled(CardBase)`
     margin-bottom: ${themeDimensions.verticalSeparationSm};
+    border: 0;
 `;
 
 const Content = styled.div`
@@ -66,43 +71,29 @@ const TabsContainer = styled.div`
     align-items: center;
     display: flex;
     justify-content: space-between;
+    padding: 20px ${themeDimensions.horizontalPadding};
+    padding-bottom: 0;
 `;
 
 const TabButton = styled.div<{ isSelected: boolean; side: OrderSide }>`
     font-size:14px;
     align-items: center;
     background-color: ${props =>
-        props.isSelected ? 'transparent' : props.theme.componentsTheme.inactiveTabBackgroundColor};
-    border-bottom-color: ${props => (props.isSelected ? 'transparent' : props.theme.componentsTheme.cardBorderColor)};
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-right-color: ${props => (props.isSelected ? props.theme.componentsTheme.cardBorderColor : 'transparent')};
-    border-right-style: solid;
-    border-right-width: 1px;
+        props.isSelected ? props.theme.componentsTheme.buttonBuyBackgroundColor : 'transparent'};
+    border-top: 1px solid ${props => props.theme.componentsTheme.cardBorderColor};
+    border-bottom: 1px solid ${props => props.theme.componentsTheme.cardBorderColor};
+    border-color: ${props => props.theme.componentsTheme.cardBorderColor};
     color: ${props =>
         props.isSelected
             ? props.side === OrderSide.Buy
-                ? props.theme.componentsTheme.green
-                : props.theme.componentsTheme.red
+                ? props.theme.componentsTheme.buttonTextColor
+                : props.theme.componentsTheme.buttonTextColor
             : props.theme.componentsTheme.textLight};
     cursor: ${props => (props.isSelected ? 'default' : 'pointer')};
     display: flex;
-    // font-weight: 600;
-    height: 47px;
+    height: 41px;
     justify-content: center;
     width: 50%;
-
-    &:first-child {
-        border-top-left-radius: ${themeDimensions.borderRadius};
-    }
-
-    &:last-child {
-        border-left-color: ${props => (props.isSelected ? props.theme.componentsTheme.cardBorderColor : 'transparent')};
-        border-left-style: solid;
-        border-left-width: 1px;
-        border-right: none;
-        border-top-right-radius: ${themeDimensions.borderRadius};
-    }
 `;
 
 const LabelContainer = styled.div`
@@ -113,9 +104,9 @@ const LabelContainer = styled.div`
 `;
 
 const Label = styled.label<{ color?: string }>`
-    color: ${props => props.color || props.theme.componentsTheme.textColorCommon};
-    font-size: 14px;
-    // font-weight: 500;
+    color: #949AA1;
+    font-size: 12px;
+    font-weight: 400;
     line-height: normal;
     margin: 0;
 `;
@@ -126,18 +117,22 @@ const InnerTabs = styled(CardTabSelector)`
 
 const FieldContainer = styled.div`
     height: ${themeDimensions.fieldHeight};
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     position: relative;
+    background-color: ${props => props.theme.componentsTheme.dropdownBackgroundColor}
+    border: 1px solid ${props => props.theme.componentsTheme.cardBorderColor};
+    border-radius: 4px;
 `;
 
 const BigInputNumberStyled = styled<any>(BigNumberInput)`
-    background-color: ${props => props.theme.componentsTheme.textInputBackgroundColor};
-    border-radius: ${themeDimensions.borderRadius};
-    border: 1px solid ${props => props.theme.componentsTheme.textInputBorderColor};
-    color: ${props => props.theme.componentsTheme.textInputTextColor};
+    background-color: ${props => props.theme.componentsTheme.dropdownBackgroundColor};
+    border: 0;
+    border-radius: 4px;
+    color: ${props => props.theme.componentsTheme.textColorCommon};
     font-feature-settings: 'tnum' 1;
-    font-size: 14px;
+    font-size: 12px;
     height: 100%;
+    padding: 0;
     padding-left: 14px;
     padding-right: 60px;
     position: absolute;
@@ -162,6 +157,55 @@ const TokenText = styled.span`
     text-align: right;
 `;
 
+const Select = styled.div`
+    display: inline-block;
+    width:85%;
+    height:100%;
+    border-right: 1px solid ${props => props.theme.componentsTheme.cardBorderColor};
+    color: ${props => props.theme.componentsTheme.textColorCommon};
+    font-size: 12px;
+    font-weight: normal;
+    text-align: left;
+    padding-left: 14px;
+    padding-top: 14px;
+`;
+const Icon = styled.div`
+    display: inline-block;
+    margin-left: 19px;
+    position: absolute;
+    top: 13px;
+    width: 9px;
+    height: 6px;
+    cursor: pointer;
+`;
+const Option = styled.ul`
+    width: 101%;
+    height:80px;
+    color: ${props => props.theme.componentsTheme.textInputTextColor};
+    font-size: 12px;
+    font-weight: normal;
+    padding: 0;
+    border: 1px solid ${props => props.theme.componentsTheme.cardBorderColor};
+    border-radius: 4px;
+    background-color: ${props => props.theme.componentsTheme.dropdownBackgroundColor};
+    position: relative;
+    z-index: 19;
+    top: -5px;
+`;
+
+const Li = styled.li`
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    list-style: none;
+    padding: 0 20px;
+    border-radius: 4px;
+
+    &:hover {
+        background-color: ${props => props.theme.componentsTheme.liBackground};
+    }
+`;
+
 const BigInputNumberTokenLabel = (props: { tokenSymbol: string }) => (
     <TokenContainer>
         <TokenText>{tokenSymbolToDisplayString(props.tokenSymbol)}</TokenText>
@@ -173,6 +217,9 @@ const TIMEOUT_CARD_ERROR = 4000;
 
 class BuySell extends React.Component<Props, State> {
     public state: State = {
+        PendingOrderDisplay: "block",
+        OptionDisplay: "none",
+        checked: "Pending Order",
         makerAmount: null,
         price: null,
         orderType: OrderType.Limit,
@@ -222,12 +269,13 @@ class BuySell extends React.Component<Props, State> {
 
         return (
             <>
-                <BuySellWrapper style={{background:'#202123'}}>
+                <BuySellWrapper style={{display:this.state.PendingOrderDisplay}}>
                     <TabsContainer>
                         <TabButton
                             isSelected={tab === OrderSide.Buy}
                             onClick={this.changeTab(OrderSide.Buy)}
                             side={OrderSide.Buy}
+                            style={{borderRadius:'4px 0 0 4px',borderLeftWidth:'1px',borderLeftStyle:'solid'}}
                         >
                             Buy
                         </TabButton>
@@ -235,11 +283,25 @@ class BuySell extends React.Component<Props, State> {
                             isSelected={tab === OrderSide.Sell}
                             onClick={this.changeTab(OrderSide.Sell)}
                             side={OrderSide.Sell}
+                            style={{borderRadius:'0 4px 4px 0',borderRightWidth:'1px',borderRightStyle:'solid'}}
                         >
                             Sell
                         </TabButton>
                     </TabsContainer>
                     <Content>
+                        <LabelContainer>
+                            <Label>Order Type</Label>
+                        </LabelContainer>
+                        <FieldContainer>
+                            <Select>{this.state.checked}</Select>
+                            <Icon>
+                                <img onClick={this.select} src={img} alt="" style={{width:'100%',height:'100%'}}/>
+                            </Icon>
+                            <Option style={{display:this.state.OptionDisplay}}>
+                                <Li onClick={this.checked1.bind(this,"Pending Order")}>Pending Order</Li>
+                                <Li onClick={this.checked2.bind(this,"Liquidation")}>Liquidation</Li>
+                            </Option>
+                        </FieldContainer>
                         <LabelContainer>
                             <Label>Amount</Label>
                             {/* <InnerTabs tabs={buySellInnerTabs} /> */}
@@ -300,6 +362,28 @@ class BuySell extends React.Component<Props, State> {
             </>
         );
     };
+
+
+    public select = () => {
+        this.setState({
+            OptionDisplay: this.state.OptionDisplay == "none"? "block":"none"
+        })
+    }
+    
+    public checked1 = (str: string) => {
+        this.setState({
+            checked: str,
+            OptionDisplay: "none",
+            PendingOrderDisplay: "block"
+        })
+    }
+    public checked2 = (str: string) => {
+        this.setState({
+            checked: str,
+            OptionDisplay: "none",
+            PendingOrderDisplay: "none"
+        })
+    }
 
     public changeTab = (tab: OrderSide) => () => this.setState({ tab });
 

@@ -16,6 +16,7 @@ import { Button } from '../../common/button';
 import { CardBase } from '../../common/card_base';
 import { ErrorCard, ErrorIcons, FontSize } from '../../common/error_card';
 import { OrderDetailsContainer } from './order_details';
+import img from "../../../assets/Triangle 2@2x.png"
 
 interface StateProps {
     web3State: Web3State;
@@ -32,6 +33,9 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 interface State {
+    LiquidationDisplay: string;
+    OptionDisplay: string;
+    checked: string;
     makerAmount: BigNumber;
     error: {
         btnMsg: string | null;
@@ -41,6 +45,7 @@ interface State {
 
 const FillOrderWrapper = styled(CardBase)`
     margin-bottom: ${themeDimensions.verticalSeparationSm};
+    border: 0;
 `;
 
 const Content = styled.div`
@@ -64,9 +69,9 @@ const LabelContainer = styled.div`
 `;
 
 const Label = styled.label<{ color?: string }>`
-    color: ${props => props.color || props.theme.componentsTheme.textColorCommon};
-    font-size: 14px;
-    // font-weight: 500;
+    color: #949AA1;
+    font-size: 12px;
+    font-weight: 400;
     line-height: normal;
     margin: 0;
 `;
@@ -74,7 +79,7 @@ const Label = styled.label<{ color?: string }>`
 
 const HeadLabel = styled.label<{ color?: string }>`
     color: ${props => props.color || props.theme.componentsTheme.textColorCommon};
-    font-size: 14px;
+    font-size: 12px;
     // font-weight: 500;
     line-height: normal;
     align:center
@@ -83,18 +88,22 @@ const HeadLabel = styled.label<{ color?: string }>`
 `;
 const FieldContainer = styled.div`
     height: ${themeDimensions.fieldHeight};
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     position: relative;
+    background-color: ${props => props.theme.componentsTheme.dropdownBackgroundColor}
+    border: 1px solid ${props => props.theme.componentsTheme.cardBorderColor};
+    border-radius: 4px;
 `;
 
 const BigInputNumberStyled = styled<any>(BigNumberInput)`
-    background-color: ${props => props.theme.componentsTheme.textInputBackgroundColor};
-    border-radius: ${themeDimensions.borderRadius};
-    border: 1px solid ${props => props.theme.componentsTheme.textInputBorderColor};
-    color: ${props => props.theme.componentsTheme.textInputTextColor};
+    background-color: ${props => props.theme.componentsTheme.dropdownBackgroundColor};
+    border-radius: 4px;
+    border: 0;
+    color: ${props => props.theme.componentsTheme.textColorCommon};
     font-feature-settings: 'tnum' 1;
-    font-size: 14px;
+    font-size: 12px;
     height: 100%;
+    padding: 0;
     padding-left: 14px;
     padding-right: 60px;
     position: absolute;
@@ -102,12 +111,12 @@ const BigInputNumberStyled = styled<any>(BigNumberInput)`
     z-index: 1;
 `;
 const BigNumberOutput = styled.input`
-    background-color: ${props => props.theme.componentsTheme.textInputBackgroundColor};
-    border-radius: ${themeDimensions.borderRadius};
-    border: 1px solid ${props => props.theme.componentsTheme.textInputBorderColor};
-    color: ${props => props.theme.componentsTheme.textInputTextColor};
+    background-color: ${props => props.theme.componentsTheme.dropdownBackgroundColor};
+    border-radius: 4px;
+    border: 0;
+    color: ${props => props.theme.componentsTheme.textColorCommon};
     font-feature-settings: 'tnum' 1;
-    font-size: 14px;
+    font-size: 12px;
     height: 100%;
     padding-left: 14px;
     padding-right: 60px;
@@ -126,10 +135,58 @@ const TokenContainer = styled.div`
 
 const TokenText = styled.span`
     color: ${props => props.theme.componentsTheme.textInputTextColor};
-    font-size: 14px;
+    font-size: 12px;
     font-weight: normal;
     line-height: 21px;
     text-align: right;
+`;
+const Select = styled.div`
+    display: inline-block;
+    width:85%;
+    height:100%;
+    border-right: 1px solid ${props => props.theme.componentsTheme.cardBorderColor};
+    color: ${props => props.theme.componentsTheme.textColorCommon};
+    font-size: 12px;
+    font-weight: normal;
+    text-align: left;
+    padding-left: 14px;
+    padding-top: 14px;
+`;
+const Icon = styled.div`
+    display: inline-block;
+    margin-left: 19px;
+    position: absolute;
+    top: 13px;
+    width: 9px;
+    height: 6px;
+    cursor: pointer;
+`;
+const Option = styled.ul`
+    width: 101%;
+    height:80px;
+    color: ${props => props.theme.componentsTheme.textInputTextColor};
+    font-size: 12px;
+    font-weight: normal;
+    padding: 0;
+    border: 1px solid ${props => props.theme.componentsTheme.cardBorderColor};
+    border-radius: 4px;
+    background-color: ${props => props.theme.componentsTheme.dropdownBackgroundColor};
+    position: relative;
+    z-index: 19;
+    top: -5px;
+`;
+
+const Li = styled.li`
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    list-style: none;
+    padding: 0 20px;
+    border-radius: 4px;
+
+    &:hover {
+        background-color: rgba(48,48,48,1);
+    }
 `;
 
 const BigInputNumberTokenLabel = (props: { tokenSymbol: string }) => (
@@ -144,6 +201,9 @@ const TIMEOUT_CARD_ERROR = 4000;
 class FillOrder extends React.Component<Props, State> {
     
     public state: State = {
+        LiquidationDisplay: "block",
+        OptionDisplay: "none",
+        checked: "Pending Order",
         makerAmount  : this.getMakerAmount(this.props.orderSelected),
         error: {
             btnMsg: null,
@@ -204,11 +264,24 @@ class FillOrder extends React.Component<Props, State> {
 
         return (
             <>
-                <FillOrderWrapper>
+                <FillOrderWrapper style={{display:this.state.LiquidationDisplay}}>
                     <LabelContainer>
                         <HeadLabel>{'Fill Order'}</HeadLabel>
                     </LabelContainer>
                     <Content>
+                        <LabelContainer>
+                            <Label>Order Type</Label>
+                        </LabelContainer>
+                        <FieldContainer>
+                            <Select>{this.state.checked}</Select>
+                            <Icon>
+                                <img onClick={this.select} src={img} alt="" style={{width:'100%',height:'100%'}}/>
+                            </Icon>
+                            <Option style={{display:this.state.OptionDisplay}}>
+                                <Li onClick={this.checked1.bind(this,"Pending Order")}>Pending Order</Li>
+                                <Li onClick={this.checked2.bind(this,"Liquidation")}>Liquidation</Li>
+                            </Option>
+                        </FieldContainer>
                         <LabelContainer>
                             <Label>Amount</Label>
 
@@ -268,7 +341,27 @@ class FillOrder extends React.Component<Props, State> {
         );
     };
 
+    public select = () => {
+        this.setState({
+            OptionDisplay: this.state.OptionDisplay == "none"? "block":"none"
+        })
+    }
+    
+    public checked1 = (str: string) => {
+        this.setState({
+            checked: str,
+            OptionDisplay: "none",
+            LiquidationDisplay: "none"
+        })
+    }
 
+    public checked2 = (str: string) => {
+        this.setState({
+            checked: str,
+            OptionDisplay: "none",
+            LiquidationDisplay: "block"
+        })
+    }
 
     public updateMakerAmount = (newValue: BigNumber) => {
 

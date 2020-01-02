@@ -11,25 +11,24 @@ import { FillOrderContainer } from '../marketplace/fill_order';
 import { WalletBalanceContainer } from '../marketplace/wallet_balance';
 
 class Marketplace extends React.PureComponent {
+
     public render = () => {
         return (
             <Content>
                 <ColumnNarrow>
                     <WalletBalanceContainer />
-                    <BuySellContainer />
+                    <BuySellContainer/>
+                    <FillOrderContainer />
                 </ColumnNarrow>
                 <ColumnWide>
                     <OrderBookTableContainer />
                     <OrderHistoryContainer />
                 </ColumnWide>
-                <ColumnNarrow>
-                    
-                    <FillOrderContainer />
-                </ColumnNarrow>
                 <CheckMetamaskStateModalContainer />
             </Content>
         );
     };
+    
 }
 
 export { Marketplace };

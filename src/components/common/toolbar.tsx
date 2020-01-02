@@ -23,9 +23,9 @@ type Props = OwnProps & StateProps;
 
 export const separatorTopbar = css`
     &:after {
-        background-color: ${props => props.theme.componentsTheme.topbarSeparatorColor};
+        background-color:${props => props.theme.componentsTheme.cardBorderColor};
         content: '';
-        height: 26px;
+        height: 80px;
         margin-left: 17px;
         margin-right: 17px;
         width: 1px;

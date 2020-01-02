@@ -53,14 +53,17 @@ interface State {
 const Content = styled.div`
     margin: 0 -${themeDimensions.horizontalPadding};
     position: relative;
+    height: 300px;
+    border-left: 0;
 `;
 
 const Row = styled.div`
+    border-left: 0;
     align-items: center;
-    border-bottom: solid 1px ${props => props.theme.componentsTheme.tableBorderColor};
+    // border-bottom: solid 1px ${props => props.theme.componentsTheme.tableBorderColor};
     display: flex;
     justify-content: space-between;
-    padding: 15px ${themeDimensions.horizontalPadding};
+    padding: 10px ${themeDimensions.horizontalPadding};
     position: relative;
 
     &:first-child {
@@ -78,12 +81,13 @@ const LabelWrapper = styled.span`
     display: flex;
     flex-shrink: 0;
     margin-right: 15px;
+    height: 30px;
 `;
 
 const Label = styled.span`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     flex-shrink: 0;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.2;
     margin-right: 15px;
 `;
@@ -92,8 +96,8 @@ const Value = styled.div`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     flex-shrink: 0;
     font-feature-settings: 'tnum' 1;
-    font-size: 14px;
-    // font-weight: 700;
+    font-size: 12px;
+    font-weight: 400;
     line-height: 1.2;
     white-space: nowrap;
 `;
@@ -107,17 +111,16 @@ const Button = styled.button`
     cursor: pointer;
     display: flex;
     height: 40px;
-    left: 50%;
-    padding: 0 10px;
+    left: 30px;
+    top: 130px;
+    padding: 0 108px;
+    text-aligin: center;
     position: absolute;
-    transform: translate(-50%, -50%);
+    // transform: translate(-50%, -50%);
     transition: border 0.15s ease-out;
     z-index: 2;
 
-    &:hover {
-        border-color: #666;
-    }
-
+    
     &:active {
         opacity: 0.8;
     }
@@ -147,7 +150,7 @@ const ButtonLabel = styled.span`
 
 const Note = styled.p`
     color: #ababab;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: normal;
     line-height: 24px;
     margin: -10px 0 30px;
@@ -193,10 +196,6 @@ class WalletWethBalance extends React.PureComponent<Props, State> {
                         <Label>ETH</Label>
                         <Value>{formattedEth}</Value>
                     </Row>
-                    <Button disabled={isButtonConvertDisable} onClick={this.openModal}>
-                        <ButtonLabel>Convert</ButtonLabel>
-                        <ArrowUpDownIcon />
-                    </Button>
                     <Row>
                         <LabelWrapper>
                             <Label>wETH</Label>{' '}
@@ -221,21 +220,29 @@ class WalletWethBalance extends React.PureComponent<Props, State> {
                         totalEth={totalEth}
                         wethBalance={wethBalance}
                     />
+                    <Button disabled={isButtonConvertDisable} onClick={this.openModal}>
+                        <ButtonLabel>Convert</ButtonLabel>
+                    </Button>
                 </>
             );
         }
 
         return (
             <>
-                <Card title={inDropdown ? '' : 'ETH / wETH Balances'} className={className}>
-                    <Content>{content}</Content>
+                <Card title={inDropdown ? '' : 'ETH / wETH Balances'} className={className} style={{borderLeft:'0',borderBottom:'0'}}>
+                    <Content>
+                        {content}
+                        <div style={{marginTop:'70px'}}>
+                            {inDropdown ? null : (
+                                <Note>
+                                    wETH is used for trades on 0x
+                                    <br />1 wETH = 1 ETH
+                                </Note>
+                            )}    
+                        </div>
+                    </Content>
                 </Card>
-                {inDropdown ? null : (
-                    <Note>
-                        wETH is used for trades on 0x
-                        <br />1 wETH = 1 ETH
-                    </Note>
-                )}
+                
             </>
         );
     };

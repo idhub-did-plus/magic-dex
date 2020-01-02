@@ -58,8 +58,8 @@ const MarketsDropdownHeader = styled.div`
 
 const MarketsDropdownHeaderText = styled.span`
     color: ${props => props.theme.componentsTheme.textColorCommon};
-    font-size: 14px;
-    // font-weight: 600;
+    font-size: 12px;
+    font-weight:400;
     line-height: 26px;
     margin-right: 10px;
 `;
@@ -69,6 +69,8 @@ const MarketsDropdownBody = styled(CardBase)`
     max-height: 100%;
     max-width: 100%;
     width: 401px;
+    position: relative;
+    z-index: 20;
 `;
 
 const MarketsFilters = styled.div`

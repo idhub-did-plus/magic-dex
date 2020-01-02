@@ -52,7 +52,7 @@ class WalletConnectionContent extends React.PureComponent<Props> {
                 headerText={ethAccountText}
                 ethAccount={ethAccount}
                 {...restProps}
-            />
+            ></WalletConnectionStatusContainer>
         );
     };
 }

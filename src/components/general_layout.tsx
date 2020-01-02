@@ -42,7 +42,7 @@ export const GeneralLayout = (props: Props) => {
             {toolbar}
             <ContentScroll>
                 {children}
-                <Footer />
+                {/* <Footer /> */}
             </ContentScroll>
             <StepsModalContainer />
         </General>

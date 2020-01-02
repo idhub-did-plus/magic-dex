@@ -13,10 +13,9 @@ import { CurrencyPair, OrderSide, OrderType, StoreState, UIOrder, Web3State } fr
 
 const Row = styled.div`
     align-items: center;
-    border-top: dashed 1px ${props => props.theme.componentsTheme.borderColor};
     display: flex;
     justify-content: space-between;
-    padding: 12px 0;
+    padding: 5px 0;
     position: relative;
     z-index: 1;
 
@@ -29,7 +28,7 @@ const Value = styled.div`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     flex-shrink: 0;
     font-feature-settings: 'tnum' 1;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.2;
     white-space: nowrap;
 `;
@@ -47,9 +46,9 @@ const LabelContainer = styled.div`
 `;
 
 const Label = styled.label<{ color?: string }>`
-    color: ${props => props.color || props.theme.componentsTheme.textColorCommon};
-    font-size: 14px;
-    font-weight: 500;
+    color: ${props => props.color || props.theme.componentsTheme.textInputTextColor};
+    font-size: 12px;
+    font-weight: 400;
     line-height: normal;
     margin: 0;
 `;
@@ -57,7 +56,7 @@ const Label = styled.label<{ color?: string }>`
 const MainLabel = styled(Label)``;
 
 const FeeLabel = styled(Label)`
-    color: ${props => props.theme.componentsTheme.textColorCommon};
+    color: ${props => props.theme.componentsTheme.textInputTextColor};
     font-weight: normal;
 `;
 

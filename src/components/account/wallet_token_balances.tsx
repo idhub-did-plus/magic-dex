@@ -106,6 +106,7 @@ const unlockedIcon = () => {
     );
 };
 
+
 interface LockCellProps {
     isUnlocked: boolean;
     onClick: any;
@@ -208,7 +209,7 @@ class WalletTokenBalances extends React.PureComponent<Props> {
             );
         }
 
-        return <Card title="Token Balances">{content}</Card>;
+        return <Card title="Token Balances" style={{height:'100%',borderBottom:'0'}}>{content}</Card>;
     };
 }
 

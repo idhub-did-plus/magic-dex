@@ -149,7 +149,7 @@ class OrderToRow extends React.Component<OrderToRowProps> {
             filled = order.filled;
         const filledF = tokenAmountInUnits(filled, baseToken.decimals, UI_DECIMALS_DISPLAYED_ORDER_SIZE);
     
-        const color = order.side == OrderSide.Sell ? "#ff80b3" : "#4dff88"
+        const color = order.side == OrderSide.Sell ? "#FFDD5A55" : "#FF32B7AE"
         return (
             <GridRowInner
                 key={index}
@@ -158,8 +158,7 @@ class OrderToRow extends React.Component<OrderToRowProps> {
                 // tslint:disable-next-line jsx-no-lambda
                 onClick={() => {
                     this._setOrderSelected(order)
-                }
-                }
+                }}
             >
                 <CustomTD as="div" styles={{ tabular: true, textAlign: 'center', color: color }}>
                     {string_of_enum(OrderSide, order.side)}
@@ -274,7 +273,7 @@ class OrderBookTable extends React.Component<Props> {
             );
         }
 
-        return <OrderbookCard title="Orderbook">{content}</OrderbookCard>;
+        return <OrderbookCard title="Orderbook" >{content}</OrderbookCard>;
     };
 
 

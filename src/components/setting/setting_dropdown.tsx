@@ -37,7 +37,10 @@ interface MarketRowProps {
 }
 
 
-const SettingDropdownWrapper = styled(Dropdown)``;
+const SettingDropdownWrapper = styled(Dropdown)`
+    position: relative;
+    z-index: 2;
+`;
 
 const SettingDropdownHeader = styled.div`
     align-items: center;
@@ -47,7 +50,6 @@ const SettingDropdownHeader = styled.div`
 const SettingDropdownHeaderText = styled.span`
     color: ${props => props.theme.componentsTheme.textColorCommon};
     font-size: 18px;
-    // font-weight: 600;
     line-height: 26px;
     margin-right: 10px;
 `;
@@ -146,7 +148,7 @@ class SettingDropdown extends React.Component<Props, State> {
         const header = (
             <SettingDropdownHeader>
                 <SettingDropdownHeaderText>
-                   
+                    <span style={{fontSize:'12px',marginRight:'17px'}}>RELAYER URL</span>
                     {keyof(this.relayers, relayer)}
                 </SettingDropdownHeaderText>
                 <ChevronDownIcon />

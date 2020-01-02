@@ -8,6 +8,7 @@ import { CardBase } from '../common/card_base';
 import { DropdownTextItem } from '../common/dropdown_text_item';
 import {ThemeSelectionStatusContainer} from "./theme_selection_status"
 import { selectTheme } from '../../store/ui/actions';
+
 interface OwnProps extends HTMLAttributes<HTMLSpanElement> {}
 
 interface StateProps {
@@ -30,7 +31,7 @@ const DropdownItems = styled(CardBase)`
 class ThemeSelectionContent extends React.PureComponent<Props> {
     public render = () => {
         const { theme, ...restProps } = this.props;
-        const themeText = theme == "DARK_THEME"? "Dark" : 'Light';
+        const themeText = theme == "DARK_THEME"? "1" : 'Light';
 
         const content = (
             <DropdownItems>
@@ -39,13 +40,14 @@ class ThemeSelectionContent extends React.PureComponent<Props> {
             </DropdownItems>
         );
 
+        
         return (
             <ThemeSelectionStatusContainer
             themeSelectionContent={content}
                 headerText={themeText}
                 theme={theme}
                 {...restProps}
-            />
+            ></ThemeSelectionStatusContainer>
         );
     };
 
