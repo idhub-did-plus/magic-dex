@@ -37,6 +37,7 @@ interface State {
     OptionDisplay: string;
     checked: string;
     makerAmount: BigNumber;
+    tab: OrderSide;
     error: {
         btnMsg: string | null;
         cardMsg: string | null;
@@ -58,8 +59,30 @@ const TabsContainer = styled.div`
     align-items: center;
     display: flex;
     justify-content: space-between;
+    padding: 20px;
+    padding-bottom: 0;
 `;
 
+const TabButton = styled.div<{ isSelected: boolean; side: OrderSide }>`
+    font-size:14px;
+    align-items: center;
+    background-color: ${props =>
+        props.isSelected ? props.theme.componentsTheme.buttonBuyBackgroundColor : 'transparent'};
+    border-top: 1px solid ${props => props.theme.componentsTheme.cardBorderColor};
+    border-bottom: 1px solid ${props => props.theme.componentsTheme.cardBorderColor};
+    border-color: ${props => props.theme.componentsTheme.cardBorderColor};
+    color: ${props =>
+        props.isSelected
+            ? props.side === OrderSide.Buy
+                ? props.theme.componentsTheme.buttonTextColor
+                : props.theme.componentsTheme.buttonTextColor
+            : props.theme.componentsTheme.textLight};
+    cursor: ${props => (props.isSelected ? 'default' : 'pointer')};
+    display: flex;
+    height: 41px;
+    justify-content: center;
+    width: 50%;
+`;
 
 const LabelContainer = styled.div`
     align-items: flex-end;
@@ -203,8 +226,9 @@ class FillOrder extends React.Component<Props, State> {
     public state: State = {
         LiquidationDisplay: "block",
         OptionDisplay: "none",
-        checked: "Pending Order",
+        checked: "Liquidation",
         makerAmount  : this.getMakerAmount(this.props.orderSelected),
+        tab: OrderSide.Buy,
         error: {
             btnMsg: null,
             cardMsg: null,
@@ -216,8 +240,7 @@ class FillOrder extends React.Component<Props, State> {
         if(this.state.makerAmount != ma)
             this.setState({
                 makerAmount: ma
-            }
-            )
+            })
     }
     private getMakerAmount(order: UIOrder | null): BigNumber {
         let ma = new BigNumber(0);
@@ -242,7 +265,7 @@ class FillOrder extends React.Component<Props, State> {
 
     public render = () => {
         const { currencyPair, web3State } = this.props;
-        const { error } = this.state;
+        const { error,tab } = this.state;
 
         let price: BigNumber = new BigNumber(0);
 
@@ -265,9 +288,24 @@ class FillOrder extends React.Component<Props, State> {
         return (
             <>
                 <FillOrderWrapper style={{display:this.state.LiquidationDisplay}}>
-                    <LabelContainer>
-                        <HeadLabel>{'Fill Order'}</HeadLabel>
-                    </LabelContainer>
+                <TabsContainer>
+                        <TabButton
+                            isSelected={tab === OrderSide.Buy}
+                            onClick={this.changeTab(OrderSide.Buy)}
+                            side={OrderSide.Buy}
+                            style={{borderRadius:'4px 0 0 4px',borderLeftWidth:'1px',borderLeftStyle:'solid'}}
+                        >
+                            Buy
+                        </TabButton>
+                        <TabButton
+                            isSelected={tab === OrderSide.Sell}
+                            onClick={this.changeTab(OrderSide.Sell)}
+                            side={OrderSide.Sell}
+                            style={{borderRadius:'0 4px 4px 0',borderRightWidth:'1px',borderRightStyle:'solid'}}
+                        >
+                            Sell
+                        </TabButton>
+                    </TabsContainer>
                     <Content>
                         <LabelContainer>
                             <Label>Order Type</Label>
@@ -362,6 +400,8 @@ class FillOrder extends React.Component<Props, State> {
             LiquidationDisplay: "block"
         })
     }
+
+    public changeTab = (tab: OrderSide) => () => this.setState({ tab });
 
     public updateMakerAmount = (newValue: BigNumber) => {
 

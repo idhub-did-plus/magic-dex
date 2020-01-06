@@ -88,7 +88,30 @@ const CenteredLoading = styled(LoadingWrapper)`
     height: 100%;
 `;
 
+const Spread = styled.div`
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    background-color: ${props => props.theme.componentsTheme.spreadBackground};
+`
+const Span = styled.span`
+    color: ${props => props.theme.componentsTheme.textColorCommon};
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    padding-left: 27px;
+`
 
+const BuySellBox = styled.div`
+    height: 45%
+    width: 100%;
+    position: relative;
+`
+
+const BuySellEmptyContent = styled(EmptyContent)`
+    height: 47%;
+    top: -12px;
+`
 
 interface OrderToRowPropsOwn {
     order: UIOrder;
@@ -129,11 +152,12 @@ class OrderToRow extends React.Component<OrderToRowProps> {
         this.setState({ isHover: false });
     };
 
+
     public render = () => {
         const { order, index, baseToken, priceColor = [], web3State } = this.props;
         const size = tokenAmountInUnits(order.size, baseToken.decimals, UI_DECIMALS_DISPLAYED_ORDER_SIZE);
         let ma = new BigNumber(0);
-        if(order !==null){
+        if(order !== null){
            
             if(order.side == OrderSide.Buy)
                 ma = order.remainingTakerAssetFillAmount;
@@ -211,17 +235,23 @@ class OrderBookTable extends React.Component<Props> {
 
     public render = () => {
         const { orders, baseToken, quoteToken, web3State, theme } = this.props;
+        
+        //从全部订单orders中，分别过滤出类型为Sell和Buy的订单列表
+        const ordersToShowSell = orders.filter(order => order.side === OrderSide.Sell);
+        const ordersToShowBuy = orders.filter(order => order.side === OrderSide.Buy);
 
         const getColor = (order: UIOrder): string => {
-            return order.side === OrderSide.Buy ? theme.componentsTheme.green : theme.componentsTheme.red;
+            return order.side === OrderSide.Buy ? theme.componentsTheme.buyOrderColor : theme.componentsTheme.sellOrderColor;
         };
 
-        let content: React.ReactNode;
+        let contentSell: React.ReactNode;
+        let contentBuy: React.ReactNode;
 
+        //渲染Sell类型的订单
         if (web3State !== Web3State.Error && (!baseToken || !quoteToken)) {
-            content = <CenteredLoading />;
-        } else if ((!orders.length || !baseToken || !quoteToken)) {
-            content = <EmptyContent alignAbsoluteCenter={true} text="There are no orders to show" />;
+            contentSell = <CenteredLoading />;
+        } else if ((!ordersToShowSell.length || !baseToken || !quoteToken)) {
+            contentSell = <BuySellEmptyContent alignAbsoluteCenter={true} text="There are no Sell orders to show" />;
         } else {
             const mySizeHeader =
                 web3State !== Web3State.Locked && web3State !== Web3State.NotInstalled ? (
@@ -231,7 +261,7 @@ class OrderBookTable extends React.Component<Props> {
                 ) : null;
 
 
-            content = (
+            contentSell = (
                 <>
                     <GridRowTop as="div">
                         <TH as="div" styles={{ textAlign: 'center', borderBottom: true }}>
@@ -253,12 +283,12 @@ class OrderBookTable extends React.Component<Props> {
 
 
 
-                    {orders.map((order, index) => (
+                    {ordersToShowSell.map((order, index) => (
                         <OrderToRowContainer
                             key={index}
                             order={order}
                             index={index}
-                            count={orders.length}
+                            count={ordersToShowSell.length}
                             baseToken={baseToken}
                             priceColor={getColor(order)}
 
@@ -266,14 +296,50 @@ class OrderBookTable extends React.Component<Props> {
                         />
                     ))}
 
+                </>
+            );
+        }
 
+        //渲染Buy类型的订单
+        if (web3State !== Web3State.Error && (!baseToken || !quoteToken)) {
+            contentBuy = <CenteredLoading />;
+        } else if((!ordersToShowBuy.length || !baseToken || !quoteToken)){
+            contentBuy = <BuySellEmptyContent alignAbsoluteCenter={true} text="There are no Buy orders to show" />;
+        } else {
+            const mySizeHeader =
+                web3State !== Web3State.Locked && web3State !== Web3State.NotInstalled ? (
+                    <THLast as="div" styles={{ textAlign: 'right', borderBottom: true }}>
+                        My Size
+                    </THLast>
+                ) : null;
 
+            contentBuy = (
+                <>
+                    
+                    {ordersToShowBuy.map((order, index) => (
+                        <OrderToRowContainer
+                            key={index}
+                            order={order}
+                            index={index}
+                            count={ordersToShowBuy.length}
+                            baseToken={baseToken}
+                            priceColor={getColor(order)}
+                            web3State={web3State}
+                        />
+                    ))}
 
                 </>
             );
         }
 
-        return <OrderbookCard title="Orderbook" >{content}</OrderbookCard>;
+        return  <OrderbookCard title="Orderbook" >
+                    <BuySellBox>{contentSell}</BuySellBox>
+                    <Spread>
+                        <Span>spread</Span>
+                        <Span style={{marginLeft: '400px'}}>--</Span>
+                    </Spread>
+                    <BuySellBox style={{marginTop: '12px'}}>{contentBuy}</BuySellBox>
+                </OrderbookCard>
     };
 
 

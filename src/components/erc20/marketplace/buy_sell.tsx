@@ -2,7 +2,7 @@ import { BigNumber } from '0x.js';
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-
+import { UI_DECIMALS_DISPLAYED_PRICE_ETH } from '../../../common/constants';
 import { initWallet, startBuySellLimitSteps, startBuySellMarketSteps } from '../../../store/actions';
 import { fetchTakerAndMakerFee } from '../../../store/relayer/actions';
 import { getCurrencyPair, getOrderPriceSelected, getWeb3State } from '../../../store/selectors';
@@ -206,6 +206,21 @@ const Li = styled.li`
     }
 `;
 
+const BigNumberOutput = styled.input`
+    background-color: ${props => props.theme.componentsTheme.dropdownBackgroundColor};
+    border-radius: 4px;
+    border: 0;
+    color: ${props => props.theme.componentsTheme.textColorCommon};
+    font-feature-settings: 'tnum' 1;
+    font-size: 12px;
+    height: 100%;
+    padding-left: 14px;
+    padding-right: 60px;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+`;
+
 const BigInputNumberTokenLabel = (props: { tokenSymbol: string }) => (
     <TokenContainer>
         <TokenText>{tokenSymbolToDisplayString(props.tokenSymbol)}</TokenText>
@@ -298,8 +313,10 @@ class BuySell extends React.Component<Props, State> {
                                 <img onClick={this.select} src={img} alt="" style={{width:'100%',height:'100%'}}/>
                             </Icon>
                             <Option style={{display:this.state.OptionDisplay}}>
-                                <Li onClick={this.checked1.bind(this,"Pending Order")}>Pending Order</Li>
-                                <Li onClick={this.checked2.bind(this,"Liquidation")}>Liquidation</Li>
+                                {/* <Li onClick={this.checked1.bind(this,"Pending Order")}>Pending Order</Li>
+                                <Li onClick={this.checked2.bind(this,"Liquidation")}>Liquidation</Li> */}
+                                <Li onClick={this._switchToLimit.bind(this,"Pending Order")}>Pending Order</Li>
+                                <Li onClick={this._switchToMarket.bind(this,"Liquidation")}>Liquidation</Li>
                             </Option>
                         </FieldContainer>
                         <LabelContainer>
@@ -316,7 +333,7 @@ class BuySell extends React.Component<Props, State> {
                             />
                             <BigInputNumberTokenLabel tokenSymbol={currencyPair.base} />
                         </FieldContainer>
-                        {orderType === OrderType.Limit && (
+                        {/* {orderType === OrderType.Limit && (
                             <>
                                 <LabelContainer>
                                     <Label>Price per token</Label>
@@ -327,6 +344,37 @@ class BuySell extends React.Component<Props, State> {
                                         min={new BigNumber(0)}
                                         onChange={this.updatePrice}
                                         value={price}
+                                        placeholder={'0.00'}
+                                    />
+                                    <BigInputNumberTokenLabel tokenSymbol={currencyPair.quote} />
+                                </FieldContainer>
+                            </>
+                        )} */}
+                        {orderType === OrderType.Limit ? (
+                            <>
+                                <LabelContainer>
+                                    <Label>Price per token</Label>
+                                </LabelContainer>
+                                <FieldContainer>
+                                    <BigInputNumberStyled
+                                        decimals={0}
+                                        min={new BigNumber(0)}
+                                        onChange={this.updatePrice}
+                                        value={price}
+                                        placeholder={'0.00'}
+                                    />
+                                    <BigInputNumberTokenLabel tokenSymbol={currencyPair.quote} />
+                                </FieldContainer>
+                            </>
+                        ) : (
+                            <>
+                                <LabelContainer>
+                                    <Label>Price per token</Label>
+                                </LabelContainer>
+                                <FieldContainer>
+                                    <BigNumberOutput
+                                        disabled={true}
+                                        value={parseFloat(price.toString()).toFixed(UI_DECIMALS_DISPLAYED_PRICE_ETH)}
                                         placeholder={'0.00'}
                                     />
                                     <BigInputNumberTokenLabel tokenSymbol={currencyPair.quote} />
@@ -370,20 +418,20 @@ class BuySell extends React.Component<Props, State> {
         })
     }
     
-    public checked1 = (str: string) => {
-        this.setState({
-            checked: str,
-            OptionDisplay: "none",
-            PendingOrderDisplay: "block"
-        })
-    }
-    public checked2 = (str: string) => {
-        this.setState({
-            checked: str,
-            OptionDisplay: "none",
-            PendingOrderDisplay: "none"
-        })
-    }
+    // public checked1 = (str: string) => {
+    //     this.setState({
+    //         checked: str,
+    //         OptionDisplay: "none",
+    //         PendingOrderDisplay: "block"
+    //     })
+    // }
+    // public checked2 = (str: string) => {
+    //     this.setState({
+    //         checked: str,
+    //         OptionDisplay: "none",
+    //         PendingOrderDisplay: "none"
+    //     })
+    // }
 
     public changeTab = (tab: OrderSide) => () => this.setState({ tab });
 
@@ -448,15 +496,20 @@ class BuySell extends React.Component<Props, State> {
         });
     };
 
-    private readonly _switchToMarket = () => {
+    private readonly _switchToMarket = (str:string) => {
         this.setState({
             orderType: OrderType.Market,
+            checked: str,
+            OptionDisplay: "none",
+
         });
     };
 
-    private readonly _switchToLimit = () => {
+    private readonly _switchToLimit = (str:string) => {
         this.setState({
             orderType: OrderType.Limit,
+            checked: str,
+            OptionDisplay: "none",
         });
     };
 }

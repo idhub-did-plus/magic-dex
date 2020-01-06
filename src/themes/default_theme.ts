@@ -111,7 +111,10 @@ const lightThemeColors: ThemeProperties = {
     topbarBackgroundColor: '#fff',
     topbarBorderColor: '#dedede',
     topbarSeparatorColor: '#dedede',
-    liBackground: 'rgba(244,244,244,1)'
+    liBackground: 'rgba(244,244,244,1)',
+    spreadBackground: 'rgba(251,251,251,1)',
+    buyOrderColor: '#FF32B7AE',
+    sellOrderColor: '#FFDD5A55'
 };
 
 export class DefaultTheme implements Theme {

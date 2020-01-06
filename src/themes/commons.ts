@@ -89,6 +89,9 @@ export interface ThemeProperties {
     topbarBorderColor: string;
     topbarSeparatorColor: string;
     liBackground: string;
+    spreadBackground: string;
+    buyOrderColor: string;
+    sellOrderColor: string;
 }
 
 export interface ThemeModalStyle {
@@ -121,6 +124,8 @@ export interface ThemeMetaData {
     name: string;
     theme: Theme;
 }
+
+
 
 export const themeDimensions = {
     // borderRadius: '3px',

@@ -14,7 +14,6 @@ const EmptyContentWrapper = styled.div<EmptyWrapperProps>`
     color: ${props => props.theme.componentsTheme.lightGray};
     display: flex;
     font-size: 14px;
-    // font-weight: 500;
     height: 100%;
     justify-content: center;
     width: 100%;
@@ -27,6 +26,7 @@ const EmptyContentWrapper = styled.div<EmptyWrapperProps>`
         position: absolute;
         right: 0;
         top: 0;
+        margin: auto;
     `
             : ''}
 `;

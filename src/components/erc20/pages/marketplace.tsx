@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Attributes } from 'react';
 
 import { CheckMetamaskStateModalContainer } from '../../common/check_metamask_state_modal_container';
 import { ColumnNarrow } from '../../common/column_narrow';
@@ -10,15 +10,33 @@ import { OrderHistoryContainer } from '../marketplace/order_history';
 import { FillOrderContainer } from '../marketplace/fill_order';
 import { WalletBalanceContainer } from '../marketplace/wallet_balance';
 
-class Marketplace extends React.PureComponent {
+interface State {
+    LiquidationDisplay: string;
+    PendingOrderDisplay: string;
+}
 
+interface ownProps {
+    transfer:Attributes;
+}
+
+type Props = ownProps;
+
+class Marketplace extends React.PureComponent<Props> {
+    public state: State = {
+        LiquidationDisplay: "none",
+        PendingOrderDisplay: "block"
+    };
     public render = () => {
         return (
             <Content>
                 <ColumnNarrow>
                     <WalletBalanceContainer />
-                    <BuySellContainer/>
-                    <FillOrderContainer />
+                    <div style={{display:this.state.PendingOrderDisplay}}>
+                        <BuySellContainer/>
+                    </div>
+                    <div style={{display:this.state.LiquidationDisplay}}>
+                        <FillOrderContainer/>
+                    </div>
                 </ColumnNarrow>
                 <ColumnWide>
                     <OrderBookTableContainer />
@@ -28,6 +46,19 @@ class Marketplace extends React.PureComponent {
             </Content>
         );
     };
+    //更改父组件状态的方法
+    public showLiquidation = (): void => {
+        this.setState({
+            LiquidationDisplay: 'block',
+            PendingOrderDisplay: 'none'
+        })
+    }
+    public PendingOrder = (): void => {
+        this.setState({
+            LiquidationDisplay: 'none',
+            PendingOrderDisplay: 'block'
+        })
+    }
     
 }
 

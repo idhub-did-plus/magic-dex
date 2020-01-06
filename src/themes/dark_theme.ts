@@ -112,7 +112,10 @@ const darkThemeColors: ThemeProperties = {
     topbarBackgroundColor: 'rgba(32,33,35,1)',
     topbarBorderColor: '#2D3136',
     topbarSeparatorColor: '#5A5A5A',
-    liBackground: 'rgba(48,48,48,1)'
+    liBackground: 'rgba(48,48,48,1)',
+    spreadBackground: 'rgba(36,37,40,1)',
+    buyOrderColor: '#FF32B7AE',
+    sellOrderColor: '#FFDD5A55'
 };
 
 export class DarkTheme extends DefaultTheme {
