@@ -97,7 +97,7 @@ class OrderHistory extends React.Component<Props> {
             }
         }
 
-        return <Card title="My Waiting Orders" style={{borderBottom:'0'}}>{content}</Card>;
+        return <Card title="My Waiting Orders" style={{borderBottom:'0',borderTop:'none'}}>{content}</Card>;
     };
 }
 

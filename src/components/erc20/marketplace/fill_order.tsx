@@ -33,7 +33,6 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 interface State {
-    LiquidationDisplay: string;
     OptionDisplay: string;
     checked: string;
     makerAmount: BigNumber;
@@ -224,7 +223,6 @@ const TIMEOUT_CARD_ERROR = 4000;
 class FillOrder extends React.Component<Props, State> {
     
     public state: State = {
-        LiquidationDisplay: "block",
         OptionDisplay: "none",
         checked: "Liquidation",
         makerAmount  : this.getMakerAmount(this.props.orderSelected),
@@ -287,7 +285,7 @@ class FillOrder extends React.Component<Props, State> {
 
         return (
             <>
-                <FillOrderWrapper style={{display:this.state.LiquidationDisplay}}>
+                <FillOrderWrapper>
                 <TabsContainer>
                         <TabButton
                             isSelected={tab === OrderSide.Buy}
@@ -388,16 +386,14 @@ class FillOrder extends React.Component<Props, State> {
     public checked1 = (str: string) => {
         this.setState({
             checked: str,
-            OptionDisplay: "none",
-            LiquidationDisplay: "none"
+            OptionDisplay: "none"
         })
     }
 
     public checked2 = (str: string) => {
         this.setState({
             checked: str,
-            OptionDisplay: "none",
-            LiquidationDisplay: "block"
+            OptionDisplay: "none"
         })
     }
 

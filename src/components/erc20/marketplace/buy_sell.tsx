@@ -3,9 +3,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { UI_DECIMALS_DISPLAYED_PRICE_ETH } from '../../../common/constants';
+import { startFillOrderSteps } from '../../../store/ui/actions_fillorder';
 import { initWallet, startBuySellLimitSteps, startBuySellMarketSteps } from '../../../store/actions';
 import { fetchTakerAndMakerFee } from '../../../store/relayer/actions';
-import { getCurrencyPair, getOrderPriceSelected, getWeb3State } from '../../../store/selectors';
+import { getCurrencyPair, getOrderPriceSelected, getWeb3State,getOrderSelected } from '../../../store/selectors';
 import { themeDimensions } from '../../../themes/commons';
 import { getKnownTokens } from '../../../util/known_tokens';
 import { tokenSymbolToDisplayString } from '../../../util/tokens';
@@ -17,6 +18,7 @@ import {
     OrderType,
     StoreState,
     Web3State,
+    UIOrder
 } from '../../../util/types';
 import { BigNumberInput } from '../../common/big_number_input';
 import { Button } from '../../common/button';
@@ -31,9 +33,13 @@ interface StateProps {
     web3State: Web3State;
     currencyPair: CurrencyPair;
     orderPriceSelected: BigNumber | null;
+    orderSelected: UIOrder | null;
 }
 
 interface DispatchProps {
+    //市价订单
+    onSubmitFillOrder: (amount: BigNumber, targetOrder: UIOrder) => Promise<any>;
+    //限价订单
     onSubmitLimitOrder: (amount: BigNumber, price: BigNumber, side: OrderSide, makerFee: BigNumber) => Promise<any>;
     onSubmitMarketOrder: (amount: BigNumber, side: OrderSide, takerFee: BigNumber) => Promise<any>;
     onConnectWallet: () => any;
@@ -43,10 +49,10 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 interface State {
-    PendingOrderDisplay: string;
     OptionDisplay: string;
     checked: string;
     makerAmount: BigNumber | null;
+    liquidationMakerAmount: BigNumber;
     orderType: OrderType;
     price: BigNumber | null;
     tab: OrderSide;
@@ -232,10 +238,10 @@ const TIMEOUT_CARD_ERROR = 4000;
 
 class BuySell extends React.Component<Props, State> {
     public state: State = {
-        PendingOrderDisplay: "block",
         OptionDisplay: "none",
         checked: "Pending Order",
         makerAmount: null,
+        liquidationMakerAmount: this.getLiquidationMakerAmount(this.props.orderSelected),
         price: null,
         orderType: OrderType.Limit,
         tab: OrderSide.Buy,
@@ -244,47 +250,86 @@ class BuySell extends React.Component<Props, State> {
             cardMsg: null,
         },
     };
+    //市价订单数量的两个方法
+    private setLiquidationMakerAmount(order: UIOrder | null) {
+        let ma = this.getLiquidationMakerAmount(order);
+        
+        if(this.state.liquidationMakerAmount != ma)
+            this.setState({
+                liquidationMakerAmount: ma
+            })
+    }
+    private getLiquidationMakerAmount(order: UIOrder | null): BigNumber {
+        let ma = new BigNumber(0);
+        if (order !== null) {
+
+            if (order.side == OrderSide.Buy)
+                ma = order.remainingTakerAssetFillAmount;
+            else
+                ma = order.remainingTakerAssetFillAmount.div(order.price);
+
+        }
+       return ma;
+    }
 
     public componentDidUpdate = async (prevProps: Readonly<Props>) => {
         const newProps = this.props;
+        //限价订单价格
         if (newProps.orderPriceSelected !== prevProps.orderPriceSelected && this.state.orderType === OrderType.Limit) {
             this.setState({
                 price: newProps.orderPriceSelected,
             });
+        }
+        //市价订单数量选择
+        if (newProps.orderSelected !== prevProps.orderSelected) {
+            this.setLiquidationMakerAmount(newProps.orderSelected)
         }
     };
 
     public render = () => {
         const { currencyPair, web3State } = this.props;
         const { makerAmount, price, tab, orderType, error } = this.state;
+        //关于市价订单
+        let liquidationPrice: BigNumber = new BigNumber(0);
+        let liquidationBtnText = null;
+        const btnPrefix = tab === OrderSide.Buy ? 'Buy ' : 'Sell ';
 
-        const buySellInnerTabs = [
-            {
-                active: orderType === OrderType.Market,
-                onClick: this._switchToMarket,
-                text: 'Market',
-            },
-            {
-                active: orderType === OrderType.Limit,
-                onClick: this._switchToLimit,
-                text: 'Limit',
-            },
-        ];
+        if (this.props.orderSelected == null) {
+            liquidationBtnText = 'choose order';
+        }
+        else {
+            liquidationPrice = this.props.orderSelected.price;
+            liquidationBtnText = error && error.btnMsg ? 'Error' : btnPrefix + tokenSymbolToDisplayString(currencyPair.base);
+        }
 
+        // const buySellInnerTabs = [
+        //     {
+        //         active: orderType === OrderType.Market,
+        //         onClick: this._switchToMarket,
+        //         text: 'Market',
+        //     },
+        //     {
+        //         active: orderType === OrderType.Limit,
+        //         onClick: this._switchToLimit,
+        //         text: 'Limit',
+        //     },
+        // ];
+
+        //关于限价订单
         const isMakerAmountEmpty = makerAmount === null || makerAmount.isZero();
         const isPriceEmpty = price === null || price.isZero();
 
         const orderTypeLimitIsEmpty = orderType === OrderType.Limit && (isMakerAmountEmpty || isPriceEmpty);
         const orderTypeMarketIsEmpty = orderType === OrderType.Market && isMakerAmountEmpty;
 
-        const btnPrefix = tab === OrderSide.Buy ? 'Buy ' : 'Sell ';
+        // const btnPrefix = tab === OrderSide.Buy ? 'Buy ' : 'Sell ';
         const btnText = error && error.btnMsg ? 'Error' : btnPrefix + tokenSymbolToDisplayString(currencyPair.base);
 
         const decimals = getKnownTokens().getTokenBySymbol(currencyPair.base).decimals;
 
         return (
             <>
-                <BuySellWrapper style={{display:this.state.PendingOrderDisplay}}>
+                <BuySellWrapper>
                     <TabsContainer>
                         <TabButton
                             isSelected={tab === OrderSide.Buy}
@@ -313,45 +358,27 @@ class BuySell extends React.Component<Props, State> {
                                 <img onClick={this.select} src={img} alt="" style={{width:'100%',height:'100%'}}/>
                             </Icon>
                             <Option style={{display:this.state.OptionDisplay}}>
-                                {/* <Li onClick={this.checked1.bind(this,"Pending Order")}>Pending Order</Li>
-                                <Li onClick={this.checked2.bind(this,"Liquidation")}>Liquidation</Li> */}
                                 <Li onClick={this._switchToLimit.bind(this,"Pending Order")}>Pending Order</Li>
                                 <Li onClick={this._switchToMarket.bind(this,"Liquidation")}>Liquidation</Li>
                             </Option>
                         </FieldContainer>
-                        <LabelContainer>
-                            <Label>Amount</Label>
-                            {/* <InnerTabs tabs={buySellInnerTabs} /> */}
-                        </LabelContainer>
-                        <FieldContainer>
-                            <BigInputNumberStyled
-                                decimals={decimals}
-                                min={new BigNumber(0)}
-                                onChange={this.updateMakerAmount}
-                                value={makerAmount}
-                                placeholder={'0.00'}
-                            />
-                            <BigInputNumberTokenLabel tokenSymbol={currencyPair.base} />
-                        </FieldContainer>
-                        {/* {orderType === OrderType.Limit && (
-                            <>
-                                <LabelContainer>
-                                    <Label>Price per token</Label>
-                                </LabelContainer>
-                                <FieldContainer>
-                                    <BigInputNumberStyled
-                                        decimals={0}
-                                        min={new BigNumber(0)}
-                                        onChange={this.updatePrice}
-                                        value={price}
-                                        placeholder={'0.00'}
-                                    />
-                                    <BigInputNumberTokenLabel tokenSymbol={currencyPair.quote} />
-                                </FieldContainer>
-                            </>
-                        )} */}
+                        
                         {orderType === OrderType.Limit ? (
+                            //限价订单dom
                             <>
+                                <LabelContainer>
+                                    <Label>Amount</Label>
+                                </LabelContainer>
+                                <FieldContainer>
+                                    <BigInputNumberStyled
+                                        decimals={decimals}
+                                        min={new BigNumber(0)}
+                                        onChange={this.updateMakerAmount}
+                                        value={makerAmount}
+                                        placeholder={'0.00'}
+                                    />
+                                    <BigInputNumberTokenLabel tokenSymbol={currencyPair.base} />
+                                </FieldContainer>
                                 <LabelContainer>
                                     <Label>Price per token</Label>
                                 </LabelContainer>
@@ -365,43 +392,79 @@ class BuySell extends React.Component<Props, State> {
                                     />
                                     <BigInputNumberTokenLabel tokenSymbol={currencyPair.quote} />
                                 </FieldContainer>
+                                <OrderDetailsContainer
+                                    orderType={orderType}
+                                    orderSide={tab}
+                                    tokenAmount={makerAmount || new BigNumber(0)}
+                                    tokenPrice={price || new BigNumber(0)}
+                                    currencyPair={currencyPair}
+                                />
+                                <Button
+                                    disabled={web3State !== Web3State.Done || orderTypeLimitIsEmpty || orderTypeMarketIsEmpty}
+                                    icon={error && error.btnMsg ? ButtonIcons.Warning : undefined}
+                                    onClick={this.LimitSubmit}
+                                    variant={
+                                        error && error.btnMsg
+                                            ? ButtonVariant.Error
+                                            : tab === OrderSide.Buy
+                                            ? ButtonVariant.Buy
+                                            : ButtonVariant.Sell
+                                    }
+                                >
+                                    {btnText}
+                                </Button>
                             </>
                         ) : (
+                            //市价订单dom
                             <>
+                                <LabelContainer>
+                                    <Label>Amount</Label>
+                                </LabelContainer>
+                                <FieldContainer>
+                                    <BigInputNumberStyled
+                                        decimals={decimals}
+                                        min={new BigNumber(0)}
+                                        onChange={this.updateLiquidationMakerAmount}
+                                        value={this.state.liquidationMakerAmount}
+                                        placeholder={'0.00'}
+                                    />
+                                    <BigInputNumberTokenLabel tokenSymbol={currencyPair.base} />
+                                </FieldContainer>
                                 <LabelContainer>
                                     <Label>Price per token</Label>
                                 </LabelContainer>
                                 <FieldContainer>
                                     <BigNumberOutput
                                         disabled={true}
-                                        value={parseFloat(price.toString()).toFixed(UI_DECIMALS_DISPLAYED_PRICE_ETH)}
+                                        value={parseFloat(liquidationPrice.toString()).toFixed(UI_DECIMALS_DISPLAYED_PRICE_ETH)}
                                         placeholder={'0.00'}
                                     />
                                     <BigInputNumberTokenLabel tokenSymbol={currencyPair.quote} />
                                 </FieldContainer>
+                                <OrderDetailsContainer
+                                    orderType={OrderType.Fill}
+                                    orderSide={tab}
+                                    tokenAmount={this.state.makerAmount || new BigNumber(0)}
+                                    tokenPrice={price || new BigNumber(0)}
+                                    currencyPair={currencyPair}
+                                />
+                                <Button
+                                    disabled={web3State !== Web3State.Done}
+                                    icon={error && error.btnMsg ? ButtonIcons.Warning : undefined}
+                                    onClick={this.LiquidationSubmit}
+                                    variant={
+                                        error && error.btnMsg
+                                            ? ButtonVariant.Error
+                                            : this.props.orderSelected == null ? ButtonVariant.Buy : this.props.orderSelected.side === OrderSide.Buy
+                                                ? ButtonVariant.Sell
+                                                : ButtonVariant.Buy
+                                    }
+                                >
+                                    {liquidationBtnText}
+                                </Button>
                             </>
                         )}
-                        <OrderDetailsContainer
-                            orderType={orderType}
-                            orderSide={tab}
-                            tokenAmount={makerAmount || new BigNumber(0)}
-                            tokenPrice={price || new BigNumber(0)}
-                            currencyPair={currencyPair}
-                        />
-                        <Button
-                            disabled={web3State !== Web3State.Done || orderTypeLimitIsEmpty || orderTypeMarketIsEmpty}
-                            icon={error && error.btnMsg ? ButtonIcons.Warning : undefined}
-                            onClick={this.submit}
-                            variant={
-                                error && error.btnMsg
-                                    ? ButtonVariant.Error
-                                    : tab === OrderSide.Buy
-                                    ? ButtonVariant.Buy
-                                    : ButtonVariant.Sell
-                            }
-                        >
-                            {btnText}
-                        </Button>
+                        
                     </Content>
                 </BuySellWrapper>
                 {error && error.cardMsg ? (
@@ -417,24 +480,10 @@ class BuySell extends React.Component<Props, State> {
             OptionDisplay: this.state.OptionDisplay == "none"? "block":"none"
         })
     }
-    
-    // public checked1 = (str: string) => {
-    //     this.setState({
-    //         checked: str,
-    //         OptionDisplay: "none",
-    //         PendingOrderDisplay: "block"
-    //     })
-    // }
-    // public checked2 = (str: string) => {
-    //     this.setState({
-    //         checked: str,
-    //         OptionDisplay: "none",
-    //         PendingOrderDisplay: "none"
-    //     })
-    // }
 
     public changeTab = (tab: OrderSide) => () => this.setState({ tab });
 
+    //限价订单
     public updateMakerAmount = (newValue: BigNumber) => {
         this.setState({
             makerAmount: newValue,
@@ -445,7 +494,14 @@ class BuySell extends React.Component<Props, State> {
         this.setState({ price });
     };
 
-    public submit = async () => {
+    //市价订单
+    public updateLiquidationMakerAmount = (newValue: BigNumber) => {
+
+        this.setState({liquidationMakerAmount : newValue})
+
+    };
+    //限价订单
+    public LimitSubmit = async () => {
         const orderSide = this.state.tab;
         const makerAmount = this.state.makerAmount || new BigNumber(0);
         const price = this.state.price || new BigNumber(0);
@@ -489,6 +545,47 @@ class BuySell extends React.Component<Props, State> {
         this._reset();
     };
 
+    //市价订单
+    public LiquidationSubmit = async () => {
+        if (this.props.orderSelected == null)
+            return;
+        const order: UIOrder = this.props.orderSelected as UIOrder;
+        const makerAmount = this.state.makerAmount || new BigNumber(0);
+        try {
+            await this.props.onSubmitFillOrder(makerAmount, order);
+        } catch (error) {
+            this.setState(
+                {
+                    error: {
+                        btnMsg: 'Error',
+                        cardMsg: error.message,
+                    },
+                },
+                () => {
+                    // After a timeout both error message and button gets cleared
+                    setTimeout(() => {
+                        this.setState({
+                            error: {
+                                ...this.state.error,
+                                btnMsg: null,
+                            },
+                        });
+                    }, TIMEOUT_BTN_ERROR);
+                    setTimeout(() => {
+                        this.setState({
+                            error: {
+                                ...this.state.error,
+                                cardMsg: null,
+                            },
+                        });
+                    }, TIMEOUT_CARD_ERROR);
+                },
+            );
+        }
+
+        this._reset();
+    };
+
     private readonly _reset = () => {
         this.setState({
             makerAmount: null,
@@ -519,6 +616,8 @@ const mapStateToProps = (state: StoreState): StateProps => {
         web3State: getWeb3State(state),
         currencyPair: getCurrencyPair(state),
         orderPriceSelected: getOrderPriceSelected(state),
+        //市价
+        orderSelected: getOrderSelected(state)
     };
 };
 
@@ -531,6 +630,9 @@ const mapDispatchToProps = (dispatch: any): DispatchProps => {
         onConnectWallet: () => dispatch(initWallet()),
         onFetchTakerAndMakerFee: (amount: BigNumber, price: BigNumber, side: OrderSide) =>
             dispatch(fetchTakerAndMakerFee(amount, price, side)),
+        //市价
+        onSubmitFillOrder: (amount: BigNumber, targetOrder: UIOrder) =>
+            dispatch(startFillOrderSteps(amount, targetOrder)),
     };
 };
 

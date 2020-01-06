@@ -10,33 +10,13 @@ import { OrderHistoryContainer } from '../marketplace/order_history';
 import { FillOrderContainer } from '../marketplace/fill_order';
 import { WalletBalanceContainer } from '../marketplace/wallet_balance';
 
-interface State {
-    LiquidationDisplay: string;
-    PendingOrderDisplay: string;
-}
-
-interface ownProps {
-    transfer:Attributes;
-}
-
-type Props = ownProps;
-
-class Marketplace extends React.PureComponent<Props> {
-    public state: State = {
-        LiquidationDisplay: "none",
-        PendingOrderDisplay: "block"
-    };
+class Marketplace extends React.PureComponent {
     public render = () => {
         return (
             <Content>
                 <ColumnNarrow>
                     <WalletBalanceContainer />
-                    <div style={{display:this.state.PendingOrderDisplay}}>
-                        <BuySellContainer/>
-                    </div>
-                    <div style={{display:this.state.LiquidationDisplay}}>
-                        <FillOrderContainer/>
-                    </div>
+                    <BuySellContainer/>
                 </ColumnNarrow>
                 <ColumnWide>
                     <OrderBookTableContainer />
@@ -46,19 +26,6 @@ class Marketplace extends React.PureComponent<Props> {
             </Content>
         );
     };
-    //更改父组件状态的方法
-    public showLiquidation = (): void => {
-        this.setState({
-            LiquidationDisplay: 'block',
-            PendingOrderDisplay: 'none'
-        })
-    }
-    public PendingOrder = (): void => {
-        this.setState({
-            LiquidationDisplay: 'none',
-            PendingOrderDisplay: 'block'
-        })
-    }
     
 }
 
